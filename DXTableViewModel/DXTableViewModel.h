@@ -16,34 +16,38 @@
 
 @property (copy, nonatomic) NSArray *sections;
 
-/// @name Model Building.
+/// @name Model building.
+#pragma mark - Model building
 
 - (void)addSection:(DXTableViewSection *)section;
 - (void)insertSection:(DXTableViewSection *)section atIndex:(NSInteger)index;
 - (void)removeSection:(DXTableViewSection *)section;
 
 - (DXTableViewSection *)sectionWithName:(NSString *)name;
-- (NSInteger)indexForSectionWithName:(NSString *)name;
+- (NSInteger)indexOfSectionWithName:(NSString *)name;
 
 - (NSInteger)insertSection:(DXTableViewSection *)newSection afterSectionWithName:(NSString *)name;
 - (NSInteger)insertSection:(DXTableViewSection *)newSection beforeSectionWithName:(NSString *)name;
-
 - (NSInteger)deleteSectionWithName:(NSString *)name;
-
-- (NSInteger)moveSectionWithName:(NSString *)name afterSectionWithName:(NSString *)name;
-- (NSInteger)moveSectionWithName:(NSString *)name beforeSectionWithName:(NSString *)name;
+- (NSIndexSet *)moveSectionWithName:(NSString *)name toSectionWithName:(NSString *)destinationName;
 
 /// @name Animated sections manipulations
+#pragma mark - Animated sections manipulations
 
 - (void)beginUpdates;
 - (void)endUpdates;
 
-- (void)insertSection:(DXTableViewSection *)newSection afterSectionWithName:(NSString *)name withRowAnimation:(UITableViewRowAnimation)animation;
-- (NSInteger)insertSection:(DXTableViewSection *)newSection beforeSectionWithName:(NSString *)name withRowAnimation:(UITableViewRowAnimation)animation;
+- (void)insertSections:(NSArray *)newSections
+ afterSectionWithName:(NSString *)name
+     withRowAnimation:(UITableViewRowAnimation)animation;
 
-- (void)deleteSectionWithName:(NSString *)name withRowAnimation:(UITableViewRowAnimation)animation;
+- (void)insertSections:(NSArray *)newSections
+beforeSectionWithName:(NSString *)name
+     withRowAnimation:(UITableViewRowAnimation)animation;
 
-- (void)moveSectionWithName:(NSString *)name afterSectionWithName:(NSString *)name withRowAnimation:(UITableViewRowAnimation)animation;
-- (void)moveSectionWithName:(NSString *)name beforeSectionWithName:(NSString *)name withRowAnimation:(UITableViewRowAnimation)animation;
+- (void)deleteSectionsWithNames:(NSArray *)names
+             withRowAnimation:(UITableViewRowAnimation)animation;
+
+- (void)moveSectionWithName:(NSString *)name animatedToSectionWithName:(NSString *)otherName;
 
 @end

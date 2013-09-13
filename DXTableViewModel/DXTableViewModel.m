@@ -64,6 +64,51 @@
     [self.mutableSections removeObject:section];
 }
 
+- (DXTableViewSection *)sectionWithName:(NSString *)name
+{
+    return [self.sections filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", name]].lastObject;
+}
+
+- (NSInteger)indexOfSectionWithName:(NSString *)name
+{
+    return [self.sections indexOfObject:[self sectionWithName:name]];
+}
+
+- (NSInteger)insertSection:(DXTableViewSection *)newSection afterSectionWithName:(NSString *)name
+{
+    NSInteger index = [self indexOfSectionWithName:name];
+    [self.mutableSections insertObject:newSection atIndex:++index];
+    return index;
+}
+
+- (NSInteger)insertSection:(DXTableViewSection *)newSection beforeSectionWithName:(NSString *)name
+{
+    NSInteger index = [self indexOfSectionWithName:name];
+    [self.mutableSections insertObject:newSection atIndex:index];
+    return index;
+}
+
+- (NSInteger)deleteSectionWithName:(NSString *)name
+{
+    NSInteger index = [self indexOfSectionWithName:name];
+    [self.mutableSections removeObjectAtIndex:index];
+    return index;
+}
+
+- (NSIndexSet *)moveSectionWithName:(NSString *)name toSectionWithName:(NSString *)destinationName
+{
+    NSInteger index = [self indexOfSectionWithName:name];
+    NSInteger destinationIndex = [self indexOfSectionWithName:destinationName];
+
+    DXTableViewSection *section = [self sectionWithName:name];
+    [self.mutableSections removeObject:section];
+    [self.mutableSections insertObject:section atIndex:destinationIndex];
+
+    NSMutableIndexSet *indexes = [[NSMutableIndexSet alloc] initWithIndex:index];
+    [indexes addIndex:destinationIndex];
+    return indexes.copy;
+}
+
 #pragma mark UITableView Mnemonic Methods
 
 - (void)beginUpdates
@@ -76,7 +121,46 @@
     [self.tableView endUpdates];
 }
 
+- (void)insertSections:(NSArray *)newSections
+  afterSectionWithName:(NSString *)name
+      withRowAnimation:(UITableViewRowAnimation)animation
+{
+    NSMutableIndexSet *indexes = [[NSMutableIndexSet alloc] init];
+    for (DXTableViewSection *newSection in newSections) {
+        NSInteger index = [self insertSection:newSection afterSectionWithName:name];
+        [indexes addIndex:index];
+    }
+    [self.tableView insertSections:indexes withRowAnimation:animation];
+}
 
+- (void)insertSections:(NSArray *)newSections
+ beforeSectionWithName:(NSString *)name
+      withRowAnimation:(UITableViewRowAnimation)animation
+{
+    NSMutableIndexSet *indexes = [[NSMutableIndexSet alloc] init];
+    for (DXTableViewSection *newSection in newSections) {
+        NSInteger index = [self insertSection:newSection beforeSectionWithName:name];
+        [indexes addIndex:index];
+        [indexes addIndex:index];
+    }
+    [self.tableView insertSections:indexes withRowAnimation:animation];
+}
+
+- (void)deleteSectionsWithNames:(NSArray *)names withRowAnimation:(UITableViewRowAnimation)animation
+{
+    NSMutableIndexSet *indexes = [[NSMutableIndexSet alloc] init];
+    for (NSString *name in names) {
+        NSInteger index = [self deleteSectionWithName:name];
+        [indexes addIndex:index];
+    }
+    [self.tableView deleteSections:indexes withRowAnimation:animation];
+}
+
+- (void)moveSectionWithName:(NSString *)name animatedToSectionWithName:(NSString *)otherName
+{
+    NSIndexSet *indexes = [self moveSectionWithName:name toSectionWithName:otherName];
+    [self.tableView moveSection:indexes.firstIndex toSection:indexes.lastIndex];
+}
 
 #pragma mark - UITableViewDataSource
 

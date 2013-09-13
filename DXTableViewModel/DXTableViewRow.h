@@ -19,7 +19,7 @@
 @property (unsafe_unretained, nonatomic) Class cellClass;
 @property (copy, nonatomic) UINib *cellNib;
 @property (nonatomic, getter=isRepeatable) BOOL repeatable;
-@property (nonatomic) NSInteger repeatCount; // for how many times this row repeated
+@property (nonatomic) NSInteger repeatCount; // for how many times this row repeates
 
 @property (nonatomic) CGFloat rowHeight;
 @property (copy, nonatomic) CGFloat (^rowHeightBlock)(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath);
