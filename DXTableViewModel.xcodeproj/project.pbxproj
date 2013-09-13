@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E1ECDFBA17E3A9CC00CA098F /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1ECDFB917E3A9CC00CA098F /* InfoViewController.m */; };
+		E1ECDFBB17E3AA0500CA098F /* DXTableViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F4F30D17DF53EE00FE424F /* DXTableViewModel.m */; };
+		E1ECDFBC17E3AA0500CA098F /* DXTableViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F4F31117DF53EE00FE424F /* DXTableViewSection.m */; };
+		E1ECDFBD17E3AA0500CA098F /* DXTableViewRow.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F4F30F17DF53EE00FE424F /* DXTableViewRow.m */; };
 		E1F4F2FF17DF538900FE424F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F4F2FE17DF538900FE424F /* Foundation.framework */; };
 		E1F4F31217DF53EE00FE424F /* DXTableViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F4F30D17DF53EE00FE424F /* DXTableViewModel.m */; };
 		E1F4F31317DF53EE00FE424F /* DXTableViewRow.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F4F30F17DF53EE00FE424F /* DXTableViewRow.m */; };
@@ -36,6 +40,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E1ECDFB817E3A9CC00CA098F /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
+		E1ECDFB917E3A9CC00CA098F /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
 		E1F4F2FB17DF538900FE424F /* libDXTableViewModel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libDXTableViewModel.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1F4F2FE17DF538900FE424F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E1F4F30217DF538900FE424F /* DXTableViewModel-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DXTableViewModel-Prefix.pch"; sourceTree = "<group>"; };
@@ -147,6 +153,8 @@
 				E1F5C29E17E1E19B0009FD35 /* MasterViewController.m */,
 				E1F5C2A017E1E19B0009FD35 /* DetailViewController.h */,
 				E1F5C2A117E1E19B0009FD35 /* DetailViewController.m */,
+				E1ECDFB817E3A9CC00CA098F /* InfoViewController.h */,
+				E1ECDFB917E3A9CC00CA098F /* InfoViewController.m */,
 				E1F5C2A317E1E19B0009FD35 /* Images.xcassets */,
 				E1F5C28F17E1E19B0009FD35 /* Supporting Files */,
 			);
@@ -258,8 +266,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1F5C29917E1E19B0009FD35 /* AppDelegate.m in Sources */,
+				E1ECDFBC17E3AA0500CA098F /* DXTableViewSection.m in Sources */,
+				E1ECDFBD17E3AA0500CA098F /* DXTableViewRow.m in Sources */,
 				E1F5C29F17E1E19B0009FD35 /* MasterViewController.m in Sources */,
 				E1F5C29517E1E19B0009FD35 /* main.m in Sources */,
+				E1ECDFBB17E3AA0500CA098F /* DXTableViewModel.m in Sources */,
+				E1ECDFBA17E3A9CC00CA098F /* InfoViewController.m in Sources */,
 				E1F5C2A217E1E19B0009FD35 /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -444,6 +456,7 @@
 				E1F5C2B917E1E19B0009FD35 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

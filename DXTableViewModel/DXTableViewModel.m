@@ -29,6 +29,16 @@
 
 #pragma DXTableViewModel
 
+- (void)setTableView:(UITableView *)tableView
+{
+    if (_tableView != tableView) {
+        _tableView = tableView;
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        [self.sections makeObjectsPerformSelector:@selector(registerNibOrClassForRows)];
+    }
+}
+
 - (NSMutableArray *)mutableSections
 {
     if (nil == _mutableSections) {
@@ -37,9 +47,14 @@
     return _mutableSections;
 }
 
+- (NSArray *)sections
+{
+    return self.mutableSections.copy;
+}
+
 - (DXTableViewRow *)rowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return self.mutableSections[indexPath.section][indexPath.row];
+    return [self.mutableSections[indexPath.section] rows][indexPath.row];
 }
 
 - (void)addSection:(DXTableViewSection *)section
@@ -141,7 +156,6 @@
     for (DXTableViewSection *newSection in newSections) {
         NSInteger index = [self insertSection:newSection beforeSectionWithName:name];
         [indexes addIndex:index];
-        [indexes addIndex:index];
     }
     [self.tableView insertSections:indexes withRowAnimation:animation];
 }
@@ -181,6 +195,10 @@
     __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
     if (nil != row.cellForRowAtIndexPath)
         res = row.cellForRowAtIndexPath(row, tableView, indexPath);
+    if (nil == res)
+        res = [self.tableView dequeueReusableCellWithIdentifier:row.cellReuseIdentifier forIndexPath:indexPath];
+    if (nil != row.configureCellBlock)
+        row.configureCellBlock(row, res, tableView, indexPath);
     return res;
 }
 

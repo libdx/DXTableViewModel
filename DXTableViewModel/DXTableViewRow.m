@@ -15,8 +15,24 @@
 
 @end
 
+@interface DXTableViewRow ()
+
+@property (strong, nonatomic) DXTableViewModel *tableViewModel;
+
+@end
+
 @implementation DXTableViewRow
 
 // TODO add checks for isTableViewDidAppear in setters
+
+- (instancetype)initWithCellReuseIdentifier:(NSString *)identifier
+{
+    self = [super init];
+    if (self) {
+        _cellReuseIdentifier = identifier;
+        _rowHeight = 44.0f;
+    }
+    return self;
+}
 
 @end

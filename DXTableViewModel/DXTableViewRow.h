@@ -16,7 +16,7 @@
 
 @property (strong, nonatomic, readonly) UITableViewCell *cell;
 @property (copy, nonatomic) NSString *cellReuseIdentifier;
-@property (unsafe_unretained, nonatomic) Class cellClass;
+@property (unsafe_unretained, nonatomic) Class cellClass; // provide defult UITableViewCell
 @property (copy, nonatomic) UINib *cellNib;
 @property (nonatomic, getter=isRepeatable) BOOL repeatable;
 @property (nonatomic) NSInteger repeatCount; // for how many times this row repeates
@@ -28,6 +28,9 @@
 
 @property (copy, nonatomic) void (^didSelectRowAtIndexPath)(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath);
 @property (copy, nonatomic) UITableViewCell *(^cellForRowAtIndexPath)(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath);
+@property (copy, nonatomic) void (^configureCellBlock)(DXTableViewRow *row, UITableViewCell *cell, UITableView *tableView, NSIndexPath *indexPath); // use `id` for `cell`
+
+- (instancetype)initWithCellReuseIdentifier:(NSString *)identifier;
 
 //- (void)bindObject:(id)object withKeyPath:(NSString *)keyPath; // updatingCellUsingKVO:NO
 //- (void)bindObject:(id)object withKeyPath:(NSString *)keyPath updatingCellUsingKVO:(BOOL)usingKVO;
