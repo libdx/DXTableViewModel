@@ -33,6 +33,9 @@
 {
     [super viewDidLoad];
 
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.tableView.allowsSelectionDuringEditing = YES;
+
     DXTableViewSection *textSection = [[DXTableViewSection alloc] initWithName:@"Text"];
     textSection.headerTitle = @"Text";
     DXTableViewRow *titleRow = [[DXTableViewRow alloc] initWithCellReuseIdentifier:@"TitleCell"];
@@ -74,7 +77,7 @@
     swapRow.didSelectRowAtIndexPath = ^(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath) {
         [row.tableViewModel beginUpdates];
         [row.tableViewModel moveSectionWithName:@"Text" animatedToSectionWithName:@"Options"];
-        [row.tableViewModel moveSectionWithName:@"Buttons" animatedToSectionWithName:@"EditableSection"];
+        [row.tableViewModel moveSectionWithName:@"Buttons" animatedToSectionWithName:@"Empty"];
         [row.tableViewModel endUpdates];
         [tableView deselectRowAtIndexPath:row.rowIndexPath animated:YES];
     };
@@ -119,24 +122,13 @@
     [optionsSection addRow:option2];
     [optionsSection addRow:option3];
 
-    // items (editable add/delete/move) section
-
-    DXTableViewSection *editableSection = [[DXTableViewSection alloc] initWithName:@"EditableSection"];
-    editableSection.headerTitle = @"Editable";
-    DXTableViewRow *addRow = [[DXTableViewRow alloc] initWithCellReuseIdentifier:@"AddCell"];
-    addRow.cellClass = [UITableViewCell class];
-    addRow.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell, UITableView *tableView, NSIndexPath *indexPath) {
-        cell.textLabel.text = @"Add Item";
-    };
-    addRow.didSelectRowAtIndexPath = ^(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath) {
-        [editableSection insertRows:@[[self newItemRow]] afterRow:row withRowAnimation:UITableViewRowAnimationRight];
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    };
-    [editableSection addRow:addRow];
+    DXTableViewSection *emptySection = [[DXTableViewSection alloc] initWithName:@"Empty"];
+    emptySection.headerTitle = @"Empty One";
+    emptySection.footerTitle = @"But it is exists";
 
     [self.tableViewModel addSection:buttonsSection];
     [self.tableViewModel addSection:textSection];
-    [self.tableViewModel addSection:editableSection];
+    [self.tableViewModel addSection:emptySection];
     [self.tableViewModel addSection:optionsSection];
     self.tableViewModel.tableView = self.tableView;
 }
@@ -157,6 +149,49 @@
         _tableViewModel = [[DXTableViewModel alloc] init];
     }
     return _tableViewModel;
+}
+
+- (DXTableViewSection *)editableSection
+{
+    // items (editable add/delete/move) section
+    DXTableViewSection *editableSection = [[DXTableViewSection alloc] initWithName:@"Editable"];
+    editableSection.headerTitle = @"Editable";
+    DXTableViewRow *addRow = [[DXTableViewRow alloc] initWithCellReuseIdentifier:@"AddCell"];
+    addRow.editingStyle = UITableViewCellEditingStyleInsert;
+    addRow.cellClass = [UITableViewCell class];
+    addRow.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell, UITableView *tableView, NSIndexPath *indexPath) {
+        cell.textLabel.text = @"Add Item";
+    };
+    addRow.didSelectRowAtIndexPath = ^(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath) {
+        [editableSection insertRows:@[[self newItemRow]] afterRow:row withRowAnimation:UITableViewRowAnimationRight];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    };
+    addRow.commitEditingStyleForRowBlock = ^(DXTableViewRow *row) {
+        [editableSection insertRows:@[[self newItemRow]] afterRow:row withRowAnimation:UITableViewRowAnimationRight];
+        [row.tableView deselectRowAtIndexPath:row.rowIndexPath animated:YES];
+    };
+    [editableSection addRow:addRow];
+    return editableSection;
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+    if (editing) {
+        if (animated) {
+            [self.tableViewModel insertSections:@[self.editableSection] afterSectionWithName:@"Text" withRowAnimation:UITableViewRowAnimationAutomatic];
+        } else {
+            [self.tableViewModel insertSection:self.editableSection afterSectionWithName:@"Text"];
+            [self.tableView reloadData];
+        }
+    } else {
+        if (animated) {
+            [self.tableViewModel deleteSectionsWithNames:@[@"Editable"] withRowAnimation:UITableViewRowAnimationAutomatic];
+        } else {
+            [self.tableViewModel deleteSectionWithName:@"Editable"];
+            [self.tableView reloadData];
+        }
+    }
 }
 
 @end

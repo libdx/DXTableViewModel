@@ -14,6 +14,7 @@
 
 @property (strong, nonatomic, readonly) DXTableViewModel *tableViewModel;
 @property (strong, nonatomic, readonly) DXTableViewSection *section;
+@property (strong, nonatomic, readonly) UITableView *tableView;
 
 @property (strong, nonatomic, readonly) UITableViewCell *cell;
 @property (copy, nonatomic) NSString *cellReuseIdentifier;
@@ -25,16 +26,20 @@
 @property (nonatomic) CGFloat rowHeight;
 @property (copy, nonatomic) CGFloat (^rowHeightBlock)(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath);
 
+@property (nonatomic) UITableViewCellEditingStyle editingStyle;
+@property (copy, nonatomic) NSString *titleForDeleteConfirmationButton; // not implemented
+
 @property (strong, nonatomic, readonly) NSIndexPath *rowIndexPath;
 
+// remove tableView, indexPath params and shorthand name to didSelectRowBlock
 @property (copy, nonatomic) void (^didSelectRowAtIndexPath)(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath);
+// remove tableView, indexPath params and shorthand name to cellForRowBlock
 @property (copy, nonatomic) UITableViewCell *(^cellForRowAtIndexPath)(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath);
+// remove tableView, indexPath params
 @property (copy, nonatomic) void (^configureCellBlock)(DXTableViewRow *row, id cell, UITableView *tableView, NSIndexPath *indexPath);
+@property (copy, nonatomic) void (^commitEditingStyleForRowBlock)(DXTableViewRow *row);
 
 - (instancetype)initWithCellReuseIdentifier:(NSString *)identifier;
-
-- (void)setDidSelectRowAtIndexPath:(void (^)(DXTableViewRow *, UITableView *, NSIndexPath *))didSelectRowAtIndexPath;
-- (void)setCellForRowAtIndexPath:(UITableViewCell *(^)(DXTableViewRow *, UITableView *, NSIndexPath *))cellForRowAtIndexPath;
 
 //- (void)bindObject:(id)object withKeyPath:(NSString *)keyPath; // updatingCellUsingKVO:NO
 //- (void)bindObject:(id)object withKeyPath:(NSString *)keyPath updatingCellUsingKVO:(BOOL)usingKVO;

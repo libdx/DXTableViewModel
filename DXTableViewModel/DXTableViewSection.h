@@ -18,6 +18,8 @@
 
 @property (nonatomic, readonly) NSInteger numberOfRows;
 
+@property (nonatomic, readonly) NSInteger sectionIndex;
+
 @property (copy, nonatomic) NSString *headerTitle;
 @property (copy, nonatomic) NSString *footerTitle;
 
@@ -48,13 +50,12 @@
 - (NSArray *)moveRow:(DXTableViewRow *)row toRow:(DXTableViewRow *)destinationRow;
 
 /// @name Animated row manupulations
+#pragma mark Animated row manupulations
 
 - (void)insertRows:(NSArray *)rows afterRow:(DXTableViewRow *)row withRowAnimation:(UITableViewRowAnimation)animation;
 - (void)insertRows:(NSArray *)rows beforeRow:(DXTableViewRow *)row withRowAnimation:(UITableViewRowAnimation)animation;
 - (void)deleteRows:(NSArray *)rows withRowAnimation:(UITableViewRowAnimation)animation;
 - (void)reloadRows:(NSArray *)rows withRowAnimation:(UITableViewRowAnimation)animation;
 - (void)moveRow:(DXTableViewRow *)row animatedToRow:(DXTableViewRow *)destinationRow withRowAnimation:(UITableViewRowAnimation)animation;
-
-// @property (nonatomic, readonly) NSInteger sectionIndex;
 
 @end

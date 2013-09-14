@@ -10,6 +10,10 @@
 #import "DXTableViewModel.h"
 #import "DXTableViewRow.h"
 
+/* TODO
+ - add section wide row properties
+ */
+
 @interface DXTableViewModel (ForTableViewSectionEyes)
 
 @property (nonatomic, readonly, getter=isTableViewDidAppear) BOOL tableViewDidAppear;
@@ -61,6 +65,11 @@
 - (NSInteger)numberOfRows
 {
     return self.mutableRows.count;
+}
+
+- (NSInteger)sectionIndex
+{
+    return [self.tableViewModel indexOfSectionWithName:self.sectionName];
 }
 
 - (void)setTableViewModel:(DXTableViewModel *)tableViewModel

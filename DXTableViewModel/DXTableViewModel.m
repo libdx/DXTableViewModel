@@ -10,6 +10,12 @@
 #import "DXTableViewSection.h"
 #import "DXTableViewRow.h"
 
+/* TODO
+ - check for section name uniqueness
+ - check animated sections manipulations (check nested and grouped manipulations precisely)
+ - throw exception on no section found
+ */
+
 @interface DXTableViewSection (ForTableViewModelEyes)
 
 @property (strong, nonatomic) DXTableViewModel *tableViewModel;
@@ -92,14 +98,14 @@
 - (NSInteger)insertSection:(DXTableViewSection *)newSection afterSectionWithName:(NSString *)name
 {
     NSInteger index = [self indexOfSectionWithName:name];
-    [self.mutableSections insertObject:newSection atIndex:++index];
+    [self insertSection:newSection atIndex:++index];
     return index;
 }
 
 - (NSInteger)insertSection:(DXTableViewSection *)newSection beforeSectionWithName:(NSString *)name
 {
     NSInteger index = [self indexOfSectionWithName:name];
-    [self.mutableSections insertObject:newSection atIndex:index];
+    [self insertSection:newSection atIndex:index];
     return index;
 }
 
@@ -212,6 +218,13 @@
     return [self.mutableSections[section] footerTitle];
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
+    if (nil != row.commitEditingStyleForRowBlock)
+        row.commitEditingStyleForRowBlock(row);
+}
+
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -241,5 +254,15 @@
     if (nil != row.didSelectRowAtIndexPath)
         row.didSelectRowAtIndexPath(row, tableView, indexPath);
 }
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [[self rowAtIndexPath:indexPath] editingStyle];
+}
+
+//- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return [[self rowAtIndexPath:indexPath] titleForDeleteConfirmationButton];
+//}
 
 @end
