@@ -199,12 +199,12 @@
 {
     UITableViewCell *res;
     __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
-    if (nil != row.cellForRowAtIndexPath)
-        res = row.cellForRowAtIndexPath(row, tableView, indexPath);
+    if (nil != row.cellForRowBlock)
+        res = row.cellForRowBlock(row);
     if (nil == res)
         res = [self.tableView dequeueReusableCellWithIdentifier:row.cellReuseIdentifier forIndexPath:indexPath];
     if (nil != row.configureCellBlock)
-        row.configureCellBlock(row, res, tableView, indexPath);
+        row.configureCellBlock(row, res);
     return res;
 }
 
@@ -232,7 +232,7 @@
     CGFloat res = UITableViewAutomaticDimension;
     __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
     if (row.rowHeightBlock)
-        res = row.rowHeightBlock(row, tableView, indexPath);
+        res = row.rowHeightBlock(row);
     else
         res = row.rowHeight;
     return res;
@@ -251,8 +251,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
-    if (nil != row.didSelectRowAtIndexPath)
-        row.didSelectRowAtIndexPath(row, tableView, indexPath);
+    if (nil != row.didSelectRowBlock)
+        row.didSelectRowBlock(row);
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath

@@ -24,19 +24,16 @@
 @property (nonatomic) NSInteger repeatCount; // for how many times this row repeates
 
 @property (nonatomic) CGFloat rowHeight;
-@property (copy, nonatomic) CGFloat (^rowHeightBlock)(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath);
+@property (copy, nonatomic) CGFloat (^rowHeightBlock)(DXTableViewRow *row);
 
 @property (nonatomic) UITableViewCellEditingStyle editingStyle;
 @property (copy, nonatomic) NSString *titleForDeleteConfirmationButton; // not implemented
 
 @property (strong, nonatomic, readonly) NSIndexPath *rowIndexPath;
 
-// remove tableView, indexPath params and shorthand name to didSelectRowBlock
-@property (copy, nonatomic) void (^didSelectRowAtIndexPath)(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath);
-// remove tableView, indexPath params and shorthand name to cellForRowBlock
-@property (copy, nonatomic) UITableViewCell *(^cellForRowAtIndexPath)(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath);
-// remove tableView, indexPath params
-@property (copy, nonatomic) void (^configureCellBlock)(DXTableViewRow *row, id cell, UITableView *tableView, NSIndexPath *indexPath);
+@property (copy, nonatomic) void (^didSelectRowBlock)(DXTableViewRow *row);
+@property (copy, nonatomic) UITableViewCell *(^cellForRowBlock)(DXTableViewRow *row);
+@property (copy, nonatomic) void (^configureCellBlock)(DXTableViewRow *row, id cell);
 @property (copy, nonatomic) void (^commitEditingStyleForRowBlock)(DXTableViewRow *row);
 
 - (instancetype)initWithCellReuseIdentifier:(NSString *)identifier;

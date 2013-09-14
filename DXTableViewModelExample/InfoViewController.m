@@ -40,14 +40,14 @@
     textSection.headerTitle = @"Text";
     DXTableViewRow *titleRow = [[DXTableViewRow alloc] initWithCellReuseIdentifier:@"TitleCell"];
     titleRow.cellClass = [UITableViewCell class];
-    titleRow.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell, UITableView *tableView, NSIndexPath *indexPath) {
+    titleRow.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell) {
         cell.textLabel.text = @"Title";
     };
     DXTableViewRow *descriptionRow = [[DXTableViewRow alloc] initWithCellReuseIdentifier:@"DescriptionCell"];
     descriptionRow.cellClass = [DescriptionCell class];
     descriptionRow.rowHeight = 100.0f;
-    descriptionRow.cellForRowAtIndexPath = ^(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath) {
-        DescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:row.cellReuseIdentifier];
+    descriptionRow.cellForRowBlock = ^(DXTableViewRow *row) {
+        DescriptionCell *cell = [row.tableView dequeueReusableCellWithIdentifier:row.cellReuseIdentifier];
         cell.detailTextLabel.text = @"Loooooong text";
         return cell;
     };
@@ -58,28 +58,28 @@
     buttonsSection.headerTitle = @"Buttons";
     DXTableViewRow *actionRow = [[DXTableViewRow alloc] initWithCellReuseIdentifier:@"ActionCell"];
     actionRow.cellClass = [UITableViewCell class];
-    actionRow.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell, UITableView *tableView, NSIndexPath *indexPath) {
+    actionRow.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell) {
         cell.textLabel.text = @"Tap Me";
     };
-    actionRow.didSelectRowAtIndexPath = ^(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath) {
+    actionRow.didSelectRowBlock = ^(DXTableViewRow *row) {
         [[[UIAlertView alloc] initWithTitle:@"Action"
                                    message:@"You did tap \"Tap Me\" button"
                                   delegate:nil
                          cancelButtonTitle:@"OK"
                          otherButtonTitles:nil] show];
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [row.tableView deselectRowAtIndexPath:row.rowIndexPath animated:YES];
     };
     DXTableViewRow *swapRow = [[DXTableViewRow alloc] initWithCellReuseIdentifier:@"ActionCell"];
     swapRow.cellClass = [UITableViewCell class];
-    swapRow.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell, UITableView *tableView, NSIndexPath *indexPath) {
+    swapRow.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell) {
         cell.textLabel.text = @"Swap sections";
     };
-    swapRow.didSelectRowAtIndexPath = ^(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath) {
+    swapRow.didSelectRowBlock = ^(DXTableViewRow *row) {
         [row.tableViewModel beginUpdates];
         [row.tableViewModel moveSectionWithName:@"Text" animatedToSectionWithName:@"Options"];
         [row.tableViewModel moveSectionWithName:@"Buttons" animatedToSectionWithName:@"Empty"];
         [row.tableViewModel endUpdates];
-        [tableView deselectRowAtIndexPath:row.rowIndexPath animated:YES];
+        [row.tableView deselectRowAtIndexPath:row.rowIndexPath animated:YES];
     };
     [buttonsSection addRow:actionRow];
     [buttonsSection addRow:swapRow];
@@ -91,32 +91,32 @@
     DXTableViewRow *option1 = [[DXTableViewRow alloc] initWithCellReuseIdentifier:@"OptionCell"];
     DXTableViewRow *option2 = [[DXTableViewRow alloc] initWithCellReuseIdentifier:@"OptionCell"];
     DXTableViewRow *option3 = [[DXTableViewRow alloc] initWithCellReuseIdentifier:@"OptionCell"];
-    option1.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell, UITableView *tableView, NSIndexPath *indexPath) {
+    option1.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell) {
         cell.textLabel.text = @"Option 1";
     };
-    option2.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell, UITableView *tableView, NSIndexPath *indexPath) {
+    option2.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell) {
         cell.textLabel.text = @"Option 2";
     };
-    option3.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell, UITableView *tableView, NSIndexPath *indexPath) {
+    option3.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell) {
         cell.textLabel.text = @"Option 3";
     };
-    option1.didSelectRowAtIndexPath = ^(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath) {
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    option1.didSelectRowBlock = ^(DXTableViewRow *row) {
+        UITableViewCell *cell = [row.tableView cellForRowAtIndexPath:row.rowIndexPath];
         cell.accessoryType = cell.accessoryType == UITableViewCellAccessoryCheckmark ?
         UITableViewCellAccessoryNone : UITableViewCellAccessoryCheckmark;
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [row.tableView deselectRowAtIndexPath:row.rowIndexPath animated:YES];
     };
-    option2.didSelectRowAtIndexPath = ^(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath) {
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    option2.didSelectRowBlock = ^(DXTableViewRow *row) {
+        UITableViewCell *cell = [row.tableView cellForRowAtIndexPath:row.rowIndexPath];
         cell.accessoryType = cell.accessoryType == UITableViewCellAccessoryCheckmark ?
         UITableViewCellAccessoryNone : UITableViewCellAccessoryCheckmark;
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [row.tableView deselectRowAtIndexPath:row.rowIndexPath animated:YES];
     };
-    option3.didSelectRowAtIndexPath = ^(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath) {
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    option3.didSelectRowBlock = ^(DXTableViewRow *row) {
+        UITableViewCell *cell = [row.tableView cellForRowAtIndexPath:row.rowIndexPath];
         cell.accessoryType = cell.accessoryType == UITableViewCellAccessoryCheckmark ?
         UITableViewCellAccessoryNone : UITableViewCellAccessoryCheckmark;
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [row.tableView deselectRowAtIndexPath:row.rowIndexPath animated:YES];
     };
     [optionsSection addRow:option1];
     [optionsSection addRow:option2];
@@ -137,7 +137,7 @@
 {
     DXTableViewRow *row = [[DXTableViewRow alloc] initWithCellReuseIdentifier:@"ItemCell"];
     row.cellClass = [UITableViewCell class];
-    row.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell, UITableView *tableView, NSIndexPath *indexPath) {
+    row.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell) {
         cell.textLabel.text = @"Item";
     };
     return row;
@@ -159,17 +159,15 @@
     DXTableViewRow *addRow = [[DXTableViewRow alloc] initWithCellReuseIdentifier:@"AddCell"];
     addRow.editingStyle = UITableViewCellEditingStyleInsert;
     addRow.cellClass = [UITableViewCell class];
-    addRow.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell, UITableView *tableView, NSIndexPath *indexPath) {
+    addRow.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell) {
         cell.textLabel.text = @"Add Item";
     };
-    addRow.didSelectRowAtIndexPath = ^(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath) {
-        [editableSection insertRows:@[[self newItemRow]] afterRow:row withRowAnimation:UITableViewRowAnimationRight];
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    };
-    addRow.commitEditingStyleForRowBlock = ^(DXTableViewRow *row) {
+    void (^addItemActionBlock)() = ^(DXTableViewRow *row) {
         [editableSection insertRows:@[[self newItemRow]] afterRow:row withRowAnimation:UITableViewRowAnimationRight];
         [row.tableView deselectRowAtIndexPath:row.rowIndexPath animated:YES];
     };
+    addRow.didSelectRowBlock = addItemActionBlock;
+    addRow.commitEditingStyleForRowBlock = addItemActionBlock;
     [editableSection addRow:addRow];
     return editableSection;
 }
