@@ -19,6 +19,7 @@
 @interface DXTableViewRow (ForTableViewModelEyes)
 
 @property (strong, nonatomic) DXTableViewModel *tableViewModel;
+@property (strong, nonatomic) DXTableViewSection *section;
 
 @end
 
@@ -38,6 +39,8 @@
     self = [super init];
     if (self) {
         _sectionName = name;
+        _headerHeight = UITableViewAutomaticDimension;
+        _footerHeight = UITableViewAutomaticDimension;
     }
     return self;
 }
@@ -119,15 +122,15 @@
 
 - (NSIndexPath *)addRow:(DXTableViewRow *)row
 {
-    row.tableViewModel = _tableViewModel;
-    [self.mutableRows addObject:row];
-    return [self indexPathForRow:row];
+    return [self insertRow:row atIndex:self.mutableRows.count];
 }
 
 - (NSIndexPath *)insertRow:(DXTableViewRow *)row atIndex:(NSInteger)index
 {
     row.tableViewModel = _tableViewModel;
+    row.section = self;
     [self.mutableRows insertObject:row atIndex:index];
+    [self registerNibOrClassForRows];
     return [self indexPathForRow:row];
 }
 
@@ -135,6 +138,7 @@
 {
     NSIndexPath *res = [self indexPathForRow:row];
     row.tableViewModel = nil;
+    row.section = nil;
     [self.mutableRows removeObject:row];
     return res;
 }
@@ -150,7 +154,7 @@
 {
     NSInteger rowIndex = [self indexOfRow:otherRow];
     [self insertRow:row atIndex:rowIndex];
-    return [self indexPathForRow:row];;
+    return [self indexPathForRow:row];
 }
 
 - (NSArray *)moveRow:(DXTableViewRow *)row toRow:(DXTableViewRow *)destinationRow

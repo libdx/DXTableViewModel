@@ -81,7 +81,7 @@
 
 - (DXTableViewSection *)sectionWithName:(NSString *)name
 {
-    return [self.sections filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", name]].lastObject;
+    return [self.sections filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"sectionName = %@", name]].lastObject;
 }
 
 - (NSInteger)indexOfSectionWithName:(NSString *)name
@@ -202,11 +202,21 @@
     return res;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return [self.mutableSections[section] headerTitle];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    return [self.mutableSections[section] footerTitle];
+}
+
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat res = 0.0f;
+    CGFloat res = UITableViewAutomaticDimension;
     __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
     if (row.rowHeightBlock)
         res = row.rowHeightBlock(row, tableView, indexPath);

@@ -7,6 +7,7 @@
 //
 
 #import "DXTableViewRow.h"
+#import "DXTableViewSection.h"
 #import "DXTableViewModel.h"
 
 @interface DXTableViewModel (ForTableViewRowEyes)
@@ -15,9 +16,16 @@
 
 @end
 
+@interface DXTableViewSection (ForTableViewRowEyes)
+
+- (NSIndexPath *)indexPathForRow:(DXTableViewRow *)row;
+
+@end
+
 @interface DXTableViewRow ()
 
 @property (strong, nonatomic) DXTableViewModel *tableViewModel;
+@property (strong, nonatomic) DXTableViewSection *section;
 
 @end
 
@@ -30,9 +38,14 @@
     self = [super init];
     if (self) {
         _cellReuseIdentifier = identifier;
-        _rowHeight = 44.0f;
+        _rowHeight = UITableViewAutomaticDimension;
     }
     return self;
+}
+
+- (NSIndexPath *)rowIndexPath
+{
+    return [self.section indexPathForRow:self];
 }
 
 @end

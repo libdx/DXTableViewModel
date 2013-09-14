@@ -8,15 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@class DXTableViewModel;
+@class DXTableViewModel, DXTableViewSection;
 
 @interface DXTableViewRow : NSObject
 
 @property (strong, nonatomic, readonly) DXTableViewModel *tableViewModel;
+@property (strong, nonatomic, readonly) DXTableViewSection *section;
 
 @property (strong, nonatomic, readonly) UITableViewCell *cell;
 @property (copy, nonatomic) NSString *cellReuseIdentifier;
-@property (unsafe_unretained, nonatomic) Class cellClass; // provide defult UITableViewCell
+@property (unsafe_unretained, nonatomic) Class cellClass;
 @property (copy, nonatomic) UINib *cellNib;
 @property (nonatomic, getter=isRepeatable) BOOL repeatable;
 @property (nonatomic) NSInteger repeatCount; // for how many times this row repeates
@@ -24,13 +25,16 @@
 @property (nonatomic) CGFloat rowHeight;
 @property (copy, nonatomic) CGFloat (^rowHeightBlock)(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath);
 
-// @property (strong, nonatomic, readonly) NSIndexPath *rowIndexPath;
+@property (strong, nonatomic, readonly) NSIndexPath *rowIndexPath;
 
 @property (copy, nonatomic) void (^didSelectRowAtIndexPath)(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath);
 @property (copy, nonatomic) UITableViewCell *(^cellForRowAtIndexPath)(DXTableViewRow *row, UITableView *tableView, NSIndexPath *indexPath);
-@property (copy, nonatomic) void (^configureCellBlock)(DXTableViewRow *row, UITableViewCell *cell, UITableView *tableView, NSIndexPath *indexPath); // use `id` for `cell`
+@property (copy, nonatomic) void (^configureCellBlock)(DXTableViewRow *row, id cell, UITableView *tableView, NSIndexPath *indexPath);
 
 - (instancetype)initWithCellReuseIdentifier:(NSString *)identifier;
+
+- (void)setDidSelectRowAtIndexPath:(void (^)(DXTableViewRow *, UITableView *, NSIndexPath *))didSelectRowAtIndexPath;
+- (void)setCellForRowAtIndexPath:(UITableViewCell *(^)(DXTableViewRow *, UITableView *, NSIndexPath *))cellForRowAtIndexPath;
 
 //- (void)bindObject:(id)object withKeyPath:(NSString *)keyPath; // updatingCellUsingKVO:NO
 //- (void)bindObject:(id)object withKeyPath:(NSString *)keyPath updatingCellUsingKVO:(BOOL)usingKVO;

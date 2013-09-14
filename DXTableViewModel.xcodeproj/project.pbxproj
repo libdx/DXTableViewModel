@@ -22,8 +22,6 @@
 		E1F5C29517E1E19B0009FD35 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F5C29417E1E19B0009FD35 /* main.m */; };
 		E1F5C29917E1E19B0009FD35 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F5C29817E1E19B0009FD35 /* AppDelegate.m */; };
 		E1F5C29C17E1E19B0009FD35 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1F5C29A17E1E19B0009FD35 /* Main.storyboard */; };
-		E1F5C29F17E1E19B0009FD35 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F5C29E17E1E19B0009FD35 /* MasterViewController.m */; };
-		E1F5C2A217E1E19B0009FD35 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F5C2A117E1E19B0009FD35 /* DetailViewController.m */; };
 		E1F5C2A417E1E19B0009FD35 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1F5C2A317E1E19B0009FD35 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -61,10 +59,6 @@
 		E1F5C29717E1E19B0009FD35 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E1F5C29817E1E19B0009FD35 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E1F5C29B17E1E19B0009FD35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		E1F5C29D17E1E19B0009FD35 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		E1F5C29E17E1E19B0009FD35 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		E1F5C2A017E1E19B0009FD35 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		E1F5C2A117E1E19B0009FD35 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		E1F5C2A317E1E19B0009FD35 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E1F5C2AA17E1E19B0009FD35 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -149,10 +143,6 @@
 				E1F5C29717E1E19B0009FD35 /* AppDelegate.h */,
 				E1F5C29817E1E19B0009FD35 /* AppDelegate.m */,
 				E1F5C29A17E1E19B0009FD35 /* Main.storyboard */,
-				E1F5C29D17E1E19B0009FD35 /* MasterViewController.h */,
-				E1F5C29E17E1E19B0009FD35 /* MasterViewController.m */,
-				E1F5C2A017E1E19B0009FD35 /* DetailViewController.h */,
-				E1F5C2A117E1E19B0009FD35 /* DetailViewController.m */,
 				E1ECDFB817E3A9CC00CA098F /* InfoViewController.h */,
 				E1ECDFB917E3A9CC00CA098F /* InfoViewController.m */,
 				E1F5C2A317E1E19B0009FD35 /* Images.xcassets */,
@@ -268,11 +258,9 @@
 				E1F5C29917E1E19B0009FD35 /* AppDelegate.m in Sources */,
 				E1ECDFBC17E3AA0500CA098F /* DXTableViewSection.m in Sources */,
 				E1ECDFBD17E3AA0500CA098F /* DXTableViewRow.m in Sources */,
-				E1F5C29F17E1E19B0009FD35 /* MasterViewController.m in Sources */,
 				E1F5C29517E1E19B0009FD35 /* main.m in Sources */,
 				E1ECDFBB17E3AA0500CA098F /* DXTableViewModel.m in Sources */,
 				E1ECDFBA17E3A9CC00CA098F /* InfoViewController.m in Sources */,
-				E1F5C2A217E1E19B0009FD35 /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,7 +385,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "DXTableViewModelExample/DXTableViewModelExample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -422,7 +410,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "DXTableViewModelExample/DXTableViewModelExample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
