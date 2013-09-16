@@ -23,13 +23,18 @@
 @property (copy, nonatomic) NSString *headerTitle;
 @property (copy, nonatomic) NSString *footerTitle;
 
-@property (strong, nonatomic) UITableViewHeaderFooterView *headerView;
-@property (strong, nonatomic) UITableViewHeaderFooterView *footerView;
+@property (strong, nonatomic) UIView *headerView;
+@property (strong, nonatomic) UIView *footerView;
 
 @property (nonatomic) CGFloat headerHeight;
 @property (nonatomic) CGFloat footerHeight;
 
 @property (copy, nonatomic, readonly) NSArray *rows;
+
+@property (copy, nonatomic) void (^willDisplayHeaderViewBlock)(DXTableViewSection *section, UIView *view);
+@property (copy, nonatomic) void (^willDisplayFooterViewBlock)(DXTableViewSection *section, UIView *view);
+@property (copy, nonatomic) void (^didEndDisplayingHeaderViewBlock)(DXTableViewSection *section, UIView *view);
+@property (copy, nonatomic) void (^didEndDisplayingFooterViewBlock)(DXTableViewSection *section, UIView *view);
 
 - (instancetype)initWithName:(NSString *)name;
 
@@ -47,7 +52,7 @@
 
 - (NSIndexPath *)insertRow:(DXTableViewRow *)row afterRow:(DXTableViewRow *)otherRow;
 - (NSIndexPath *)insertRow:(DXTableViewRow *)row beforeRow:(DXTableViewRow *)otherRow;
-- (NSArray *)moveRow:(DXTableViewRow *)row toRow:(DXTableViewRow *)destinationRow;
+- (NSArray *)moveRow:(DXTableViewRow *)row toRow:(DXTableViewRow *)destinationRow; // use destinationIndexPath
 
 /// @name Animated row manupulations
 #pragma mark Animated row manupulations
@@ -56,6 +61,6 @@
 - (void)insertRows:(NSArray *)rows beforeRow:(DXTableViewRow *)row withRowAnimation:(UITableViewRowAnimation)animation;
 - (void)deleteRows:(NSArray *)rows withRowAnimation:(UITableViewRowAnimation)animation;
 - (void)reloadRows:(NSArray *)rows withRowAnimation:(UITableViewRowAnimation)animation;
-- (void)moveRow:(DXTableViewRow *)row animatedToRow:(DXTableViewRow *)destinationRow withRowAnimation:(UITableViewRowAnimation)animation;
+- (void)moveRow:(DXTableViewRow *)row animatedToRow:(DXTableViewRow *)destinationRow withRowAnimation:(UITableViewRowAnimation)animation;  // use destinationIndexPath
 
 @end

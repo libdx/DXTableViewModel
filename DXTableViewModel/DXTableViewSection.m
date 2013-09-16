@@ -11,7 +11,8 @@
 #import "DXTableViewRow.h"
 
 /* TODO
- - add section wide row properties
+ - add section wide row properties (or just use makeObjectPerformSelector:withObject and enumerateObjectsUsingBlock: on rows)
+ - add header/footer class and nib registration support
  */
 
 @interface DXTableViewModel (ForTableViewSectionEyes)

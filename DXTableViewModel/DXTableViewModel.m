@@ -14,6 +14,12 @@
  - check for section name uniqueness
  - check animated sections manipulations (check nested and grouped manipulations precisely)
  - throw exception on no section found
+ - more clever support for titles
+ - move row functionality: provide way to overwrite defaults made here
+ - override (BOOL)respondsToSelector:(SEL)aSelector and provide mechanism to pretend that
+ some of the DataSource/Delegate method are not implemented
+ - remove tableViewDidAppear property (?)
+ - implement willBeing/didEnd show row/header/footer methods
  */
 
 @interface DXTableViewSection (ForTableViewModelEyes)
@@ -218,6 +224,36 @@
     return [self.mutableSections[section] footerTitle];
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [[self rowAtIndexPath:indexPath] canEditRow];
+}
+
+// Moving/reordering
+
+// Allows the reorder accessory view to optionally be shown for a particular row. By default, the reorder control will be shown only if the datasource implements -tableView:moveRowAtIndexPath:toIndexPath:
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [[self rowAtIndexPath:indexPath] canMoveRow];
+}
+
+// Index
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    NSArray *res;
+    if (nil != self.sectionIndexTitles)
+        res = self.sectionIndexTitles();
+    return res;
+}
+
+//- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+//{
+//    self.sectionForSectionIndexTitleAtIndex
+//}
+
+// Data manipulation - insert and delete support
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
@@ -225,7 +261,67 @@
         row.commitEditingStyleForRowBlock(row);
 }
 
+// Data manipulation - reorder / moving support
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
+{
+    // move row
+    __weak DXTableViewRow *row = [self rowAtIndexPath:sourceIndexPath];
+    DXTableViewSection *sourceSection = row.section;
+    DXTableViewSection *destinationSection = self.mutableSections[destinationIndexPath.section];
+    [sourceSection removeRow:row];
+    [destinationSection insertRow:row atIndex:destinationIndexPath.row];
+    if (nil != self.moveRowToIndexPathBlock)
+        self.moveRowToIndexPathBlock(row, destinationIndexPath);
+}
+
 #pragma mark - UITableViewDelegate
+
+// Display customization
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
+    if (nil != row.willDisplayCellBlock)
+        row.willDisplayCellBlock(row, cell);
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    __weak DXTableViewSection *sectionObject = self.mutableSections[section];
+    if (nil != sectionObject.willDisplayHeaderViewBlock)
+        sectionObject.willDisplayHeaderViewBlock(sectionObject, view);
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section
+{
+    __weak DXTableViewSection *sectionObject = self.mutableSections[section];
+    if (nil != sectionObject.willDisplayFooterViewBlock)
+        sectionObject.willDisplayFooterViewBlock(sectionObject, view);
+}
+
+//- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath
+//{
+//    __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
+//    if (nil != row.didEndDisplayingCellBlock)
+//        row.didEndDisplayingCellBlock(row, cell);
+//}
+
+//- (void)tableView:(UITableView *)tableView didEndDisplayingHeaderView:(UIView *)view forSection:(NSInteger)section
+//{
+//    __weak DXTableViewSection *sectionObject = self.mutableSections[section];
+//    if (nil != sectionObject.didEndDisplayingHeaderViewBlock)
+//        sectionObject.didEndDisplayingHeaderViewBlock(sectionObject, view);
+//}
+//
+//- (void)tableView:(UITableView *)tableView didEndDisplayingFooterView:(UIView *)view forSection:(NSInteger)section
+//{
+//    __weak DXTableViewSection *sectionObject = self.mutableSections[section];
+//    if (nil != sectionObject.didEndDisplayingFooterViewBlock)
+//        sectionObject.didEndDisplayingFooterViewBlock(sectionObject, view);
+//}
+
+// Variable height support
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -248,12 +344,79 @@
     return [self.mutableSections[section] footerHeight];
 }
 
+// Section header & footer information. Views are preferred over title should you decide to provide both
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return [self.mutableSections[section] headerView];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    return [self.mutableSections[section] footerView];
+}
+
+// Accessories (disclosures).
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
+    if (nil != row.accessoryButtonTappedForRowBlock)
+        row.accessoryButtonTappedForRowBlock(row);
+}
+
+// Selection
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [[self rowAtIndexPath:indexPath] shouldHighlightRow];
+}
+
+- (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
+    if (nil != row.didHighlightRowBlock)
+        row.didHighlightRowBlock(row);
+}
+
+//- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
+//    if (nil != row.didUnhighlightRowBlock)
+//        row.didUnhighlightRowBlock(row);
+//}
+
+//- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
+//    if (nil != row.willSelectRowBlock)
+//        indexPath = row.willSelectRowBlock(row);
+//    return indexPath;
+//}
+//
+//- (NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
+//    if (nil != row.willDeselectRowBlock)
+//        indexPath = row.willDeselectRowBlock(row);
+//    return indexPath;
+//}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
     if (nil != row.didSelectRowBlock)
         row.didSelectRowBlock(row);
 }
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
+    if (nil != row.didDeselectRowBlock)
+        row.didDeselectRowBlock(row);
+}
+
+// Editing
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -264,5 +427,64 @@
 //{
 //    return [[self rowAtIndexPath:indexPath] titleForDeleteConfirmationButton];
 //}
+
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [[self rowAtIndexPath:indexPath] shouldIndentWhileEditingRow];
+}
+
+- (void)tableView:(UITableView*)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
+    if (nil != row.willBeginEditingRowBlock)
+        row.willBeginEditingRowBlock(row);
+}
+
+- (void)tableView:(UITableView*)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
+    if (nil != row.didEndEditingRowBlock)
+        row.didEndEditingRowBlock(row);
+}
+
+// Moving/reordering
+
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
+{
+    if (nil != self.targetIndexPathForMoveFromRowToProposedIndexPath)
+        proposedDestinationIndexPath = self.targetIndexPathForMoveFromRowToProposedIndexPath([self rowAtIndexPath:sourceIndexPath],
+                                                                                             proposedDestinationIndexPath);
+    return proposedDestinationIndexPath;
+}
+
+// Indentation
+
+- (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [[self rowAtIndexPath:indexPath] indentationLevelForRow];
+}
+
+// Copy/Paste.  All three methods must be implemented by the delegate.
+
+- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [[self rowAtIndexPath:indexPath] shouldShowMenuForRow];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
+{
+    BOOL res = NO;
+    __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
+    if (nil != row.canPerformActionBlock)
+        res = row.canPerformActionBlock(row, action, sender);
+    return res;
+}
+
+- (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
+{
+    __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
+    if (nil != row.performActionBlock)
+        row.performActionBlock(row, action, sender);
+}
 
 @end

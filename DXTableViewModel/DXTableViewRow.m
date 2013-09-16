@@ -12,6 +12,7 @@
 
 /* TODO
  - add properties for fast cell prototyping: cellText, cellDetailedText, cellImage
+ - add convenience properties: simple value properties for counterpart with block properties and vice versa
  */
 
 @interface DXTableViewModel (ForTableViewRowEyes)
@@ -35,7 +36,9 @@
 
 @implementation DXTableViewRow
 
-// TODO add checks for isTableViewDidAppear in setters
+/* TODO add checks for isTableViewDidAppear in setters (?)
+ - data binding from cell
+ */
 
 - (instancetype)initWithCellReuseIdentifier:(NSString *)identifier
 {
@@ -44,6 +47,12 @@
         _cellReuseIdentifier = identifier;
         _rowHeight = UITableViewAutomaticDimension;
         _editingStyle = UITableViewCellEditingStyleDelete;
+        _canMoveRow = NO;
+        _canEditRow = YES;
+        _shouldHighlightRow = YES;
+        _shouldIndentWhileEditingRow = YES;
+        _indentationLevelForRow = 0;
+        _shouldShowMenuForRow = YES;
     }
     return self;
 }

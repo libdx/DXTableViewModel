@@ -8,13 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@class DXTableViewSection;
+@class DXTableViewSection, DXTableViewRow;
 
 @interface DXTableViewModel : NSObject <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) UITableView *tableView;
 
 @property (copy, nonatomic) NSArray *sections;
+
+@property (copy, nonatomic) NSArray *(^sectionIndexTitles)();
+
+// @property (copy, nonatomic) DXTableViewSection *(^sectionForSectionIndexTitleAtIndex)(NSString *title, NSInteger index);
+
+@property (copy, nonatomic) void (^moveRowToIndexPathBlock)(DXTableViewRow *row, NSIndexPath *indexPath);
+@property (copy, nonatomic) NSIndexPath *(^targetIndexPathForMoveFromRowToProposedIndexPath)(DXTableViewRow *row, NSIndexPath *indexPath);
 
 /// @name Model building.
 #pragma mark - Model building
@@ -51,3 +58,6 @@ beforeSectionWithName:(NSString *)name
 - (void)moveSectionWithName:(NSString *)name animatedToSectionWithName:(NSString *)otherName;
 
 @end
+
+#import "DXTableViewSection.h"
+#import "DXTableViewRow.h"

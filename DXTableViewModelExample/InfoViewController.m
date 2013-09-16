@@ -8,8 +8,6 @@
 
 #import "InfoViewController.h"
 #import "DXTableViewModel.h"
-#import "DXTableViewSection.h"
-#import "DXTableViewRow.h"
 
 @interface DescriptionCell : UITableViewCell
 @end
