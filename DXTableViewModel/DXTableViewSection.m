@@ -95,6 +95,8 @@
     }
 }
 
+#pragma mark Building section
+
 - (DXTableViewRow *)nextRowWithIdentifier:(NSString *)identifier greaterRowIndexThan:(NSInteger)index
 {
     __block DXTableViewRow *res;
@@ -177,6 +179,8 @@
 
     return @[indexPath, destinationIndexPath];
 }
+
+#pragma mark Animated row manupulations
 
 - (void)insertRows:(NSArray *)rows afterRow:(DXTableViewRow *)row withRowAnimation:(UITableViewRowAnimation)animation
 {

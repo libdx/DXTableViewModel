@@ -1,16 +1,15 @@
 //
-//  InfoViewController.m
+//  ExampleViewController.m
 //  DXTableViewModel
 //
 //  Created by Alexander Ignatenko on 9/13/13.
 //  Copyright (c) 2013 Alexander Ignatenko. All rights reserved.
 //
 
-#import "InfoViewController.h"
+#import "ExampleViewController.h"
 #import "DXTableViewModel.h"
 
-@interface DescriptionCell : UITableViewCell
-@end
+@interface DescriptionCell : UITableViewCell @end
 
 @implementation DescriptionCell
 
@@ -21,11 +20,11 @@
 
 @end
 
-@interface InfoViewController ()
+@interface ExampleViewController ()
 @property (strong, nonatomic) DXTableViewModel *tableViewModel;
 @end
 
-@implementation InfoViewController
+@implementation ExampleViewController
 
 - (void)viewDidLoad
 {
@@ -46,7 +45,7 @@
     descriptionRow.rowHeight = 100.0f;
     descriptionRow.cellForRowBlock = ^(DXTableViewRow *row) {
         DescriptionCell *cell = [row.tableView dequeueReusableCellWithIdentifier:row.cellReuseIdentifier];
-        cell.detailTextLabel.text = @"Loooooong text";
+        cell.detailTextLabel.text = @"High cell";
         return cell;
     };
     [textSection addRow:titleRow];

@@ -57,6 +57,11 @@ beforeSectionWithName:(NSString *)name
 
 - (void)moveSectionWithName:(NSString *)name animatedToSectionWithName:(NSString *)otherName;
 
+/// @name Data binding
+#pragma mark - Data binding
+
+- (void)updateBoundObjectsFromCellsValues;
+
 @end
 
 #import "DXTableViewSection.h"

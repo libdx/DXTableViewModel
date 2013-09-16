@@ -31,6 +31,7 @@
 
 @property (strong, nonatomic) DXTableViewModel *tableViewModel;
 @property (strong, nonatomic) DXTableViewSection *section;
+@property (strong, nonatomic) NSMutableDictionary *cellData;
 
 @end
 
@@ -53,6 +54,7 @@
         _shouldIndentWhileEditingRow = YES;
         _indentationLevelForRow = 0;
         _shouldShowMenuForRow = YES;
+        _cellData = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -65,6 +67,19 @@
 - (UITableView *)tableView
 {
     return self.tableViewModel.tableView;
+}
+
+- (void)updateBoundObjectFromCellValues
+{
+    for (NSString *keyPath in _cellData) {
+        id value = _cellData[keyPath];
+        [self.boundObject setValue:value forKeyPath:keyPath];
+    }
+}
+
+- (void)setCellValue:(id)value forKeyPath:(NSString *)keyPath
+{
+    [_cellData setValue:value forKey:keyPath];
 }
 
 @end

@@ -63,10 +63,10 @@
 
 - (instancetype)initWithCellReuseIdentifier:(NSString *)identifier;
 
-//- (void)bindObject:(id)object withKeyPath:(NSString *)keyPath; // updatingCellUsingKVO:NO
-//- (void)bindObject:(id)object withKeyPath:(NSString *)keyPath updatingCellUsingKVO:(BOOL)usingKVO;
-//
-//- (void)updateObject;
-//- (void)updateCell;
+@property (strong, nonatomic) id boundObject;
+
+- (void)updateBoundObjectFromCellValues;
+
+- (void)setCellValue:(id)value forKeyPath:(NSString *)keyPath;
 
 @end

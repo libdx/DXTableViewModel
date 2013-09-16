@@ -14,7 +14,7 @@
 
 @property (strong, nonatomic, readonly) DXTableViewModel *tableViewModel;
 
-@property (copy, nonatomic) NSString *sectionName; // sectionIdentifier
+@property (copy, nonatomic) NSString *sectionName; // section identifier
 
 @property (nonatomic, readonly) NSInteger numberOfRows;
 

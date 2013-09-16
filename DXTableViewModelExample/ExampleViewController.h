@@ -1,5 +1,5 @@
 //
-//  InfoViewController.h
+//  ExampleViewController.h
 //  DXTableViewModel
 //
 //  Created by Alexander Ignatenko on 9/13/13.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface InfoViewController : UITableViewController
+@interface ExampleViewController : UITableViewController
 @property (strong, nonatomic) id detailItem;
 @end

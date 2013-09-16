@@ -11,6 +11,7 @@
 #import "DXTableViewRow.h"
 
 /* TODO
+ - add documentation
  - check for section name uniqueness
  - check animated sections manipulations (check nested and grouped manipulations precisely)
  - throw exception on no section found
@@ -68,6 +69,8 @@
 {
     return [self.mutableSections[indexPath.section] rows][indexPath.row];
 }
+
+#pragma mark - Model building
 
 - (void)addSection:(DXTableViewSection *)section
 {
@@ -136,7 +139,7 @@
     return indexes.copy;
 }
 
-#pragma mark UITableView Mnemonic Methods
+#pragma mark - Animated sections manipulations
 
 - (void)beginUpdates
 {
@@ -186,6 +189,14 @@
 {
     NSIndexSet *indexes = [self moveSectionWithName:name toSectionWithName:otherName];
     [self.tableView moveSection:indexes.firstIndex toSection:indexes.lastIndex];
+}
+
+#pragma mark - Data binding
+
+- (void)updateBoundObjectsFromCellsValues
+{
+    for (DXTableViewSection *section in self.sections)
+        [section.rows makeObjectsPerformSelector:@selector(updateBoundObjectFromCellValues)];
 }
 
 #pragma mark - UITableViewDataSource
