@@ -64,13 +64,15 @@
 - (instancetype)initWithCellReuseIdentifier:(NSString *)identifier;
 
 @property (strong, nonatomic) id boundObject;
-- (void)bindObject:(id)object;
+// - (void)bindObject:(id)object;
 
 - (void)updateBoundObjectFromCellValues;
 
 - (void)setCellValue:(id)value forKeyPath:(NSString *)keyPath;
 
-- (void)updateCell;
-- (void)updateObject;
+// - (void)updateCell;
+// - (void)updateObject;
+
+// - (instancetype)initWithCellReuseIdentifier:(NSString *)identifier bindObject:(id)object;
 
 @end
