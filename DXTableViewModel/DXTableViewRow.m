@@ -29,9 +29,13 @@
 
 @interface DXTableViewRow ()
 
+@property (strong, nonatomic) id cell;
 @property (strong, nonatomic) DXTableViewModel *tableViewModel;
 @property (strong, nonatomic) DXTableViewSection *section;
 @property (strong, nonatomic) NSMutableDictionary *cellData;
+@property (strong, nonatomic) NSArray *objectKeyPaths;
+@property (strong, nonatomic) NSArray *cellKeyPaths;
+
 
 @end
 
@@ -54,9 +58,15 @@
         _shouldIndentWhileEditingRow = YES;
         _indentationLevelForRow = 0;
         _shouldShowMenuForRow = YES;
-        _cellData = [[NSMutableDictionary alloc] init];
     }
     return self;
+}
+
+- (NSMutableDictionary *)cellData
+{
+    if (nil == _cellData)
+        _cellData = [[NSMutableDictionary alloc] init];
+    return _cellData;
 }
 
 - (NSIndexPath *)rowIndexPath
@@ -69,17 +79,36 @@
     return self.tableViewModel.tableView;
 }
 
-- (void)updateBoundObjectFromCellValues
+- (void)updateCell
 {
-    for (NSString *keyPath in _cellData) {
-        id value = _cellData[keyPath];
-        [self.boundObject setValue:value forKeyPath:keyPath];
-    }
+    for (NSString *keyPath in _cellData)
+        [self.cell setValue:_cellData[keyPath] forKeyPath:keyPath];
 }
 
-- (void)setCellValue:(id)value forKeyPath:(NSString *)keyPath
+- (void)updateObject
 {
-    [_cellData setValue:value forKey:keyPath];
+    [self.objectKeyPaths enumerateObjectsUsingBlock:^(NSString *keyPath, NSUInteger idx, BOOL *stop) {
+        NSString *cellKeyPath = self.cellKeyPaths[idx];
+        [self.boundObject setValue:_cellData[cellKeyPath] forKey:keyPath];
+    }];
+}
+
+static void safeSetObjectForKey(NSMutableDictionary *dict, id object, id<NSCopying> key)
+{
+    if (nil != object)
+        [dict setObject:object forKey:key];
+}
+
+- (void)bindObject:(id)object keyPaths:(NSArray *)keyPaths toCellKeyPaths:(NSArray *)cellKeyPaths
+{
+    NSAssert(keyPaths.count == cellKeyPaths.count, @"Number of objects in keyPaths and cellKeyPaths arrays must be the same");
+    [keyPaths enumerateObjectsUsingBlock:^(NSString *keyPath, NSUInteger idx, BOOL *stop) {
+        NSString *cellKeyPath = cellKeyPaths[idx];
+        safeSetObjectForKey(self.cellData, [object valueForKeyPath:keyPath], cellKeyPath);
+    }];
+    self.objectKeyPaths = keyPaths;
+    self.cellKeyPaths = cellKeyPaths;
+    self.boundObject = object;
 }
 
 @end

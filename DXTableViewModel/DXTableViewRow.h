@@ -16,7 +16,7 @@
 @property (strong, nonatomic, readonly) DXTableViewSection *section;
 @property (strong, nonatomic, readonly) UITableView *tableView;
 
-@property (strong, nonatomic, readonly) UITableViewCell *cell;
+@property (strong, nonatomic, readonly) id cell;
 @property (copy, nonatomic) NSString *cellReuseIdentifier;
 @property (unsafe_unretained, nonatomic) Class cellClass;
 @property (copy, nonatomic) UINib *cellNib;
@@ -64,15 +64,16 @@
 - (instancetype)initWithCellReuseIdentifier:(NSString *)identifier;
 
 @property (strong, nonatomic) id boundObject;
-// - (void)bindObject:(id)object;
 
-- (void)updateBoundObjectFromCellValues;
+- (void)bindObject:(id)object keyPaths:(NSArray *)keyPaths toCellKeyPaths:(NSArray *)cellKeyPaths;
 
-- (void)setCellValue:(id)value forKeyPath:(NSString *)keyPath;
+@end
 
-// - (void)updateCell;
-// - (void)updateObject;
+@interface DXTableViewRow (Protected)
 
-// - (instancetype)initWithCellReuseIdentifier:(NSString *)identifier bindObject:(id)object;
+@property (strong, nonatomic) NSMutableDictionary *cellData;
+
+- (void)updateCell;
+- (void)updateObject;
 
 @end

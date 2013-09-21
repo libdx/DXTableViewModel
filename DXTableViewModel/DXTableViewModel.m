@@ -23,6 +23,12 @@
  - implement willBeing/didEnd show row/header/footer methods
  */
 
+@interface DXTableViewRow (ForTableViewModelEyes)
+
+@property (strong, nonatomic) id cell;
+
+@end
+
 @interface DXTableViewSection (ForTableViewModelEyes)
 
 @property (strong, nonatomic) DXTableViewModel *tableViewModel;
@@ -193,10 +199,10 @@
 
 #pragma mark - Data binding
 
-- (void)updateBoundObjectsFromCellsValues
+- (void)updateModel
 {
     for (DXTableViewSection *section in self.sections)
-        [section.rows makeObjectsPerformSelector:@selector(updateBoundObjectFromCellValues)];
+        [section.rows makeObjectsPerformSelector:@selector(updateObject)];
 }
 
 #pragma mark - UITableViewDataSource
@@ -220,6 +226,8 @@
         res = row.cellForRowBlock(row);
     if (nil == res)
         res = [self.tableView dequeueReusableCellWithIdentifier:row.cellReuseIdentifier forIndexPath:indexPath];
+    row.cell = res;
+    [row updateCell];
     if (nil != row.configureCellBlock)
         row.configureCellBlock(row, res);
     return res;

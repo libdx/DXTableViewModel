@@ -60,7 +60,7 @@ beforeSectionWithName:(NSString *)name
 /// @name Data binding
 #pragma mark - Data binding
 
-- (void)updateBoundObjectsFromCellsValues;
+- (void)updateModel;
 
 @end
 
