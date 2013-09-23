@@ -15,6 +15,14 @@
  - add convenience properties: simple value properties for counterpart with block properties and vice versa
  */
 
+static void safeSetObjectForKey(NSMutableDictionary *dict, id object, id<NSCopying> key)
+{
+    if (nil != object)
+        [dict setObject:object forKey:key];
+    else
+        [dict removeObjectForKey:key];
+}
+
 @interface DXTableViewModel (ForTableViewRowEyes)
 
 @property (nonatomic, readonly, getter=isTableViewDidAppear) BOOL tableViewDidAppear;
@@ -79,6 +87,8 @@
     return self.tableViewModel.tableView;
 }
 
+#pragma mark - Data Binding
+
 - (void)updateCell
 {
     for (NSString *keyPath in _cellData)
@@ -91,12 +101,6 @@
         NSString *cellKeyPath = self.cellKeyPaths[idx];
         [self.boundObject setValue:_cellData[cellKeyPath] forKey:keyPath];
     }];
-}
-
-static void safeSetObjectForKey(NSMutableDictionary *dict, id object, id<NSCopying> key)
-{
-    if (nil != object)
-        [dict setObject:object forKey:key];
 }
 
 - (void)bindObject:(id)object keyPaths:(NSArray *)keyPaths toCellKeyPaths:(NSArray *)cellKeyPaths

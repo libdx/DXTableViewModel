@@ -63,6 +63,8 @@
 
 - (instancetype)initWithCellReuseIdentifier:(NSString *)identifier;
 
+#pragma mark - Data Binding
+
 @property (strong, nonatomic) id boundObject;
 
 - (void)bindObject:(id)object keyPaths:(NSArray *)keyPaths toCellKeyPaths:(NSArray *)cellKeyPaths;
