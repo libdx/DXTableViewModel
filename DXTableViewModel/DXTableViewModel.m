@@ -90,6 +90,13 @@
 
 - (void)insertSections:(NSArray *)sections atIndexes:(NSIndexSet *)indexes
 {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"sectionName IN %@",
+                              [self.mutableSections valueForKey:@"sectionName"]];
+    NSArray *duplicates = [sections filteredArrayUsingPredicate:predicate];
+    if (duplicates.count > 0) {
+        NSString *fmt = @"\"%@\" section name is already exists in the model, but section name must be unique";
+        [NSException raise:NSInvalidArgumentException format:fmt, [duplicates[0] sectionName]];
+    }
     [sections makeObjectsPerformSelector:@selector(setTableViewModel:) withObject:self];
     [sections makeObjectsPerformSelector:@selector(registerNibOrClassForRows)];
     [self.mutableSections insertObjects:sections atIndexes:indexes];

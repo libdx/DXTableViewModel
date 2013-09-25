@@ -11,7 +11,7 @@
 #import "DXTableViewModel.h"
 
 /* TODO
- - add properties for fast cell prototyping: cellText, cellDetailedText, cellImage
+ - for first release remove bindObject:keyPaths:toCellKeyPaths: method and related code, but leave boundObject property and suggest to subclass rows for binding data
  - add convenience properties: simple value properties for counterpart with block properties and vice versa
  */
 
@@ -44,12 +44,12 @@ static void safeSetObjectForKey(NSMutableDictionary *dict, id object, id<NSCopyi
 @property (strong, nonatomic) NSArray *objectKeyPaths;
 @property (strong, nonatomic) NSArray *cellKeyPaths;
 
-
 @end
 
 @implementation DXTableViewRow
 
-/* TODO add checks for isTableViewDidAppear in setters (?)
+/* TODO 
+ - add checks for isTableViewDidAppear in setters (?)
  - data binding from cell
  */
 
@@ -91,6 +91,10 @@ static void safeSetObjectForKey(NSMutableDictionary *dict, id object, id<NSCopyi
 
 - (void)updateCell
 {
+    UITableViewCell *cell = self.cell;
+    cell.textLabel.text = self.cellText;
+    cell.detailTextLabel.text = self.cellDetailText;
+    cell.imageView.image = self.cellImage;
     for (NSString *keyPath in _cellData)
         [self.cell setValue:_cellData[keyPath] forKeyPath:keyPath];
 }

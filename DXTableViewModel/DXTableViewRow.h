@@ -63,6 +63,12 @@
 
 - (instancetype)initWithCellReuseIdentifier:(NSString *)identifier;
 
+#pragma mark - Convenience methods
+
+@property (copy, nonatomic) NSString *cellText;
+@property (copy, nonatomic) NSString *cellDetailText;
+@property (strong, nonatomic) UIImage *cellImage;
+
 #pragma mark - Data Binding
 
 @property (strong, nonatomic) id boundObject;
