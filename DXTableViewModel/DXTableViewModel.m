@@ -11,12 +11,12 @@
 #import "DXTableViewRow.h"
 
 /* TODO
- - add documentation
- - implement missing delegate methods (that is those that were added in iOS 7)
- - check animated sections manipulations (check nested and grouped manipulations precisely)
- - rethink about section titles implementation, make it object oriented (e.g. per section title)
  - move row functionality: provide way to overwrite defaults made here
  - move row functionality: FIXME: rows ordering cause to crash
+ - check animated sections manipulations (check nested and grouped manipulations precisely)
+ - add documentation
+ - implement missing delegate methods (that is those that were added in iOS 7)
+ - rethink about section titles implementation, make it object oriented (e.g. per section title)
  - remove tableViewDidAppear property (?)
  - remove `__weak` for every row that is pass to row's block as argument (?)
  */
