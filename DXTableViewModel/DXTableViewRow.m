@@ -11,7 +11,6 @@
 #import "DXTableViewModel.h"
 
 /* TODO
- + for first release remove bindObject:keyPaths:toCellKeyPaths: method and related code, but leave boundObject property and suggest to subclass rows for binding data
  - add convenience properties: simple value properties for counterpart with block properties and vice versa
  - add convenience methods like: canCopyRow, canPasteRow etc
  */
@@ -33,7 +32,6 @@
 @property (strong, nonatomic) id cell;
 @property (strong, nonatomic) DXTableViewModel *tableViewModel;
 @property (strong, nonatomic) DXTableViewSection *section;
-@property (strong, nonatomic) NSMutableDictionary *cellData;
 @property (strong, nonatomic) NSArray *objectKeyPaths;
 @property (strong, nonatomic) NSArray *cellKeyPaths;
 
@@ -42,8 +40,8 @@
 @implementation DXTableViewRow
 
 /* TODO 
- - add checks for isTableViewDidAppear in setters (?)
- - data binding from cell
+ - documentation
+ - implement or get rid of repeatable and repeatCount
  */
 
 - (instancetype)initWithCellReuseIdentifier:(NSString *)identifier
@@ -63,13 +61,6 @@
     return self;
 }
 
-- (NSMutableDictionary *)cellData
-{
-    if (nil == _cellData)
-        _cellData = [[NSMutableDictionary alloc] init];
-    return _cellData;
-}
-
 - (NSIndexPath *)rowIndexPath
 {
     return [self.section indexPathForRow:self];
@@ -80,7 +71,15 @@
     return self.tableViewModel.tableView;
 }
 
-#pragma mark - Data Binding
+- (void)registerNibOrClass
+{
+    if (nil != self.cellClass)
+        [self.tableViewModel.tableView registerClass:self.cellClass forCellReuseIdentifier:self.cellReuseIdentifier];
+    else if (nil != self.cellNib)
+        [self.tableViewModel.tableView registerNib:self.cellNib forCellReuseIdentifier:self.cellReuseIdentifier];
+}
+
+#pragma mark - Data Bind Capabilities
 
 - (void)setBoundObject:(id)boundObject
 {
@@ -92,6 +91,8 @@
 {
     self.boundObject = object;
 }
+
+#pragma mark - Subclass Hooks
 
 - (void)loadDataFromObject
 {

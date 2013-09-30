@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ExampleViewController : UITableViewController
-@property (strong, nonatomic) id detailItem;
+
 @end

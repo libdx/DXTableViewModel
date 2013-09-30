@@ -11,8 +11,9 @@
 #import "DXTableViewRow.h"
 
 /* TODO
- - add section wide row properties (or just use makeObjectPerformSelector:withObject and enumerateObjectsUsingBlock: on rows)
- - add header/footer class and nib registration support
+ - add section wide row properties (or just use for..in and enumerateObjectsUsingBlock: on rows ?)
+ - add convenience properties for header and footer view like headerText, headerDetailText, footerText, footerDetailText
+ and update on configure[Header|Footer]
  */
 
 @interface DXTableViewModel (ForTableViewSectionEyes)
@@ -26,6 +27,8 @@
 @property (strong, nonatomic) DXTableViewModel *tableViewModel;
 @property (strong, nonatomic) DXTableViewSection *section;
 
+- (void)registerNibOrClass;
+
 @end
 
 @interface DXTableViewSection ()
@@ -33,11 +36,12 @@
 @property (strong, nonatomic) NSMutableArray *mutableRows;
 @property (strong, nonatomic) DXTableViewModel *tableViewModel;
 
+@property (strong, nonatomic) UIView *headerView;
+@property (strong, nonatomic) UIView *footerView;
+
 @end
 
 @implementation DXTableViewSection
-
-// TODO add checks for isTableViewDidAppear in setters
 
 - (instancetype)initWithName:(NSString *)name
 {
@@ -83,16 +87,31 @@
     }
 }
 
+- (void)registerNibOrClassForHeaderFooterNib:(UINib *)nib class:(Class)cls reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (nil != nib)
+        [self.tableViewModel.tableView registerNib:nib forHeaderFooterViewReuseIdentifier:reuseIdentifier];
+    else if (nil != cls)
+        [self.tableViewModel.tableView registerClass:cls forHeaderFooterViewReuseIdentifier:reuseIdentifier];
+}
+
 - (void)registerNibOrClassForRows
 {
-    // TODO implement this method in row class
-    for (DXTableViewRow *row in self.rows) {
-        if (nil != row.cellClass)
-            [self.tableViewModel.tableView registerClass:row.cellClass forCellReuseIdentifier:row.cellReuseIdentifier];
-        else if (nil != row.cellNib)
-            [self.tableViewModel.tableView registerNib:row.cellNib forCellReuseIdentifier:row.cellReuseIdentifier];
+    [self registerNibOrClassForHeaderFooterNib:self.headerNib class:self.headerClass reuseIdentifier:self.headerReuseIdentifier];
+    [self registerNibOrClassForHeaderFooterNib:self.footerNib class:self.footerClass reuseIdentifier:self.footerReuseIdentifier];
+    [self.rows makeObjectsPerformSelector:@selector(registerNibOrClass)];
+}
 
-    }
+#pragma mark - Header and Footer subclass hooks
+
+- (void)configureHeader
+{
+
+}
+
+- (void)configureFooter
+{
+
 }
 
 #pragma mark Building section
@@ -169,10 +188,9 @@
     return [self indexPathForRow:row];
 }
 
-- (NSArray *)moveRow:(DXTableViewRow *)row toRow:(DXTableViewRow *)destinationRow
+- (NSArray *)moveRow:(DXTableViewRow *)row toIndexPath:(NSIndexPath *)destinationIndexPath
 {
     NSIndexPath *indexPath = [self indexPathForRow:row];
-    NSIndexPath *destinationIndexPath = [self indexPathForRow:destinationRow];
 
     [self.mutableRows removeObject:row];
     [self.mutableRows insertObject:row atIndex:destinationIndexPath.row];
@@ -218,9 +236,9 @@
     [self.tableViewModel.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:animation];
 }
 
-- (void)moveRow:(DXTableViewRow *)row animatedToRow:(DXTableViewRow *)destinationRow withRowAnimation:(UITableViewRowAnimation)animation
+- (void)moveRow:(DXTableViewRow *)row animatedToIndexPath:(NSIndexPath *)destinationIndexPath withRowAnimation:(UITableViewRowAnimation)animation
 {
-    NSArray *indexPaths = [self moveRow:row toRow:destinationRow];
+    NSArray *indexPaths = [self moveRow:row toIndexPath:destinationIndexPath];
     [self.tableViewModel.tableView moveRowAtIndexPath:indexPaths[0] toIndexPath:indexPaths[1]];
 }
 

@@ -12,15 +12,17 @@
 
 /* TODO
  - add documentation
- - check for section name uniqueness
+ + check for section name uniqueness
  - check animated sections manipulations (check nested and grouped manipulations precisely)
  - throw exception on no section found
- - more clever support for titles
+ - more clever support for titles (e.g. per section title)
  - move row functionality: provide way to overwrite defaults made here
+ - move row functionality: FIXME: rows ordering cause to crash
  - override (BOOL)respondsToSelector:(SEL)aSelector and provide mechanism to pretend that
  some of the DataSource/Delegate method are not implemented
  - remove tableViewDidAppear property (?)
  - implement willBeing/didEnd show row/header/footer methods
+ - remove `__weak` for every row that is pass to row's block as argument (?)
  */
 
 @interface DXTableViewRow (ForTableViewModelEyes)
@@ -32,6 +34,9 @@
 @interface DXTableViewSection (ForTableViewModelEyes)
 
 @property (strong, nonatomic) DXTableViewModel *tableViewModel;
+
+@property (strong, nonatomic) UIView *headerView;
+@property (strong, nonatomic) UIView *footerView;
 
 - (void)registerNibOrClassForRows;
 
@@ -47,6 +52,17 @@
 @implementation DXTableViewModel
 
 #pragma DXTableViewModel
+
+- (id)init
+{
+    self = [super init];
+    if (nil == self)
+        return nil;
+
+    _showsDefaultTitleForDeleteConfirmationButton = YES;
+
+    return self;
+}
 
 - (void)setTableView:(UITableView *)tableView
 {
@@ -109,7 +125,10 @@
 
 - (DXTableViewSection *)sectionWithName:(NSString *)name
 {
-    return [self.sections filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"sectionName = %@", name]].lastObject;
+    NSArray *sections = [self.sections filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"sectionName = %@", name]];
+    if (sections.count < 1)
+        [NSException raise:NSInvalidArgumentException format:@"section with name \"%@\" not found", name];
+    return sections[0];
 }
 
 - (NSInteger)indexOfSectionWithName:(NSString *)name
@@ -150,6 +169,18 @@
     NSMutableIndexSet *indexes = [[NSMutableIndexSet alloc] initWithIndex:index];
     [indexes addIndex:destinationIndex];
     return indexes.copy;
+}
+
+#pragma mark - respondsToSelector hacks
+
+- (BOOL)respondsToSelector:(SEL)aSelector
+{
+    BOOL res = [super respondsToSelector:aSelector];
+    NSString *selectorName = NSStringFromSelector(aSelector);
+    if (_showsDefaultTitleForDeleteConfirmationButton &&
+        [selectorName isEqualToString:@"tableView:titleForDeleteConfirmationButtonForRowAtIndexPath:"])
+        res = NO;
+    return res;
 }
 
 #pragma mark - Animated sections manipulations
@@ -374,12 +405,32 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    return [self.mutableSections[section] headerView];
+    UIView *header;
+    DXTableViewSection *sectionObject = self.mutableSections[section];
+    if (nil != sectionObject.viewForHeaderInSectionBlock)
+        header = sectionObject.viewForHeaderInSectionBlock(sectionObject);
+    else if (sectionObject.headerReuseIdentifier)
+        header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:sectionObject.headerReuseIdentifier];
+    sectionObject.headerView = header;
+    [sectionObject configureHeader];
+    if (nil != sectionObject.configureHeaderBlock)
+        sectionObject.configureHeaderBlock(sectionObject, header);
+    return header;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    return [self.mutableSections[section] footerView];
+    UIView *footer;
+    DXTableViewSection *sectionObject = self.mutableSections[section];
+    if (nil != sectionObject.viewForFooterInSectionBlock)
+        footer = sectionObject.viewForFooterInSectionBlock(sectionObject);
+    else if (sectionObject.footerReuseIdentifier)
+        footer = [tableView dequeueReusableHeaderFooterViewWithIdentifier:sectionObject.footerReuseIdentifier];
+    sectionObject.footerView = footer;
+    [sectionObject configureFooter];
+    if (nil != sectionObject.configureFooterBlock)
+        sectionObject.configureFooterBlock(sectionObject, footer);
+    return footer;
 }
 
 // Accessories (disclosures).
@@ -449,10 +500,10 @@
     return [[self rowAtIndexPath:indexPath] editingStyle];
 }
 
-//- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return [[self rowAtIndexPath:indexPath] titleForDeleteConfirmationButton];
-//}
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [[self rowAtIndexPath:indexPath] titleForDeleteConfirmationButton];
+}
 
 - (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
 {

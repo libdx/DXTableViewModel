@@ -23,6 +23,9 @@
 @property (copy, nonatomic) void (^moveRowToIndexPathBlock)(DXTableViewRow *row, NSIndexPath *indexPath);
 @property (copy, nonatomic) NSIndexPath *(^targetIndexPathForMoveFromRowToProposedIndexPath)(DXTableViewRow *row, NSIndexPath *indexPath);
 
+// default is YES
+@property (nonatomic) BOOL showsDefaultTitleForDeleteConfirmationButton;
+
 /// @name Model building.
 #pragma mark - Model building
 

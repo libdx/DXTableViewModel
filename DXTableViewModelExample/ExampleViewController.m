@@ -123,10 +123,55 @@
     emptySection.headerTitle = @"Empty One";
     emptySection.footerTitle = @"But it is exists";
 
+    DXTableViewSection *customHeaderFooterSection = [[DXTableViewSection alloc] initWithName:@"CustomHeaderFooter"];
+    customHeaderFooterSection.viewForHeaderInSectionBlock = ^(DXTableViewSection *section) {
+        UILabel *header = [[UILabel alloc] init];
+        header.text = @"Custom Header";
+        header.textAlignment = NSTextAlignmentCenter;
+        return header;
+    };
+    customHeaderFooterSection.viewForFooterInSectionBlock = ^(DXTableViewSection *section) {
+        UILabel *footer = [[UILabel alloc] init];
+        footer.text = @"Custom Footer";
+        footer.textColor = [UIColor darkGrayColor];
+        footer.textAlignment = NSTextAlignmentCenter;
+        return footer;
+    };
+    customHeaderFooterSection.headerHeight = 44.0;
+    customHeaderFooterSection.footerHeight = 44.0;
+    DXTableViewRow *customHeaderFooterRow = [[DXTableViewRow alloc] initWithCellReuseIdentifier:@"CustomHeaderFooterCell"];
+    customHeaderFooterRow.cellClass = [UITableViewCell class];
+    customHeaderFooterRow.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell) {
+        cell.textLabel.text = @"Cell between";
+    };
+    [customHeaderFooterSection addRow:customHeaderFooterRow];
+
+    DXTableViewSection *sectionWithReusedHeaderFooter = [[DXTableViewSection alloc] initWithName:@"ReusedHeaderFooter"];
+    sectionWithReusedHeaderFooter.headerClass = [UITableViewHeaderFooterView class];
+    sectionWithReusedHeaderFooter.footerClass = [UITableViewHeaderFooterView class];
+    sectionWithReusedHeaderFooter.headerReuseIdentifier = @"ReuseHeader";
+    sectionWithReusedHeaderFooter.footerReuseIdentifier = @"ReuseFooter";
+    sectionWithReusedHeaderFooter.headerHeight = 44.0;
+    sectionWithReusedHeaderFooter.footerHeight = 44.0;
+    sectionWithReusedHeaderFooter.configureHeaderBlock = ^(DXTableViewSection *section, UITableViewHeaderFooterView *header) {
+        header.textLabel.text = @"Reused Header";
+    };
+    sectionWithReusedHeaderFooter.configureFooterBlock =  ^(DXTableViewSection *section, UITableViewHeaderFooterView *footer) {
+        footer.textLabel.text = @"Reused Footer";
+    };
+    DXTableViewRow *reusedHeaderFooterRow = [[DXTableViewRow alloc] initWithCellReuseIdentifier:@"ReusedHeaderFooterCell"];
+    reusedHeaderFooterRow.cellClass = [UITableViewCell class];
+    reusedHeaderFooterRow.configureCellBlock = ^(DXTableViewRow *row, UITableViewCell *cell) {
+        cell.textLabel.text = @"Cell between reused header, footer";
+    };
+    [sectionWithReusedHeaderFooter addRow:reusedHeaderFooterRow];
+
     [self.tableViewModel addSection:buttonsSection];
     [self.tableViewModel addSection:textSection];
     [self.tableViewModel addSection:emptySection];
     [self.tableViewModel addSection:optionsSection];
+    [self.tableViewModel addSection:customHeaderFooterSection];
+    [self.tableViewModel addSection:sectionWithReusedHeaderFooter];
     self.tableViewModel.tableView = self.tableView;
 }
 

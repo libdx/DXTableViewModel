@@ -29,7 +29,7 @@
 @property (nonatomic) BOOL shouldHighlightRow;
 
 @property (nonatomic) UITableViewCellEditingStyle editingStyle;
-@property (copy, nonatomic) NSString *titleForDeleteConfirmationButton; // not implemented
+@property (copy, nonatomic) NSString *titleForDeleteConfirmationButton;
 @property (copy, nonatomic) void (^willBeginEditingRowBlock)(DXTableViewRow *row);
 @property (copy, nonatomic) void (^didEndEditingRowBlock)(DXTableViewRow *row);
 
