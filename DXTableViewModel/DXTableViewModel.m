@@ -12,17 +12,14 @@
 
 /* TODO
  - add documentation
- + check for section name uniqueness
  - check animated sections manipulations (check nested and grouped manipulations precisely)
- - throw exception on no section found
- - more clever support for titles (e.g. per section title)
+ - rethink about section titles implementation, make it object oriented (e.g. per section title)
  - move row functionality: provide way to overwrite defaults made here
  - move row functionality: FIXME: rows ordering cause to crash
- - override (BOOL)respondsToSelector:(SEL)aSelector and provide mechanism to pretend that
- some of the DataSource/Delegate method are not implemented
  - remove tableViewDidAppear property (?)
  - implement willBeing/didEnd show row/header/footer methods
  - remove `__weak` for every row that is pass to row's block as argument (?)
+ - implement missing delegate methods
  */
 
 @interface DXTableViewRow (ForTableViewModelEyes)
@@ -177,9 +174,14 @@
 {
     BOOL res = [super respondsToSelector:aSelector];
     NSString *selectorName = NSStringFromSelector(aSelector);
-    if (_showsDefaultTitleForDeleteConfirmationButton &&
-        [selectorName isEqualToString:@"tableView:titleForDeleteConfirmationButtonForRowAtIndexPath:"])
+    if ([selectorName isEqualToString:@"tableView:titleForDeleteConfirmationButtonForRowAtIndexPath:"] &&
+        _showsDefaultTitleForDeleteConfirmationButton)
         res = NO;
+
+    if ([selectorName isEqualToString:@"tableView:sectionForSectionIndexTitle:atIndex:"] &&
+        nil == self.sectionForSectionIndexTitleAtIndexBlock)
+        res = NO;
+
     return res;
 }
 
@@ -299,15 +301,17 @@
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
     NSArray *res;
-    if (nil != self.sectionIndexTitles)
-        res = self.sectionIndexTitles();
+    if (nil != self.sectionIndexTitlesBlock)
+        res = self.sectionIndexTitlesBlock();
     return res;
 }
 
-//- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
-//{
-//    self.sectionForSectionIndexTitleAtIndex
-//}
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+    // This method shouldn't be called unless sectionForSectionIndexTitleAtIndexBlock is not nil.
+    // See respondsToSelector: for details
+    return self.sectionForSectionIndexTitleAtIndexBlock(title, index);
+}
 
 // Data manipulation - insert and delete support
 

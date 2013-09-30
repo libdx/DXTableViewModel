@@ -16,9 +16,9 @@
 
 @property (copy, nonatomic) NSArray *sections;
 
-@property (copy, nonatomic) NSArray *(^sectionIndexTitles)();
+@property (copy, nonatomic) NSArray *(^sectionIndexTitlesBlock)();
 
-// @property (copy, nonatomic) DXTableViewSection *(^sectionForSectionIndexTitleAtIndex)(NSString *title, NSInteger index);
+@property (copy, nonatomic) NSInteger (^sectionForSectionIndexTitleAtIndexBlock)(NSString *title, NSInteger index);
 
 @property (copy, nonatomic) void (^moveRowToIndexPathBlock)(DXTableViewRow *row, NSIndexPath *indexPath);
 @property (copy, nonatomic) NSIndexPath *(^targetIndexPathForMoveFromRowToProposedIndexPath)(DXTableViewRow *row, NSIndexPath *indexPath);
@@ -61,7 +61,7 @@ beforeSectionWithName:(NSString *)name
 - (void)moveSectionWithName:(NSString *)name animatedToSectionWithName:(NSString *)otherName;
 
 /// @name Data binding
-#pragma mark - Data binding
+#pragma mark - Data binding capabilities
 
 - (void)updateModel;
 
