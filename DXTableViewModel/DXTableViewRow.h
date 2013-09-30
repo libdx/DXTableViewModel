@@ -10,7 +10,16 @@
 
 @class DXTableViewModel, DXTableViewSection;
 
+/**
+ `DXTableViewRow` represents a row in table view and provides access to customization appropriate cell.
+ It is a main building block for table view model.
+ It encapsulates cell object and cell's data that being used to customize cell.
+ Essential part of properties have names that are very similiar to appropriate table view's delegate and data source methods.
+ */
 @interface DXTableViewRow : NSObject
+
+/// @name General properties and methods
+#pragma mark - General properties and methods
 
 @property (strong, nonatomic, readonly) DXTableViewModel *tableViewModel;
 @property (strong, nonatomic, readonly) DXTableViewSection *section;
@@ -20,8 +29,6 @@
 @property (copy, nonatomic) NSString *cellReuseIdentifier;
 @property (unsafe_unretained, nonatomic) Class cellClass;
 @property (copy, nonatomic) UINib *cellNib;
-@property (nonatomic, getter=isRepeatable) BOOL repeatable; // not implemented
-@property (nonatomic) NSInteger repeatCount; // how many times this row repeates. not implemented
 
 @property (nonatomic) CGFloat rowHeight;
 @property (copy, nonatomic) CGFloat (^rowHeightBlock)(DXTableViewRow *row);
@@ -50,7 +57,7 @@
 @property (copy, nonatomic) void (^didDeselectRowBlock)(DXTableViewRow *row);
 @property (copy, nonatomic) void (^commitEditingStyleForRowBlock)(DXTableViewRow *row);
 @property (copy, nonatomic) void (^willDisplayCellBlock)(DXTableViewRow *row, id cell);
-//@property (copy, nonatomic) void (^didEndDisplayingCellBlock)(DXTableViewRow *row, id cell);
+@property (copy, nonatomic) void (^didEndDisplayingCellBlock)(DXTableViewRow *row, id cell);
 
 @property (copy, nonatomic) void (^accessoryButtonTappedForRowBlock)(DXTableViewRow *row);
 

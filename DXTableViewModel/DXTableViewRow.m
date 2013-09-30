@@ -11,8 +11,12 @@
 #import "DXTableViewModel.h"
 
 /* TODO
+ - documentation
  - add convenience properties: simple value properties for counterpart with block properties and vice versa
- - add convenience methods like: canCopyRow, canPasteRow etc
+ - add convenience methods like: canCopyRow, canPasteRow etc.
+ - add repeatable row feature when binding an array with following properties:
+    @property (nonatomic, getter=isRepeatable) BOOL repeatable;
+    @property (nonatomic) NSInteger repeatCount;
  */
 
 @interface DXTableViewModel (ForTableViewRowEyes)
@@ -38,11 +42,6 @@
 @end
 
 @implementation DXTableViewRow
-
-/* TODO 
- - documentation
- - implement or get rid of repeatable and repeatCount
- */
 
 - (instancetype)initWithCellReuseIdentifier:(NSString *)identifier
 {

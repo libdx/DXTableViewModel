@@ -10,7 +10,16 @@
 
 @class DXTableViewModel, DXTableViewRow;
 
+/**
+ `DXTableViewSection` represents section in table view.
+ It encapsulates `DXTableViewRow` objects, data that being used to customize header and footer of section
+ and method for rows (cells) manipulations: adding, removing, reordering with animated counterparts.
+ Each section object in model must have unique `sectionName`.
+ */
 @interface DXTableViewSection : NSObject
+
+/// @name General methods and properties
+#pragma mark - General methods and properties
 
 @property (strong, nonatomic, readonly) DXTableViewModel *tableViewModel;
 
@@ -86,6 +95,6 @@
 - (void)insertRows:(NSArray *)rows beforeRow:(DXTableViewRow *)row withRowAnimation:(UITableViewRowAnimation)animation;
 - (void)deleteRows:(NSArray *)rows withRowAnimation:(UITableViewRowAnimation)animation;
 - (void)reloadRows:(NSArray *)rows withRowAnimation:(UITableViewRowAnimation)animation;
-- (void)moveRow:(DXTableViewRow *)row animatedToIndexPath:(NSIndexPath *)destinationIndexPath withRowAnimation:(UITableViewRowAnimation)animation;  // use destinationIndexPath
+- (void)moveRow:(DXTableViewRow *)row animatedToIndexPath:(NSIndexPath *)destinationIndexPath withRowAnimation:(UITableViewRowAnimation)animation;
 
 @end

@@ -10,7 +10,14 @@
 
 @class DXTableViewSection, DXTableViewRow;
 
+/**
+ `DXTableViewModel` represents data for table view. Essentially it is table view's delegate and data source
+ which customizes table view according to data that being provided in section and row objects.
+ */
 @interface DXTableViewModel : NSObject <UITableViewDataSource, UITableViewDelegate>
+
+/// @name General methods and properties
+#pragma mark - General methods and properties
 
 @property (strong, nonatomic) UITableView *tableView;
 
