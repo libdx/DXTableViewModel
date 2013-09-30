@@ -11,17 +11,10 @@
 #import "DXTableViewModel.h"
 
 /* TODO
- - for first release remove bindObject:keyPaths:toCellKeyPaths: method and related code, but leave boundObject property and suggest to subclass rows for binding data
+ + for first release remove bindObject:keyPaths:toCellKeyPaths: method and related code, but leave boundObject property and suggest to subclass rows for binding data
  - add convenience properties: simple value properties for counterpart with block properties and vice versa
+ - add convenience methods like: canCopyRow, canPasteRow etc
  */
-
-static void safeSetObjectForKey(NSMutableDictionary *dict, id object, id<NSCopying> key)
-{
-    if (nil != object)
-        [dict setObject:object forKey:key];
-    else
-        [dict removeObjectForKey:key];
-}
 
 @interface DXTableViewModel (ForTableViewRowEyes)
 
@@ -89,34 +82,32 @@ static void safeSetObjectForKey(NSMutableDictionary *dict, id object, id<NSCopyi
 
 #pragma mark - Data Binding
 
+- (void)setBoundObject:(id)boundObject
+{
+    _boundObject = boundObject;
+    [self loadDataFromObject];
+}
+
+- (void)bindObject:(id)object
+{
+    self.boundObject = object;
+}
+
+- (void)loadDataFromObject
+{
+
+}
+
 - (void)updateCell
 {
     UITableViewCell *cell = self.cell;
     cell.textLabel.text = self.cellText;
     cell.detailTextLabel.text = self.cellDetailText;
     cell.imageView.image = self.cellImage;
-    for (NSString *keyPath in _cellData)
-        [self.cell setValue:_cellData[keyPath] forKeyPath:keyPath];
 }
 
 - (void)updateObject
 {
-    [self.objectKeyPaths enumerateObjectsUsingBlock:^(NSString *keyPath, NSUInteger idx, BOOL *stop) {
-        NSString *cellKeyPath = self.cellKeyPaths[idx];
-        [self.boundObject setValue:_cellData[cellKeyPath] forKey:keyPath];
-    }];
-}
-
-- (void)bindObject:(id)object keyPaths:(NSArray *)keyPaths toCellKeyPaths:(NSArray *)cellKeyPaths
-{
-    NSAssert(keyPaths.count == cellKeyPaths.count, @"Number of objects in keyPaths and cellKeyPaths arrays must be the same");
-    [keyPaths enumerateObjectsUsingBlock:^(NSString *keyPath, NSUInteger idx, BOOL *stop) {
-        NSString *cellKeyPath = cellKeyPaths[idx];
-        safeSetObjectForKey(self.cellData, [object valueForKeyPath:keyPath], cellKeyPath);
-    }];
-    self.objectKeyPaths = keyPaths;
-    self.cellKeyPaths = cellKeyPaths;
-    self.boundObject = object;
 }
 
 @end

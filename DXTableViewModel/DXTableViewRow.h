@@ -69,19 +69,17 @@
 @property (copy, nonatomic) NSString *cellDetailText;
 @property (strong, nonatomic) UIImage *cellImage;
 
-#pragma mark - Data Binding
+#pragma mark - Data Bind Capabilities
 
 @property (strong, nonatomic) id boundObject;
 
-- (void)bindObject:(id)object keyPaths:(NSArray *)keyPaths toCellKeyPaths:(NSArray *)cellKeyPaths;
+#pragma mark - Subclass Hooks
 
-@end
-
-@interface DXTableViewRow (Protected)
-
-@property (strong, nonatomic) NSMutableDictionary *cellData;
+- (void)loadDataFromObject;
 
 - (void)updateCell;
 - (void)updateObject;
+
+@property (strong, nonatomic) NSMutableDictionary *rowData;
 
 @end
