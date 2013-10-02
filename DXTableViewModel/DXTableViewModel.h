@@ -29,6 +29,9 @@
 
 @property (copy, nonatomic) void (^moveRowToIndexPathBlock)(DXTableViewRow *row, NSIndexPath *indexPath);
 @property (copy, nonatomic) NSIndexPath *(^targetIndexPathForMoveFromRowToProposedIndexPath)(DXTableViewRow *row, NSIndexPath *indexPath);
+@property (copy, nonatomic) void (^didEndDisplayingCellBlock)(DXTableViewModel *tableViewModel, id cell, NSIndexPath *indexPath);
+@property (copy, nonatomic) void (^didEndDisplayingHeaderViewBlock)(DXTableViewModel *tableViewModel, UIView *view, NSInteger index);
+@property (copy, nonatomic) void (^didEndDisplayingFooterViewBlock)(DXTableViewModel *tableViewModel, UIView *view, NSInteger index);
 
 // default is YES
 @property (nonatomic) BOOL showsDefaultTitleForDeleteConfirmationButton;
@@ -42,6 +45,9 @@
 
 - (DXTableViewSection *)sectionWithName:(NSString *)name;
 - (NSInteger)indexOfSectionWithName:(NSString *)name;
+
+/// @name Not animated sections manipulations
+#pragma mark - Not animated sections manipulations
 
 - (NSInteger)insertSection:(DXTableViewSection *)newSection afterSectionWithName:(NSString *)name;
 - (NSInteger)insertSection:(DXTableViewSection *)newSection beforeSectionWithName:(NSString *)name;
@@ -67,7 +73,7 @@ beforeSectionWithName:(NSString *)name
 
 - (void)moveSectionWithName:(NSString *)name animatedToSectionWithName:(NSString *)otherName;
 
-/// @name Data binding
+/// @name Data binding capabilities
 #pragma mark - Data binding capabilities
 
 - (void)updateModel;

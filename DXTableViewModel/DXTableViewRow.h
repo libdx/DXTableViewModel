@@ -57,7 +57,6 @@
 @property (copy, nonatomic) void (^didDeselectRowBlock)(DXTableViewRow *row);
 @property (copy, nonatomic) void (^commitEditingStyleForRowBlock)(DXTableViewRow *row);
 @property (copy, nonatomic) void (^willDisplayCellBlock)(DXTableViewRow *row, id cell);
-@property (copy, nonatomic) void (^didEndDisplayingCellBlock)(DXTableViewRow *row, id cell);
 
 @property (copy, nonatomic) void (^accessoryButtonTappedForRowBlock)(DXTableViewRow *row);
 

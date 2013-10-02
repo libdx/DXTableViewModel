@@ -11,7 +11,9 @@
 #import "DXTableViewModel.h"
 
 /* TODO
+ for v 0.1.0:
  - documentation
+ for v 0.2.0:
  - add convenience properties: simple value properties for counterpart with block properties and vice versa
  - add convenience methods like: canCopyRow, canPasteRow etc.
  - add repeatable row feature when binding an array with following properties:
@@ -50,7 +52,7 @@
         _cellReuseIdentifier = identifier;
         _rowHeight = UITableViewAutomaticDimension;
         _editingStyle = UITableViewCellEditingStyleDelete;
-        _canMoveRow = NO;
+        _canMoveRow = YES;
         _canEditRow = YES;
         _shouldHighlightRow = YES;
         _shouldIndentWhileEditingRow = YES;
@@ -58,6 +60,13 @@
         _shouldShowMenuForRow = YES;
     }
     return self;
+}
+
+- (NSString *)description
+{
+    NSString *description = [super description];
+    description = [NSString stringWithFormat:@"%@: ID='%@', IndexPath=%@", description, self.cellReuseIdentifier, self.rowIndexPath];
+    return description;
 }
 
 - (NSIndexPath *)rowIndexPath

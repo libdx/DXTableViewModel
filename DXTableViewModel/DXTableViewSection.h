@@ -33,8 +33,6 @@
 
 @property (copy, nonatomic) void (^willDisplayHeaderViewBlock)(DXTableViewSection *section, UIView *view);
 @property (copy, nonatomic) void (^willDisplayFooterViewBlock)(DXTableViewSection *section, UIView *view);
-@property (copy, nonatomic) void (^didEndDisplayingHeaderViewBlock)(DXTableViewSection *section, UIView *view);
-@property (copy, nonatomic) void (^didEndDisplayingFooterViewBlock)(DXTableViewSection *section, UIView *view);
 
 - (instancetype)initWithName:(NSString *)name;
 

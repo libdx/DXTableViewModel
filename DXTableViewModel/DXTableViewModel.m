@@ -11,10 +11,10 @@
 #import "DXTableViewRow.h"
 
 /* TODO
- - move row functionality: provide way to overwrite defaults made here
- - move row functionality: FIXME: rows ordering cause to crash
+ for v 0.1.0:
  - check animated sections manipulations (check nested and grouped manipulations precisely)
  - add documentation
+ for v 0.2.0:
  - implement missing delegate methods (that is those that were added in iOS 7)
  - rethink about section titles implementation, make it object oriented (e.g. per section title)
  - remove tableViewDidAppear property (?)
@@ -58,6 +58,13 @@
     _showsDefaultTitleForDeleteConfirmationButton = YES;
 
     return self;
+}
+
+- (NSString *)description
+{
+    NSString *description = [super description];
+    description = [NSString stringWithFormat:@"%@: sections=%@", description, self.mutableSections];
+    return description;
 }
 
 - (void)setTableView:(UITableView *)tableView
@@ -149,7 +156,7 @@
 - (NSInteger)deleteSectionWithName:(NSString *)name
 {
     NSInteger index = [self indexOfSectionWithName:name];
-    [self.mutableSections removeObjectAtIndex:index];
+    [self removeSection:[self sectionWithName:name]];
     return index;
 }
 
@@ -326,7 +333,7 @@
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
     // move row
-    __weak DXTableViewRow *row = [self rowAtIndexPath:sourceIndexPath];
+    DXTableViewRow *row = [self rowAtIndexPath:sourceIndexPath];
     DXTableViewSection *sourceSection = row.section;
     DXTableViewSection *destinationSection = self.mutableSections[destinationIndexPath.section];
     [sourceSection removeRow:row];
@@ -362,23 +369,20 @@
 
 - (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath
 {
-    __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
-    if (nil != row.didEndDisplayingCellBlock)
-        row.didEndDisplayingCellBlock(row, cell);
+    if (nil != self.didEndDisplayingCellBlock)
+        self.didEndDisplayingCellBlock(self, cell, indexPath);
 }
 
 - (void)tableView:(UITableView *)tableView didEndDisplayingHeaderView:(UIView *)view forSection:(NSInteger)section
 {
-    __weak DXTableViewSection *sectionObject = self.mutableSections[section];
-    if (nil != sectionObject.didEndDisplayingHeaderViewBlock)
-        sectionObject.didEndDisplayingHeaderViewBlock(sectionObject, view);
+    if (nil != self.didEndDisplayingHeaderViewBlock)
+        self.didEndDisplayingHeaderViewBlock(self, view, section);
 }
 
 - (void)tableView:(UITableView *)tableView didEndDisplayingFooterView:(UIView *)view forSection:(NSInteger)section
 {
-    __weak DXTableViewSection *sectionObject = self.mutableSections[section];
-    if (nil != sectionObject.didEndDisplayingFooterViewBlock)
-        sectionObject.didEndDisplayingFooterViewBlock(sectionObject, view);
+    if (nil != self.didEndDisplayingFooterViewBlock)
+        self.didEndDisplayingFooterViewBlock(self, view, section);
 }
 
 // Variable height support

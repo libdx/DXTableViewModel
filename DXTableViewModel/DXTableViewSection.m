@@ -11,7 +11,9 @@
 #import "DXTableViewRow.h"
 
 /* TODO
+ for v 0.1.0:
  - documentation
+ for v 0.2.0:
  - add section wide row properties (or just use for..in and enumerateObjectsUsingBlock: on rows ?)
  - add convenience properties for header and footer view like headerText, headerDetailText, footerText, footerDetailText
  and update on configure[Header|Footer]
@@ -34,8 +36,8 @@
 
 @interface DXTableViewSection ()
 
-@property (strong, nonatomic) NSMutableArray *mutableRows;
 @property (strong, nonatomic) DXTableViewModel *tableViewModel;
+@property (strong, nonatomic) NSMutableArray *mutableRows;
 
 @property (strong, nonatomic) UIView *headerView;
 @property (strong, nonatomic) UIView *footerView;
@@ -53,6 +55,13 @@
         _footerHeight = UITableViewAutomaticDimension;
     }
     return self;
+}
+
+- (NSString *)description
+{
+    NSString *description = [super description];
+    description = [NSString stringWithFormat:@"%@: name='%@' index=%ld", description, self.sectionName, (long)self.sectionIndex];
+    return description;
 }
 
 - (NSMutableArray *)mutableRows
