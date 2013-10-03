@@ -1,6 +1,6 @@
 //
 //  DXTableViewRow.h
-//  Quiz
+//  DXTableViewModel
 //
 //  Created by Alexander Ignatenko on 9/9/13.
 //  Copyright (c) 2013 Alexander Ignatenko. All rights reserved.
@@ -81,7 +81,7 @@
 
 #pragma mark - Subclass Hooks
 
-- (void)loadDataFromObject;
+- (void)didBindObject;
 
 - (void)updateCell;
 - (void)updateObject;

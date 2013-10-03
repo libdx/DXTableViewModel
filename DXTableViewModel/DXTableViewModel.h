@@ -1,6 +1,6 @@
 //
 //  DXTableViewModel.h
-//  Quiz
+//  DXTableViewModel
 //
 //  Created by Alexander Ignatenko on 9/9/13.
 //  Copyright (c) 2013 Alexander Ignatenko. All rights reserved.
@@ -12,7 +12,7 @@
 
 /**
  `DXTableViewModel` represents data for table view. Essentially it is table view's delegate and data source
- which customizes table view according to data that being provided in section and row objects.
+ which customizes table view according to data that being provided by section and row objects.
  */
 @interface DXTableViewModel : NSObject <UITableViewDataSource, UITableViewDelegate>
 

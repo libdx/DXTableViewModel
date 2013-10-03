@@ -1,6 +1,6 @@
 //
 //  DXTableViewModel.m
-//  Quiz
+//  DXTableViewModel
 //
 //  Created by Alexander Ignatenko on 9/9/13.
 //  Copyright (c) 2013 Alexander Ignatenko. All rights reserved.

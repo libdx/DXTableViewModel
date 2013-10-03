@@ -1,6 +1,6 @@
 //
 //  DXTableViewSection.h
-//  Quiz
+//  DXTableViewModel
 //
 //  Created by Alexander Ignatenko on 9/9/13.
 //  Copyright (c) 2013 Alexander Ignatenko. All rights reserved.
@@ -13,7 +13,7 @@
 /**
  `DXTableViewSection` represents section in table view.
  It encapsulates `DXTableViewRow` objects, data that being used to customize header and footer of section
- and method for rows (cells) manipulations: adding, removing, reordering with animated counterparts.
+ and methods for rows (cells) manipulations: adding, removing, reordering with animated counterparts.
  Each section object in model must have unique `sectionName`.
  */
 @interface DXTableViewSection : NSObject

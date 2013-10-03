@@ -1,6 +1,6 @@
 //
 //  DXTableViewRow.m
-//  Quiz
+//  DXTableViewModel
 //
 //  Created by Alexander Ignatenko on 9/9/13.
 //  Copyright (c) 2013 Alexander Ignatenko. All rights reserved.
@@ -92,7 +92,7 @@
 - (void)setBoundObject:(id)boundObject
 {
     _boundObject = boundObject;
-    [self loadDataFromObject];
+    [self didBindObject];
 }
 
 - (void)bindObject:(id)object
@@ -102,7 +102,7 @@
 
 #pragma mark - Subclass Hooks
 
-- (void)loadDataFromObject
+- (void)didBindObject
 {
 
 }
