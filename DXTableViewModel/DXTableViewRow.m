@@ -52,7 +52,7 @@
         _cellReuseIdentifier = identifier;
         _rowHeight = UITableViewAutomaticDimension;
         _editingStyle = UITableViewCellEditingStyleDelete;
-        _canMoveRow = YES;
+        _canMoveRow = NO;
         _canEditRow = YES;
         _shouldHighlightRow = YES;
         _shouldIndentWhileEditingRow = YES;
