@@ -9,10 +9,6 @@
 #import "ExampleViewController.h"
 #import "DXTableViewModel.h"
 
-/* TODO
- - Fix in high cell displaying text
- */
-
 @interface DescriptionCell : UITableViewCell @end
 
 @implementation DescriptionCell
@@ -52,6 +48,7 @@
         cell.detailTextLabel.text = @"High cell";
         return cell;
     };
+    descriptionRow.cellText = @"This is";
     [textSection addRow:titleRow];
     [textSection addRow:descriptionRow];
 

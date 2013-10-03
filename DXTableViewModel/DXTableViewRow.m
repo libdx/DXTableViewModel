@@ -110,9 +110,12 @@
 - (void)updateCell
 {
     UITableViewCell *cell = self.cell;
-    cell.textLabel.text = self.cellText;
-    cell.detailTextLabel.text = self.cellDetailText;
-    cell.imageView.image = self.cellImage;
+    if (nil != self.cellText)
+        cell.textLabel.text = self.cellText;
+    if (nil != self.cellDetailText)
+        cell.detailTextLabel.text = self.cellDetailText;
+    if (nil != self.cellImage)
+        cell.imageView.image = self.cellImage;
 }
 
 - (void)updateObject
