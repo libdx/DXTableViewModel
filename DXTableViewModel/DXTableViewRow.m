@@ -12,9 +12,6 @@
 
 /* TODO
  for v 0.1.0:
- - rename updateCell -> configureCell
- - call configureCellBlock on configureCell (configureCell call must have sense)
- - add subclass hooks like: will/didConfigureCell, will/didUpdateObject etc.
  - documentation
  for v 0.2.0:
  - add convenience properties: simple value properties for counterpart with block properties and vice versa
@@ -102,17 +99,21 @@
 
 #pragma mark - Data Bind Capabilities
 
+- (void)bindObject:(id)object withKeyPath:(NSString *)keyPath
+{
+    [self bindObject:object withKeyPaths:@[keyPath]];
+}
+
 - (void)bindObject:(id)object withKeyPaths:(NSArray *)keyPaths
 {
+    [self willBindObject:object withKeyPaths:keyPaths];
     self.boundObject = object;
     self.boundKeyPaths = keyPaths;
-
-    // old stuff
+    [self reloadBoundData];
     [self didBindObject:self.boundObject withKeyPaths:self.boundKeyPaths];
-
-    // new stuff
-    [self updateRowBoundData];
 }
+
+#pragma mark - Controls' handling
 
 - (void)becomeTargetOfControl:(UIControl *)control
              forControlEvents:(UIControlEvents)controlEvents
@@ -152,15 +153,10 @@
     self.textViewDidChangeBlock(textView);
 }
 
-#pragma mark - Subclass Hooks
-
-- (void)didBindObject:(id)object withKeyPaths:(NSArray *)keyPaths
+- (void)configureCell
 {
+    [self willConfigureCell];
 
-}
-
-- (void)updateCell
-{
     UITableViewCell *cell = self.cell;
     if (nil != self.cellText)
         cell.textLabel.text = self.cellText;
@@ -168,19 +164,75 @@
         cell.detailTextLabel.text = self.cellDetailText;
     if (nil != self.cellImage)
         cell.imageView.image = self.cellImage;
+
+    if (nil != self.configureCellBlock)
+        self.configureCellBlock(self, self.cell);
+
+    [self didConfigureCell];
 }
 
-- (void)updateRowBoundData
+- (void)reloadRow
 {
+    [self reloadBoundData];
+    [self configureCell];
+}
+
+- (void)reloadBoundData
+{
+    [self willReloadBoundData];
     for (NSString *keyPath in self.boundKeyPaths)
         self[keyPath] = [self.boundObject valueForKeyPath:keyPath];
+    [self didReloadBoundData];
 }
 
 - (void)updateObject
 {
-    for (NSString *keyPath in self.boundKeyPaths) {
+    [self willUpdateObject];
+    for (NSString *keyPath in self.boundKeyPaths)
         [self.boundObject setValue:self[keyPath] forKeyPath:keyPath];
-    }
+    [self didUpdateObject];
+}
+
+#pragma mark - Subclass Hooks
+
+- (void)willBindObject:(id)object withKeyPaths:(NSArray *)keyPaths
+{
+
+}
+
+- (void)didBindObject:(id)object withKeyPaths:(NSArray *)keyPaths
+{
+
+}
+
+- (void)willConfigureCell
+{
+
+}
+
+- (void)didConfigureCell
+{
+
+}
+
+- (void)willReloadBoundData
+{
+
+}
+
+- (void)didReloadBoundData
+{
+
+}
+
+- (void)willUpdateObject
+{
+
+}
+
+- (void)didUpdateObject
+{
+
 }
 
 #pragma mark - Subscription

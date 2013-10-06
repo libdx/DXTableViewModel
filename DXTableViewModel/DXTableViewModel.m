@@ -273,9 +273,7 @@
     if (nil == res)
         res = [self.tableView dequeueReusableCellWithIdentifier:row.cellReuseIdentifier forIndexPath:indexPath];
     row.cell = res;
-    [row updateCell];
-    if (nil != row.configureCellBlock)
-        row.configureCellBlock(row, res);
+    [row configureCell];
     return res;
 }
 

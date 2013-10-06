@@ -81,6 +81,8 @@
 
 @property (strong, nonatomic, readonly) NSArray *boundKeyPaths;
 
+- (void)bindObject:(id)object withKeyPath:(NSString *)keyPath;
+
 - (void)bindObject:(id)object withKeyPaths:(NSArray *)keyPaths;
 
 // Usage:
@@ -98,15 +100,47 @@
 
 - (void)becomeTargetOfTextFieldForEditingChanged:(UITextField *)textField withBlock:(void (^)(UITextField *))block;
 
-#pragma mark - Subclass Hooks
+#pragma mark - Handling Row and Cell States
 
-- (void)didBindObject:(id)object withKeyPaths:(NSArray *)keyPaths;
+/**
+ Configures cell's textLabel, detailLabel and image with cellText, cellDetailText and cellImage values if given
+ and invokes configureCellBlock.
+ */
+- (void)configureCell;
 
-- (void)updateCell;
-- (void)updateRowBoundData;
+/**
+ Sequentially calls reloadBoundData and reloadCell.
+ */
+- (void)reloadRow;
+
+/**
+ Reload data from bound object into row using bound keys to be accessible via subscript.
+ */
+- (void)reloadBoundData;
+
+/**
+ Update bound object with row's bound data.
+ 
+ If you did track changes from cell's controls and store them, or any other data, using subscript into row to previously
+ bound key paths, this method will push these values into `boundObject` for each key path from `boundKeyPaths`.
+ */
 - (void)updateObject;
 
-#pragma mark - Subscription
+#pragma mark - Subclass Hooks
+
+- (void)willBindObject:(id)object withKeyPaths:(NSArray *)keyPaths;
+- (void)didBindObject:(id)object withKeyPaths:(NSArray *)keyPaths;
+
+- (void)willConfigureCell;
+- (void)didConfigureCell;
+
+- (void)willReloadBoundData;
+- (void)didReloadBoundData;
+
+- (void)willUpdateObject;
+- (void)didUpdateObject;
+
+#pragma mark - Subscript
 
 - (id)objectForKeyedSubscript:(id)key;
 - (void)setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key;
