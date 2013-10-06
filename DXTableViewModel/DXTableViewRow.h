@@ -28,7 +28,7 @@
 @property (strong, nonatomic, readonly) id cell;
 @property (copy, nonatomic) NSString *cellReuseIdentifier;
 @property (unsafe_unretained, nonatomic) Class cellClass;
-@property (copy, nonatomic) UINib *cellNib;
+@property (strong, nonatomic) UINib *cellNib;
 
 @property (nonatomic) CGFloat rowHeight;
 @property (copy, nonatomic) CGFloat (^rowHeightBlock)(DXTableViewRow *row);
