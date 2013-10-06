@@ -12,6 +12,9 @@
 
 /* TODO
  for v 0.1.0:
+ - rename updateCell -> configureCell
+ - call configureCellBlock on configureCell (configureCell call must have sense)
+ - add subclass hooks like: will/didConfigureCell, will/didUpdateObject etc.
  - documentation
  for v 0.2.0:
  - add convenience properties: simple value properties for counterpart with block properties and vice versa
@@ -33,13 +36,16 @@
 
 @end
 
-@interface DXTableViewRow ()
+@interface DXTableViewRow () <UITextViewDelegate>
 
 @property (strong, nonatomic) id cell;
 @property (strong, nonatomic) DXTableViewModel *tableViewModel;
 @property (strong, nonatomic) DXTableViewSection *section;
-@property (strong, nonatomic) NSArray *objectKeyPaths;
-@property (strong, nonatomic) NSArray *cellKeyPaths;
+@property (strong, nonatomic) id boundObject;
+@property (strong, nonatomic) NSArray *boundKeyPaths;
+@property (strong, nonatomic) NSMutableDictionary *boundObjectData;
+@property (copy, nonatomic) void (^textViewDidChangeBlock)(UITextView *);
+@property (strong, nonatomic) NSMutableDictionary *actionBlockByControlMap;
 
 @end
 
@@ -87,22 +93,68 @@
         [self.tableViewModel.tableView registerNib:self.cellNib forCellReuseIdentifier:self.cellReuseIdentifier];
 }
 
-#pragma mark - Data Bind Capabilities
-
-- (void)setBoundObject:(id)boundObject
+- (NSMutableDictionary *)actionBlockByControlMap
 {
-    _boundObject = boundObject;
-    [self didBindObject];
+    if (nil == _actionBlockByControlMap)
+        _actionBlockByControlMap = [NSMutableDictionary dictionary];
+    return _actionBlockByControlMap;
 }
 
-- (void)bindObject:(id)object
+#pragma mark - Data Bind Capabilities
+
+- (void)bindObject:(id)object withKeyPaths:(NSArray *)keyPaths
 {
     self.boundObject = object;
+    self.boundKeyPaths = keyPaths;
+
+    // old stuff
+    [self didBindObject:self.boundObject withKeyPaths:self.boundKeyPaths];
+
+    // new stuff
+    [self updateRowBoundData];
+}
+
+- (void)becomeTargetOfControl:(UIControl *)control
+             forControlEvents:(UIControlEvents)controlEvents
+                    withBlock:(void (^)(id))block
+{
+    NSArray *actions = [control actionsForTarget:self forControlEvent:controlEvents];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF == %@", NSStringFromSelector(@selector(targetActionForControl:))];
+    if ([actions filteredArrayUsingPredicate:predicate].count < 1) {
+        [control addTarget:self action:@selector(targetActionForControl:) forControlEvents:controlEvents];
+        [self.actionBlockByControlMap setObject:block forKey:[NSValue valueWithNonretainedObject:control]];
+    }
+}
+
+- (void)becomeDelegateOfTextViewForDidChange:(UITextView *)textView withBlock:(void (^)(UITextView *))block
+{
+    self.textViewDidChangeBlock = block;
+    textView.delegate = self;
+}
+
+- (void)becomeTargetOfTextFieldForEditingChanged:(UITextField *)textField withBlock:(void (^)(UITextField *))block
+{
+    [self becomeTargetOfControl:textField forControlEvents:UIControlEventEditingChanged withBlock:block];
+}
+
+#pragma mark - Controls' action
+
+- (void)targetActionForControl:(id)sender
+{
+    void (^block)(id) = self.actionBlockByControlMap[[NSValue valueWithNonretainedObject:sender]];
+    block(sender);
+}
+
+#pragma mark - UITextViewDelegate
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    self.textViewDidChangeBlock(textView);
 }
 
 #pragma mark - Subclass Hooks
 
-- (void)didBindObject
+- (void)didBindObject:(id)object withKeyPaths:(NSArray *)keyPaths
 {
 
 }
@@ -118,8 +170,38 @@
         cell.imageView.image = self.cellImage;
 }
 
+- (void)updateRowBoundData
+{
+    for (NSString *keyPath in self.boundKeyPaths)
+        self[keyPath] = [self.boundObject valueForKeyPath:keyPath];
+}
+
 - (void)updateObject
 {
+    for (NSString *keyPath in self.boundKeyPaths) {
+        [self.boundObject setValue:self[keyPath] forKeyPath:keyPath];
+    }
 }
+
+#pragma mark - Subscription
+
+- (NSMutableDictionary *)boundObjectData
+{
+    if (nil == _boundObjectData)
+        _boundObjectData = [NSMutableDictionary dictionary];
+    return _boundObjectData;
+}
+
+- (id)objectForKeyedSubscript:(id)key
+{
+    return self.boundObjectData[key];
+}
+
+- (void)setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key
+{
+    if (nil != obj)
+        self.boundObjectData[key] = obj;
+}
+
 
 @end

@@ -77,15 +77,38 @@
 
 #pragma mark - Data Bind Capabilities
 
-@property (strong, nonatomic) id boundObject;
+@property (strong, nonatomic, readonly) id boundObject;
+
+@property (strong, nonatomic, readonly) NSArray *boundKeyPaths;
+
+- (void)bindObject:(id)object withKeyPaths:(NSArray *)keyPaths;
+
+// Usage:
+//  ```
+//  [row becomeTargetOfControl:cell.stepper forControlEvents:UIControlEventValueChanged withBlock:^(UIStepper *stepper) {
+//      cell.textLabel.text = [NSString stringWithFormat:@"%f", stepper.value];
+//      row[@"amount"] = @(stepper.value);
+//  }];
+//  ```
+- (void)becomeTargetOfControl:(UIControl *)control
+             forControlEvents:(UIControlEvents)controlEvents
+                    withBlock:(void (^)(id))block;
+
+- (void)becomeDelegateOfTextViewForDidChange:(UITextView *)textView withBlock:(void (^)(UITextView *))block;
+
+- (void)becomeTargetOfTextFieldForEditingChanged:(UITextField *)textField withBlock:(void (^)(UITextField *))block;
 
 #pragma mark - Subclass Hooks
 
-- (void)didBindObject;
+- (void)didBindObject:(id)object withKeyPaths:(NSArray *)keyPaths;
 
 - (void)updateCell;
+- (void)updateRowBoundData;
 - (void)updateObject;
 
-@property (strong, nonatomic) NSMutableDictionary *rowData;
+#pragma mark - Subscription
+
+- (id)objectForKeyedSubscript:(id)key;
+- (void)setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key;
 
 @end

@@ -245,7 +245,7 @@
 
 #pragma mark - Data binding
 
-- (void)updateModel
+- (void)updateRowObjects
 {
     for (DXTableViewSection *section in self.sections)
         [section.rows makeObjectsPerformSelector:@selector(updateObject)];

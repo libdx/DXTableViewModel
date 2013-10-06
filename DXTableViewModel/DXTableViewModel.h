@@ -76,7 +76,8 @@ beforeSectionWithName:(NSString *)name
 /// @name Data binding capabilities
 #pragma mark - Data binding capabilities
 
-- (void)updateModel;
+//- (void)updateModel;
+- (void)updateRowObjects;
 
 @end
 
