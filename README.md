@@ -62,8 +62,6 @@ Build table view with cell that will show alert on selection:
 Animaged manipulations with rows and sections:
 
 ```objective-c
-
-
 	// assume section object is already added to table view model, newSection is configured with rows and table view is being displayed
 	[tableViewModel beginUpdates];
 	
@@ -81,22 +79,18 @@ Animaged manipulations with rows and sections:
 Alternatevelly you can alter table view manually, `DXTableViewModel` classes will provide sufficient information:
 
 ```objective-c
-	
-
 	NSInteger *deletedSectionIndex = [tableViewModel deleteSectionWithName:@"SomeSection"];
 	NSIndexPath *deletedRowIndexPath = [itemsSection removeRow:itemRow];
 	[self.tableView beginUpdates];
-	self.tableView deleteSections:[NSIndexSet indexSetWithIndex:deletedSectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];	self.tableView deleteRowsAtIndexPaths:@[deletedRowIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+	self.tableView deleteSections:[NSIndexSet indexSetWithIndex:deletedSectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];	
+	self.tableView deleteRowsAtIndexPaths:@[deletedRowIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 	[self.tableView endUpdates];
-			
 ```
 
 Creating editable forms. Bind object to row with cell created from xib.
 Bound object's key paths will be accessible from row object through subscript:
 
 ```objective-c
-
-
     DXTableViewRow *stepperRow = [[DXTableViewRow alloc] initWithCellReuseIdentifier:@"StepperCell"];
     stepperRow.cellNib = [UINib nibWithNibName:@"StepperCell" bundle:nil];
     [stepperRow bindObject:self.item withKeyPaths:@[@"count"]];
@@ -113,15 +107,15 @@ Bound object's key paths will be accessible from row object through subscript:
 	[textSection addRow:stepperRow];
 	[tableViewModel addSection:textSection];
 	
-	…
+	// …
 	
 	// call updateRowObjects to push cached changes into bound objects:
 	[tableViewModel updateRowObjects];
 	
-	…
+	// …
+
 	// call updateRowBoundData to refresh cached data in rows from bound objects:
 	[tableViewModel updateRowBoundData];
-
 ```
 
 Apply parameters to all rows in section:
@@ -132,8 +126,6 @@ Apply parameters to all rows in section:
         row.editingStyle = UITableViewCellEditingStyleNone;
         row.shouldIndentWhileEditingRow = NO;
     }
-
-
 ```
 
 ## Installation
