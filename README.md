@@ -1,27 +1,25 @@
 DXTableViewModel
 ================
 
-DXTableViewModel helps describe table view in declarative manner.
-Useful for creating table view based forms.
+An object-oriented representation of UITableView.
+Helps describe table view in declarative manner.
+Useful for building table view based forms.
 
-> This project is still in early stage of development, so use with caution.
-> Any bug reports, suggestions or pull requests are wellcome.
+It contains only three classes:
 
-Library contains only three classes:
-
-- `DXTableViewModel` - implements delegate and data source methods of table view.
+- `DXTableViewModel` - implements all delegate and data source methods of table view.
 - `DXTableViewSection` - represents table view's section.
 - `DXTableViewRow` - represents table view's row.
 
+### Notice
+
+This project is still in early stage of development, so use with caution.
+Any bug reports, suggestions or pull requests are wellcome.
+
 ## Key Features
 
-Library was designed to fit following needs:
-
- - To be simple: only three classes with intuitive relationships between them.
- - To minimize the need to learn new stuff by providing block-based API with
-similiar to delegate and data source naming.
- - To be easy to integrate into existing projects by avoiding custom cells and
- view controllers classes.
- - To provide simple data binding capabilities and make it optional to use.
+- Easy to use - block-based API naming is similiar to UITableView's delegate and data source methods.
+- Easy to integrate - custom UITableViewCell's and UIViewController's free.
+- Simple and optional data binding capabilities.
 
 ## Examples
