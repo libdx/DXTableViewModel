@@ -124,6 +124,7 @@
     emptySection.headerTitle = @"Empty One";
     emptySection.footerTitle = @"But it is exists";
 
+    // TODO: set custom backgroud color for header and footer
     DXTableViewSection *customHeaderFooterSection = [[DXTableViewSection alloc] initWithName:@"CustomHeaderFooter"];
     customHeaderFooterSection.viewForHeaderInSectionBlock = ^(DXTableViewSection *section) {
         UILabel *header = [[UILabel alloc] init];

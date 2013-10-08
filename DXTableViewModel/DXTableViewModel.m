@@ -245,6 +245,12 @@
 
 #pragma mark - Data binding
 
+- (void)updateRowBoundData
+{
+    for (DXTableViewSection *section in self.sections)
+        [section.rows makeObjectsPerformSelector:@selector(updateRowBoundData)];
+}
+
 - (void)updateRowObjects
 {
     for (DXTableViewSection *section in self.sections)
