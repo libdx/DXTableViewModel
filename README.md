@@ -36,7 +36,7 @@ Any bug reports, suggestions or pull requests are wellcome.
 
 Build table view with cell that will show alert on selection:
 
-```
+```objective-c
 	self.tableViewModel = [[DXTableViewModel alloc] init];
 	DXTableViewSection *buttonsSection = [[DXTableViewSection alloc] initWithName:@"Buttons"];
     buttonsSection.headerTitle = @"Buttons";
@@ -61,7 +61,8 @@ Build table view with cell that will show alert on selection:
 
 Animaged manipulations with rows and sections:
 
-```
+```objective-c
+
 
 	// assume section object is already added to table view model, newSection is configured with rows and table view is being displayed
 	[tableViewModel beginUpdates];
@@ -79,7 +80,8 @@ Animaged manipulations with rows and sections:
 
 Alternatevelly you can alter table view manually, `DXTableViewModel` classes will provide sufficient information:
 
-```	
+```objective-c
+	
 
 	NSInteger *deletedSectionIndex = [tableViewModel deleteSectionWithName:@"SomeSection"];
 	NSIndexPath *deletedRowIndexPath = [itemsSection removeRow:itemRow];
@@ -92,7 +94,8 @@ Alternatevelly you can alter table view manually, `DXTableViewModel` classes wil
 Creating editable forms. Bind object to row with cell created from xib.
 Bound object's key paths will be accessible from row object through subscript:
 
-```
+```objective-c
+
 
     DXTableViewRow *stepperRow = [[DXTableViewRow alloc] initWithCellReuseIdentifier:@"StepperCell"];
     stepperRow.cellNib = [UINib nibWithNibName:@"StepperCell" bundle:nil];
@@ -123,7 +126,8 @@ Bound object's key paths will be accessible from row object through subscript:
 
 Apply parameters to all rows in section:
 
-```
+```objective-c
+
     for (DXTableViewRow *row in textSection.rows) {
         row.editingStyle = UITableViewCellEditingStyleNone;
         row.shouldIndentWhileEditingRow = NO;
