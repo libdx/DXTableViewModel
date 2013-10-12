@@ -11,10 +11,8 @@
 #import "DXTableViewRow.h"
 
 /* TODO
- for v 0.1.0:
  - check animated sections manipulations (check nested and grouped manipulations precisely)
  - add documentation
- for v 0.2.0:
  - implement missing delegate methods (that is those that were added in iOS 7)
  - rethink about section titles implementation, make it object oriented (e.g. per section title)
  - remove tableViewDidAppear property (?)

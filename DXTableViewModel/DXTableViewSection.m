@@ -11,9 +11,7 @@
 #import "DXTableViewRow.h"
 
 /* TODO
- for v 0.1.0:
  - documentation
- for v 0.2.0:
  - add section wide row properties (or just use for..in and enumerateObjectsUsingBlock: on rows ?)
  - add convenience properties for header and footer view like headerText, headerDetailText, footerText, footerDetailText
  and update on configure[Header|Footer]

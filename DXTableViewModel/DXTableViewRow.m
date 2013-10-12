@@ -11,9 +11,7 @@
 #import "DXTableViewModel.h"
 
 /* TODO
- for v 0.1.0:
  - documentation
- for v 0.2.0:
  - add convenience properties: simple value properties for counterpart with block properties and vice versa
  - add convenience methods like: canCopyRow, canPasteRow etc.
  - add repeatable row feature when binding an array with following properties:

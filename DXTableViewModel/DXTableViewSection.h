@@ -134,37 +134,155 @@
 
 // convenience header-footer configuration methods
 
+/**
+ Block object that gives ability to configure section's header view before it will be displayed.
+
+ To be invoked on table view delegate method `tableView:viewForHeaderInSection:`,
+ which asks for view object to be displayed in header of this section.
+ Takes two parameters: section object and view object to be displayed as section's header.
+ The receiver is passed as `section` parameter.
+ `headerView` parameter is defined as `id` making it possible to substitue its type with appropriate `UIView` subclass.
+ Default is nil.
+ */
 @property (copy, nonatomic) void (^configureHeaderBlock)(DXTableViewSection *section, id headerView);
-@property (copy, nonatomic) void (^configureFooterBlock)(DXTableViewSection *section, id headerView);
+
+/**
+ Block object that gives ability to configure section's footer view before it will be displayed.
+
+ To be invoked on table view delegate method `tableView:viewForFooterInSection:`,
+ which asks for view object to be displayed in footer of this section.
+ Takes two parameters: section object and view object to be displayed as section's footer.
+ The receiver is passed as `section` parameter.
+ `footerView` parameter is defined as `id` making it possible to substitue its type with appropriate `UIView` subclass.
+ Default is nil.
+ */
+@property (copy, nonatomic) void (^configureFooterBlock)(DXTableViewSection *section, id footerView);
 
 #pragma mark - Header and Footer subclass hooks
 
+/**
+ Method that gives ability to configure section's header view before it will be displayed for subclasses.
+
+ To be invoked on table view delegate method `tableView:viewForHeaderInSection:`,
+ which asks for view object to be displayed in header of this section. This method is called before `configureHeaderBlock`.
+ You can access header view via `headerView` property.
+ */
 - (void)configureHeader;
+
+/**
+ Method that gives ability to configure section's footer view before it will be displayed for subclasses.
+
+ To be invoked on table view delegate method `tableView:viewForFooterInSection:`,
+ which asks for view object to be displayed in footer of this section. This method is called before `configureFooterBlock`.
+ You can access header view via `footerView` property.
+ */
 - (void)configureFooter;
 
 /// @name Building section
 #pragma mark Building section
 
+/**
+ Returns first `row` object with given `identifier` which is located at the greater row index than given `index`.
+ Returns `nil` if appropriate object is not found.
+ 
+ @param identifier Cell reuse identifier.
+ @param index The index in the section's rows after which to search row with appropriate cell reuse identifier.
+ */
 - (DXTableViewRow *)nextRowWithIdentifier:(NSString *)identifier greaterRowIndexThan:(NSInteger)index;
 
-// same as nextRowWithIdentifier:greaterThanRowIndex: where index = 0
+/**
+ Returns first `row` object with given `identifier`.
+ Returns `nil` if appropriate object is not found.
+ Same as `nextRowWithIdentifier:greaterRowIndexThan:` with `index` parameter equals 0.
+ 
+ @param identifier Cell reuse identifier.
+ */
 - (DXTableViewRow *)rowWithIdentifier:(NSString *)identifier;
 
+/**
+ Inserts `row` object at the end of the section's rows contents and returns index path object that represents location
+ of row in table view model and cell in table view. If section object is not inserted to model, section value of index path
+ object is `NSNotFound`.
+ @param row The row object to be inserted to section.
+ */
 - (NSIndexPath *)addRow:(DXTableViewRow *)row;
+
+/**
+ Inserts `row` object at the given `index` into the section's rows contents and returns index path object that represents location
+ of row in table view model and cell in table view. If section object is not inserted to model, section value of index path
+ object is `NSNotFound`.
+ 
+ @param row The row object to be inserted to section. Raises an `NSInvalidArgumentException` if `row` is nil.
+
+ @param index The index at which to insert `row` object. This value must not be greater than the number of rows in section.
+ Raises an NSRangeException if index is greater than the number of elements in the array.
+ */
 - (NSIndexPath *)insertRow:(DXTableViewRow *)row atIndex:(NSInteger)index;
+
+/**
+ Removes given `row` object from section's rows contents and returns index path object that represents location
+ of row in table view model and cell in table view. If section object is not inserted to model, section value of index path
+ object is `NSNotFound`.
+ @param row The row object to be removed from section.
+ */
 - (NSIndexPath *)removeRow:(DXTableViewRow *)row;
 
+/**
+ Inserts `row` object at the index next to `otherRow` object and returns index path object that represents location
+ of row in table view model and cell in table view. If section object is not inserted to model, section value of index path
+ object is `NSNotFound`.
+ 
+ @param row The row object to be inserted in section.
+ @param otherRow The row object. Must be already inserted into section and must be not `nil`.
+ */
 - (NSIndexPath *)insertRow:(DXTableViewRow *)row afterRow:(DXTableViewRow *)otherRow;
+
+/**
+ Inserts `row` object at the index previous to `otherRow` object and returns index path object that represents location 
+ of row in table view model and cell in table view. If section object is not inserted to model, section value of index path
+ object is `NSNotFound`.
+
+ @param row The row object to be inserted in section.
+ @param otherRow The row object to be shifted by adding 1 to its index. Must be already inserted into section and must be not `nil`.
+ */
 - (NSIndexPath *)insertRow:(DXTableViewRow *)row beforeRow:(DXTableViewRow *)otherRow;
+
+/**
+ Moves `row` object to the given `destinationIndexPath` and returns array containing `row`s index path at the first position
+ and `destinationIndexPath` at the second position. If section object is not inserted to model, section value of both index path
+ objects is `NSNotFound`.
+ 
+ @param row The row object to be moved. Must be already inserted to section.
+ @param destinationIndexPath Index path object that represents row that is destination of `row` object.
+ */
 - (NSArray *)moveRow:(DXTableViewRow *)row toIndexPath:(NSIndexPath *)destinationIndexPath;
 
 /// @name Animated row manupulations
 #pragma mark Animated row manupulations
 
+/**
+
+ */
 - (void)insertRows:(NSArray *)rows afterRow:(DXTableViewRow *)row withRowAnimation:(UITableViewRowAnimation)animation;
+
+/**
+
+ */
 - (void)insertRows:(NSArray *)rows beforeRow:(DXTableViewRow *)row withRowAnimation:(UITableViewRowAnimation)animation;
+
+/**
+
+ */
 - (void)deleteRows:(NSArray *)rows withRowAnimation:(UITableViewRowAnimation)animation;
+
+/**
+
+ */
 - (void)reloadRows:(NSArray *)rows withRowAnimation:(UITableViewRowAnimation)animation;
+
+/**
+
+ */
 - (void)moveRow:(DXTableViewRow *)row animatedToIndexPath:(NSIndexPath *)destinationIndexPath withRowAnimation:(UITableViewRowAnimation)animation;
 
 @end
