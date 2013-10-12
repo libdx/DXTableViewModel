@@ -67,8 +67,8 @@
 
 - (NSString *)description
 {
-    NSString *description = [super description];
-    description = [NSString stringWithFormat:@"%@: ID='%@', IndexPath=%@", description, self.cellReuseIdentifier, self.rowIndexPath];
+    NSString *description = [NSString stringWithFormat:@"<%@: %p; ID='%@'; indexPath=%@; sectionName='%@'>",
+                             [self class], self, self.cellReuseIdentifier, self.rowIndexPath, self.section.sectionName];
     return description;
 }
 

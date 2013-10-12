@@ -62,8 +62,7 @@
 
 - (NSString *)description
 {
-    NSString *description = [super description];
-    description = [NSString stringWithFormat:@"%@: sections=%@", description, self.mutableSections];
+    NSString *description = [NSString stringWithFormat:@"<%@: %p; sections=%@>", [self class], self, self.mutableSections];
     return description;
 }
 

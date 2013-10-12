@@ -59,8 +59,8 @@
 
 - (NSString *)description
 {
-    NSString *description = [super description];
-    description = [NSString stringWithFormat:@"%@: name='%@' index=%ld", description, self.sectionName, (long)self.sectionIndex];
+    NSString *description = [NSString stringWithFormat:@"<%@: %p; name='%@' index=%ld>",
+                             [self class], self, self.sectionName, (long)self.sectionIndex];
     return description;
 }
 
