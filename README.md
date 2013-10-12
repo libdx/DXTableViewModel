@@ -114,8 +114,8 @@ Bound object's key paths will be accessible from row object through subscript:
 	
 	// …
 
-	// call updateRowBoundData to refresh cached data in rows from bound objects:
-	[tableViewModel updateRowBoundData];
+	// call reloadRowBoundData to refresh cached data in rows from bound objects:
+	[tableViewModel reloadRowBoundData];
 ```
 
 Apply parameters to all rows in section:

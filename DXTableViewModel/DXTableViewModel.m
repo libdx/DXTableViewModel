@@ -245,10 +245,10 @@
 
 #pragma mark - Data binding
 
-- (void)updateRowBoundData
+- (void)reloadRowBoundData
 {
     for (DXTableViewSection *section in self.sections)
-        [section.rows makeObjectsPerformSelector:@selector(updateRowBoundData)];
+        [section.rows makeObjectsPerformSelector:@selector(reloadBoundData)];
 }
 
 - (void)updateRowObjects
