@@ -18,6 +18,7 @@ and `DXTableViewRow` objects respectively. `DXTableViewModel` is essentially UIT
 ### Notice
 
 This project is still in early stage of development, so use with caution.
+API breaking changes at this stage are quite likely.
 Any bug reports, suggestions or pull requests are wellcome.
 
 ## Key Features
@@ -30,7 +31,7 @@ Any bug reports, suggestions or pull requests are wellcome.
 - Tracking changes from UIControl subclasses and UITextView to cache cell state before its being reused. (optional)
 - Dynamic row height through `rowHeightBlock` property.
 - Registration of cells' classes and xibs provided through `cellClass` or `cellNib` properties.
-- Fully documented headers in appledoc style. (Coming soon…)
+- Fully documented headers in appledoc style. (Currently task in progress...)
 
 ## Examples
 
