@@ -244,7 +244,7 @@
     [self.tableViewModel.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:animation];
 }
 
-- (void)moveRow:(DXTableViewRow *)row animatedToIndexPath:(NSIndexPath *)destinationIndexPath withRowAnimation:(UITableViewRowAnimation)animation
+- (void)moveRow:(DXTableViewRow *)row animatedToIndexPath:(NSIndexPath *)destinationIndexPath
 {
     NSArray *indexPaths = [self moveRow:row toIndexPath:destinationIndexPath];
     [self.tableViewModel.tableView moveRowAtIndexPath:indexPaths[0] toIndexPath:indexPaths[1]];

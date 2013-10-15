@@ -233,7 +233,7 @@
  object is `NSNotFound`.
  
  @param row The row object to be inserted in section.
- @param otherRow The row object. Must be already inserted into section and must be not `nil`.
+ @param otherRow The row object. Must be already inserted into section and must not be `nil`.
  */
 - (NSIndexPath *)insertRow:(DXTableViewRow *)row afterRow:(DXTableViewRow *)otherRow;
 
@@ -261,28 +261,53 @@
 #pragma mark Animated row manupulations
 
 /**
+ Inserts `rows` objects starting at the index next to `otherRow` object to the receiver and appropriate cells to 
+ the associated table view with an option to animate the insertion.
 
+ @param rows An array of rows objects to be inserted in section.
+ @param otherRow The row object. Must be already inserted into section and must not be `nil`.
+ @param animation A constant that specifies type of animation when performing cells insertion.
  */
 - (void)insertRows:(NSArray *)rows afterRow:(DXTableViewRow *)row withRowAnimation:(UITableViewRowAnimation)animation;
 
 /**
+ Inserts `rows` objects in such way that last row appears at the index previous to `otherRow` object to the receiver and
+ appropriate cells to the associated table view with an option to animate the insertion.
 
+ @param rows An array of rows objects to be inserted in section.
+ @param otherRow The row object. Must be already inserted into section and must not be `nil`.
+ @param animation A constant that specifies type of animation when performing cells insertion.
  */
 - (void)insertRows:(NSArray *)rows beforeRow:(DXTableViewRow *)row withRowAnimation:(UITableViewRowAnimation)animation;
 
 /**
-
+ Removes given `rows` objects from receiver and appropriate cells from associated table view with an option to animate
+ the deletion.
+ 
+ @param rows An array of rows objects to be inserted in section.
+ @param animation A constant that specifies type of animation when performing cells deletion.
  */
 - (void)deleteRows:(NSArray *)rows withRowAnimation:(UITableViewRowAnimation)animation;
 
 /**
+ Reloads given `rows` objects from receiver and appropriate cells from associated table view with an option to animate
+ the reload.
+ 
+ Reloading rows causes to invoke its blocks and methods involved into cell creation and configuration: `configureCell`,
+ `willConfigureCell`, `didConfigureCell`, `cellForRowBlock`, `configureCellBlock`.
 
+ @param rows An array of rows objects to be inserted in section.
+ @param animation A constant that specifies type of animation when performing cells reload.
  */
 - (void)reloadRows:(NSArray *)rows withRowAnimation:(UITableViewRowAnimation)animation;
 
 /**
-
+ Moves `row` object to the specified location in the receiver and coresponding cell in the table view with default
+ animation for move operation of table view.
+ 
+ @param row The row object to be moved. Must be already inserted to section.
+ @param destinationIndexPath Index path object that represents row that is destination of `row` object.
  */
-- (void)moveRow:(DXTableViewRow *)row animatedToIndexPath:(NSIndexPath *)destinationIndexPath withRowAnimation:(UITableViewRowAnimation)animation;
+- (void)moveRow:(DXTableViewRow *)row animatedToIndexPath:(NSIndexPath *)destinationIndexPath;
 
 @end
