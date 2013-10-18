@@ -171,6 +171,14 @@
     return indexes.copy;
 }
 
+#pragma mark - Model building convenience methods
+
+- (void)addSections:(NSArray *)sections
+{
+    for (DXTableViewSection *section in sections)
+        [self addSection:section];
+}
+
 #pragma mark - respondsToSelector hacks
 
 - (BOOL)respondsToSelector:(SEL)aSelector

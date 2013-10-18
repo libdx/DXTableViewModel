@@ -46,6 +46,11 @@
 - (DXTableViewSection *)sectionWithName:(NSString *)name;
 - (NSInteger)indexOfSectionWithName:(NSString *)name;
 
+/// @name Model building convenience methods
+#pragma mark - Model building convenience methods
+
+- (void)addSections:(NSArray *)sections;
+
 /// @name Not animated sections manipulations
 #pragma mark - Not animated sections manipulations
 

@@ -206,6 +206,15 @@
     return @[indexPath, destinationIndexPath];
 }
 
+/// @name Building section convenience methods
+#pragma mark Building section convenience methods
+
+- (void)addRows:(NSArray *)rows
+{
+    for (DXTableViewRow *row in rows)
+        [self addRow:row];
+}
+
 #pragma mark Animated row manupulations
 
 - (void)insertRows:(NSArray *)rows afterRow:(DXTableViewRow *)row withRowAnimation:(UITableViewRowAnimation)animation
