@@ -257,6 +257,17 @@
  */
 - (NSArray *)moveRow:(DXTableViewRow *)row toIndexPath:(NSIndexPath *)destinationIndexPath;
 
+/// @name Building section convenience methods
+#pragma mark Building section convenience methods
+
+/**
+ Inserts `rows` objects at the end of the section's rows contents and returns index path objects that represent location
+ of rows in table view model and cells in table view. If section object is not inserted to model, section value of index path
+ objects is `NSNotFound`.
+ @param rows An array of `DXTableViewRow` objects to be inserted to section.
+ */
+- (void)addRows:(NSArray *)rows;
+
 /// @name Animated row manupulations
 #pragma mark Animated row manupulations
 
