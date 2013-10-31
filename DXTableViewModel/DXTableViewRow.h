@@ -21,22 +21,91 @@
 /// @name General properties and methods
 #pragma mark - General properties and methods
 
+/**
+ Table view model object that owns the receiver.
+ */
 @property (strong, nonatomic, readonly) DXTableViewModel *tableViewModel;
+
+/**
+ Section object that owns the receiver.
+ */
 @property (strong, nonatomic, readonly) DXTableViewSection *section;
+
+/**
+ An table view object to be configured by receiver's `tableViewModel`.
+ */
 @property (strong, nonatomic, readonly) UITableView *tableView;
 
+/**
+ An table view cell object to be configured by receiver.
+ */
 @property (strong, nonatomic, readonly) id cell;
+
+/**
+ String identifier to be used as `reuseIdentifier` of the `cell` object.
+ */
 @property (copy, nonatomic) NSString *cellReuseIdentifier;
+
+/**
+ Class object to be registered in creating `cell` object. Default is `nil`.
+
+ If `cellClass` is not `nil` `cellNib` property will be ignored.
+ You must provide either cell class, cell nib or declare cell in storyboard with reuse identifier equals to `cellReuseIdentifier`.
+ 
+ @see cellNib
+ @see cellReuseIdentifier
+ */
 @property (unsafe_unretained, nonatomic) Class cellClass;
+
+/**
+ Nib object to be registered in creating `cell` object. Default is `nil`.
+
+ If `cellClass` is not `nil` `cellNib` property will be ignored.
+ You must provide either cell class, cell nib or declare cell in storyboard with reuse identifier equals to `cellReuseIdentifier`.
+
+ @see cellNib
+ @see cellReuseIdentifier
+ */
 @property (strong, nonatomic) UINib *cellNib;
 
+/**
+ Height to be used for row represented by the receiver in table view. Default is UITableViewAutomaticDimension.
+ 
+ @see rowHeightBlock
+ */
 @property (nonatomic) CGFloat rowHeight;
+
+/**
+ Block object to be invoked on table view delegate method `tableView:heightForRowAtIndexPath` 
+ for retrieving height for row represented by the receiver in table view. Takes one parameter: row object
+ (the receiver is passed as `row` parameter) and returns float value of row height. If not `nil` 
+ `rowHeight` property will be ignored. Default is `nil`.
+ 
+ @see rowHeight
+ */
 @property (copy, nonatomic) CGFloat (^rowHeightBlock)(DXTableViewRow *row);
 
+/**
+ Boolean value that indicates if the row represented by the receiver should be highlighted. Default is NO.
+ */
 @property (nonatomic) BOOL shouldHighlightRow;
 
+/**
+ The editing style of the cell represented by receiver. Default UITableViewCellEditingStyleDelete.
+ */
 @property (nonatomic) UITableViewCellEditingStyle editingStyle;
+
+/**
+ String to be used as a title for delete confirmation button. Default is `nil`.
+ 
+ UITableView doesn't allow to selectively show custom title for 
+
+ In order to show custom titles for delete confirmation buttons in table view
+ set [DXTableViewModel showsDefaultTitleForDeleteConfirmationButton] property to NO. In this case default value will be
+ empty and you should provide localized titles for each row in the table view. This is limitation of UITableView.
+ */
 @property (copy, nonatomic) NSString *titleForDeleteConfirmationButton;
+
 @property (copy, nonatomic) void (^willBeginEditingRowBlock)(DXTableViewRow *row);
 @property (copy, nonatomic) void (^didEndEditingRowBlock)(DXTableViewRow *row);
 

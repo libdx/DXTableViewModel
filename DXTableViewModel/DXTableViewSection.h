@@ -22,7 +22,7 @@
 #pragma mark - General methods and properties
 
 /**
- Table view model object that owns this section object.
+ Table view model object that owns receiver.
  */
 @property (strong, nonatomic, readonly) DXTableViewModel *tableViewModel;
 
@@ -32,7 +32,7 @@
 @property (copy, nonatomic) NSString *sectionName;
 
 /**
- Number or row in this section object.
+ Number or row in receiver.
  */
 @property (nonatomic, readonly) NSInteger numberOfRows;
 
@@ -56,64 +56,64 @@
 #pragma mark - Header and Footer support
 
 /**
- String to be displayed as title for the header of this section.
+ String to be displayed as title for the header of receiver.
  */
 @property (copy, nonatomic) NSString *headerTitle;
 
 /**
- String to be displayed as title for the footer of this section.
+ String to be displayed as title for the footer of receiver.
  */
 @property (copy, nonatomic) NSString *footerTitle;
 
 /**
- View to be displayed as header of this section
+ View to be displayed as header of receiver
  */
 @property (nonatomic, readonly) UIView *headerView;
 
 /**
- View to be displayed as footer of this section
+ View to be displayed as footer of receiver
  */
 @property (nonatomic, readonly) UIView *footerView;
 
 /**
- Height to use for the header of this section. Default is `UITableViewAutomaticDimension`.
+ Height to use for the header of receiver. Default is `UITableViewAutomaticDimension`.
  */
 @property (nonatomic) CGFloat headerHeight;
 
 /**
- Height to use for the footer of this section. Default is `UITableViewAutomaticDimension`.
+ Height to use for the footer of receiver. Default is `UITableViewAutomaticDimension`.
  */
 @property (nonatomic) CGFloat footerHeight;
 
 /**
- Reuse identifier to be used for the header view of this section in case header view is kind of class
+ Reuse identifier to be used for the header view of receiver in case header view is kind of class
  `UITableViewHeaderFooterView`. Ignored otherwise. Default is nil.
  */
 @property (copy, nonatomic) NSString *headerReuseIdentifier;
 
 /**
- Reuse identifier to be used for the footer view of this section in case footer view is kind of class
+ Reuse identifier to be used for the footer view of receiver in case footer view is kind of class
  `UITableViewHeaderFooterView`. Ignored otherwise. Default is nil.
  */
 @property (copy, nonatomic) NSString *footerReuseIdentifier;
 
 /**
- Class to be registered for header view of this section. Must be subclass of `UIView`. Default is nil.
+ Class to be registered for header view of receiver. Must be subclass of `UIView`. Default is nil.
  */
 @property (unsafe_unretained, nonatomic) Class headerClass;
 
 /**
- Class to be registered for footer view of this section. Must be subclass of `UIView`. Default is nil.
+ Class to be registered for footer view of receiver. Must be subclass of `UIView`. Default is nil.
  */
 @property (unsafe_unretained, nonatomic) Class footerClass;
 
 /**
- Nib object to be registered for header view of this section. Default is nil.
+ Nib object to be registered for header view of receiver. Default is nil.
  */
 @property (strong, nonatomic) UINib *headerNib;
 
 /**
- Nib object ot be registered for footer view of this section. Default is nil.
+ Nib object ot be registered for footer view of receiver. Default is nil.
  */
 @property (strong, nonatomic) UINib *footerNib;
 
@@ -122,13 +122,13 @@
 
 /**
  Block object to be invoked on table view delegate method `tableView:willDisplayHeaderView:forSection:`
- which tells that header about to be displayed. Takes two parameters: this section object and header view. Default is nil.
+ which tells that header about to be displayed. Takes two parameters: receiver and header view. Default is nil.
  */
 @property (copy, nonatomic) void (^willDisplayHeaderViewBlock)(DXTableViewSection *section, UIView *view);
 
 /**
  Block object to be invoked on table view delegate method  `tableView:willDisplayFooterView:forSection:`
- which tells that footer about to be displayed. Takes two parameters: this section object and footer view. Default is nil.
+ which tells that footer about to be displayed. Takes two parameters: receiver and footer view. Default is nil.
  */
 @property (copy, nonatomic) void (^willDisplayFooterViewBlock)(DXTableViewSection *section, UIView *view);
 
@@ -138,7 +138,7 @@
  Block object that gives ability to configure section's header view before it will be displayed.
 
  To be invoked on table view delegate method `tableView:viewForHeaderInSection:`,
- which asks for view object to be displayed in header of this section.
+ which asks for view object to be displayed in header of receiver.
  Takes two parameters: section object and view object to be displayed as section's header.
  The receiver is passed as `section` parameter.
  `headerView` parameter is defined as `id` making it possible to substitue its type with appropriate `UIView` subclass.
@@ -150,7 +150,7 @@
  Block object that gives ability to configure section's footer view before it will be displayed.
 
  To be invoked on table view delegate method `tableView:viewForFooterInSection:`,
- which asks for view object to be displayed in footer of this section.
+ which asks for view object to be displayed in footer of receiver.
  Takes two parameters: section object and view object to be displayed as section's footer.
  The receiver is passed as `section` parameter.
  `footerView` parameter is defined as `id` making it possible to substitue its type with appropriate `UIView` subclass.
@@ -164,7 +164,7 @@
  Method that gives ability to configure section's header view before it will be displayed for subclasses.
 
  To be invoked on table view delegate method `tableView:viewForHeaderInSection:`,
- which asks for view object to be displayed in header of this section. This method is called before `configureHeaderBlock`.
+ which asks for view object to be displayed in header of receiver. This method is called before `configureHeaderBlock`.
  You can access header view via `headerView` property.
  */
 - (void)configureHeader;
@@ -173,7 +173,7 @@
  Method that gives ability to configure section's footer view before it will be displayed for subclasses.
 
  To be invoked on table view delegate method `tableView:viewForFooterInSection:`,
- which asks for view object to be displayed in footer of this section. This method is called before `configureFooterBlock`.
+ which asks for view object to be displayed in footer of receiver. This method is called before `configureFooterBlock`.
  You can access header view via `footerView` property.
  */
 - (void)configureFooter;
