@@ -92,6 +92,8 @@
 
 /**
  The editing style of the cell represented by receiver. Default UITableViewCellEditingStyleDelete.
+ 
+ @see canEditRow
  */
 @property (nonatomic) UITableViewCellEditingStyle editingStyle;
 
@@ -106,10 +108,32 @@
  */
 @property (copy, nonatomic) NSString *titleForDeleteConfirmationButton;
 
+/**
+ Block object to be invoked on table view delegate method `tableView:willBeginEditingRowAtIndexPath:`
+ which tells that the table view is about to go into editing mode. Takes one parameter: row object
+ (the receiver is passed as `row` parameter).
+ */
 @property (copy, nonatomic) void (^willBeginEditingRowBlock)(DXTableViewRow *row);
+
+/**
+ Block object to be invoked on table view delegate method `tableView:willBeginEditingRowAtIndexPath:`
+ which tells that the table view has left editing mode. Takes one parameter: row object
+ (the receiver is passed as `row` parameter).
+ */
 @property (copy, nonatomic) void (^didEndEditingRowBlock)(DXTableViewRow *row);
 
+/**
+ Boolean value that specifies whether row represented by the receiver can be moved to another location in the table view.
+ Default is NO.
+ */
 @property (nonatomic) BOOL canMoveRow;
+
+/**
+ Boolean value that specifier whether row represented by the receiver editable. If YES insertion or deletion control
+ will be shown whithin the row's cell in edit mode. Default is YES.
+ 
+ @see editingStyle
+ */
 @property (nonatomic) BOOL canEditRow;
 
 @property (nonatomic) BOOL shouldIndentWhileEditingRow;
