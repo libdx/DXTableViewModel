@@ -129,13 +129,17 @@
 @property (nonatomic) BOOL canMoveRow;
 
 /**
- Boolean value that specifier whether row represented by the receiver editable. If YES insertion or deletion control
+ Boolean value that specifies whether row represented by the receiver editable. If YES insertion or deletion control
  will be shown whithin the row's cell in edit mode. Default is YES.
  
  @see editingStyle
  */
 @property (nonatomic) BOOL canEditRow;
 
+/**
+ Boolean value that specifies whether content of tow represented by the receiver should be indented while table view
+ is in editing mode.
+ */
 @property (nonatomic) BOOL shouldIndentWhileEditingRow;
 @property (nonatomic) NSInteger indentationLevelForRow;
 
