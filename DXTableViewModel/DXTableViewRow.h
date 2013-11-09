@@ -138,19 +138,62 @@
 
 /**
  Boolean value that specifies whether content of tow represented by the receiver should be indented while table view
- is in editing mode.
+ is in editing mode. Default is YES
  */
 @property (nonatomic) BOOL shouldIndentWhileEditingRow;
+
+/**
+ Level of indentation for a row represented by the receiver. Default is 0.
+ */
 @property (nonatomic) NSInteger indentationLevelForRow;
 
+/**
+ An index path object that identifies position of row in table view model and table view.
+ Is `nil` if receiver is not inserted into section. Section index is `NSNotFound` if receiver inserted into section,
+ but section is not inserted into model.
+ */
 @property (strong, nonatomic, readonly) NSIndexPath *rowIndexPath;
 
+/**
+ Block object to be invoked on table view delegate method `tableView:didHighlightRowAtIndexPath:`
+ which tells that the table view did highlight represented by the receiver row. Takes one parameter: row object
+ (the receiver is passed as `row` parameter).
+ */
 @property (copy, nonatomic) void (^didHighlightRowBlock)(DXTableViewRow *row);
+
+/**
+ Block object to be invoked on table view delegate method `tableView:didUnhighlightRowAtIndexPath:`
+ which tells that the table view did unhighlight represented by the receiver row. Takes one parameter: row object
+ (the receiver is passed as `row` parameter).
+ */
 @property (copy, nonatomic) void (^didUnhighlightRowBlock)(DXTableViewRow *row);
+
+/**
+ Block object to be invoked on table view delegate method `tableView:willSelectRowAtIndexPath:`
+ which tells that the table view about to select represented by the receiver row. Takes one parameter: row object
+ (the receiver is passed as `row` parameter).
+ */
 @property (copy, nonatomic) NSIndexPath *(^willSelectRowBlock)(DXTableViewRow *row);
+
+/**
+ Block object to be invoked on table view delegate method `tableView:willDeselectRowAtIndexPath:`
+ which tells that the table view about to deselect represented by the receiver row. Takes one parameter: row object
+ (the receiver is passed as `row` parameter).
+ */
 @property (copy, nonatomic) NSIndexPath *(^willDeselectRowBlock)(DXTableViewRow *row);
 
+/**
+ Block object to be invoked on table view delegate method `tableView:didSelectRowAtIndexPath:`
+ which tells that the table view did select represented by the receiver row. Takes one parameter: row object
+ (the receiver is passed as `row` parameter).
+ */
 @property (copy, nonatomic) void (^didSelectRowBlock)(DXTableViewRow *row);
+
+/**
+ Block object to be invoked on table view delegate method `tableView:didDeselectRowAtIndexPath:`
+ which tells that the table view did deselect represented by the receiver row. Takes one parameter: row object
+ (the receiver is passed as `row` parameter).
+ */
 @property (copy, nonatomic) void (^didDeselectRowBlock)(DXTableViewRow *row);
 @property (copy, nonatomic) void (^commitEditingStyleForRowBlock)(DXTableViewRow *row);
 @property (copy, nonatomic) void (^willDisplayCellBlock)(DXTableViewRow *row, id cell);
