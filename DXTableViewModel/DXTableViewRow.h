@@ -170,14 +170,14 @@
 
 /**
  Block object to be invoked on table view delegate method `tableView:willSelectRowAtIndexPath:`
- which tells that the table view about to select represented by the receiver row. Takes one parameter: row object
+ which tells that the table view is about to select represented by the receiver row. Takes one parameter: row object
  (the receiver is passed as `row` parameter).
  */
 @property (copy, nonatomic) NSIndexPath *(^willSelectRowBlock)(DXTableViewRow *row);
 
 /**
  Block object to be invoked on table view delegate method `tableView:willDeselectRowAtIndexPath:`
- which tells that the table view about to deselect represented by the receiver row. Takes one parameter: row object
+ which tells that the table view is about to deselect represented by the receiver row. Takes one parameter: row object
  (the receiver is passed as `row` parameter).
  */
 @property (copy, nonatomic) NSIndexPath *(^willDeselectRowBlock)(DXTableViewRow *row);
@@ -195,9 +195,26 @@
  (the receiver is passed as `row` parameter).
  */
 @property (copy, nonatomic) void (^didDeselectRowBlock)(DXTableViewRow *row);
+
+/**
+ Block object to be invoked on table view delegate method `tableView:commitEditingStyle:forRowAtIndexPath:`
+ which asks to commit insertion or deletion of represented by the receiver row. Takes one parameter: row object
+ (the receiver is passed as `row` parameter).
+ */
 @property (copy, nonatomic) void (^commitEditingStyleForRowBlock)(DXTableViewRow *row);
+
+/**
+ Block object to be invoked on table view delegate method `tableView:willDisplayCell:forRowAtIndexPath:`
+ which tells that the table view is about to show a cell for represented by the receiver row. 
+ Takes one parameter: row object (the receiver is passed as `row` parameter).
+ */
 @property (copy, nonatomic) void (^willDisplayCellBlock)(DXTableViewRow *row, id cell);
 
+/**
+ Block object to be invoked on table view delegate method `tableView:accessoryButtonTappedForRowWithIndexPath:`
+ which tells that the user tapped accessory view of represented by the receiver row.
+ Takes one parameter: row object (the receiver is passed as `row` parameter).
+ */
 @property (copy, nonatomic) void (^accessoryButtonTappedForRowBlock)(DXTableViewRow *row);
 
 @property (copy, nonatomic) UITableViewCell *(^cellForRowBlock)(DXTableViewRow *row);
