@@ -217,7 +217,28 @@
  */
 @property (copy, nonatomic) void (^accessoryButtonTappedForRowBlock)(DXTableViewRow *row);
 
+/**
+ Block object to be invoked on table view data source method `tableView:cellForRowAtIndexPath:`
+ which asks for configured cell to be shown. Takes one parameter: row object (the receiver is passed as `row` parameter).
+ 
+ Providing this block you are responsible for dequeuing cells from table view just as well you implement
+ `tableView:cellForRowAtIndexPath:` data source method. It is recommended to use `configureCellBlock` property 
+ as more convinience way to configure cells.
+ 
+ @see configureCellBlock
+ */
 @property (copy, nonatomic) UITableViewCell *(^cellForRowBlock)(DXTableViewRow *row);
+
+/**
+ Block object to be invoked on table view data source method `tableView:cellForRowAtIndexPath:`
+ which asks for configured cell to be shown. Takes one parameter: row object and cell object;
+ (the receiver is passed as `row` parameter).
+ 
+ This block object is invoked after cell object's dequeue and gives ability to configure cell object.
+ Cell is pass as `id` so you can substitute its type by concrete `UITableViewCell` type in block's argument list.
+ 
+ @see cellForRowBlock
+ */
 @property (copy, nonatomic) void (^configureCellBlock)(DXTableViewRow *row, id cell);
 
 @property (nonatomic) BOOL shouldShowMenuForRow;
