@@ -241,24 +241,100 @@
  */
 @property (copy, nonatomic) void (^configureCellBlock)(DXTableViewRow *row, id cell);
 
+/**
+ Boolean values that determines if the editing menu should be shown on long tap for row represented by the receiver. Default is NO.
+ 
+ @see canPerformActionBlock
+ */
 @property (nonatomic) BOOL shouldShowMenuForRow;
+
+/**
+ Block object to be invoked on table view delegate method `tableView:canPerformAction:forRowAtIndexPath:withSender`
+ which asks if copy or paste items should be shown in editing menu. Takes three parameters: row object
+ (the receiver is passed as `row` parameter), action (can be either selector `copy:` or `paster:`) and sender
+ (the object that sent message).
+ 
+ @see shouldShowMenuForRow
+ */
 @property (copy, nonatomic) BOOL (^canPerformActionBlock)(DXTableViewRow *row, SEL action, id sender);
+
+/**
+ Block object to be invoked on table view delegate method `tableView:performAction:forRowAtIndexPath:withSender:`
+ which tells to perform copy or paster action. Takes three arguments: row object
+ (the receiver is passed as `row` parameter), action (can be either selector `copy:` or `paster:`) and sender
+ (the object that sent message).
+ */
 @property (copy, nonatomic) void (^performActionBlock)(DXTableViewRow *row, SEL action, id sender);
 
+/**
+ Returns configured row object.
+ 
+ @param identifier A string to be used as reuse identifier of table view cell
+ */
 - (instancetype)initWithCellReuseIdentifier:(NSString *)identifier;
 
 #pragma mark - Convenience methods
 
+/**
+ String to be used as cell's textLabel text value.
+ 
+ This allows quick cell's prototyping without need to provide `configureCellBlock`.
+ If any other value than `nil` is given textLabel will be configured before `configureCellBlock` call, but
+ after `cellForRowBlock` call.
+ */
 @property (copy, nonatomic) NSString *cellText;
+
+/**
+ String to be used as cell's detailTextLabel text value.
+ 
+ This allows quick cell's prototyping without need to provide `configureCellBlock`.
+ If any other value than `nil` is given detailTextLabel will be configured before `configureCellBlock` call, but
+ after `cellForRowBlock` call. In order to display detailTextLabel cell must be configured in xib/storyboard or instantinated
+ in `cellForRowBlock` with appropriet cell style.
+ */
 @property (copy, nonatomic) NSString *cellDetailText;
+
+/**
+ String to be used as cell's imageView image value.
+ 
+ This allows quick cell's prototyping without need to provide `configureCellBlock`.
+ If any other value than `nil` is given imageView will be configured before `configureCellBlock` call, but
+ after `cellForRowBlock` call. In order to display imageView cell must be configured in xib/storyboard or instantinated
+ in `cellForRowBlock` with appropriet cell style.
+ */
 @property (strong, nonatomic) UIImage *cellImage;
 
 #pragma mark - Data Bind Capabilities
 
+/**
+ Object that was bound to the receiver with one of the following methods: `bindObject:withKeyPath:` or `bindObject:withKeyPaths:`.
+ 
+ Listed values as key paths of this object are accessible via receiver's subscript.
+ `updateObject` method changes `boundObject`.  `reloadBoundData` and `reloadRow` loads data from `boundObject`.
+
+ @see bindObject:withKeyPath:
+ @see bindObject:withKeyPaths:
+ @see reloadBoundData
+ @see updateObject
+ */
 @property (strong, nonatomic, readonly) id boundObject;
 
+/**
+ List of key paths of data object that were bound to the receiver with one of the following method: `bindObject:withKeyPath:`,
+ `bindObject:withKeyPaths:`.
+ 
+ Theirs values are accessible via receiver's subscript.
+ 
+ @see bindObject:withKeyPath:
+ @see bindObject:withKeyPaths:
+ @see reloadBoundData
+ @see updateObject
+ */
 @property (strong, nonatomic, readonly) NSArray *boundKeyPaths;
 
+
+// For instance, if you did bind data object with key path "track.name",
+// you can get track's name value like this: row[@"track.name"].
 - (void)bindObject:(id)object withKeyPath:(NSString *)keyPath;
 
 - (void)bindObject:(id)object withKeyPaths:(NSArray *)keyPaths;
@@ -288,16 +364,20 @@
 
 /**
  Sequentially calls reloadBoundData and reloadCell.
+ 
+ @see reloadBoundData
  */
 - (void)reloadRow;
 
 /**
- Reload data from bound object into row using bound keys to be accessible via subscript.
+ Reload data from bound object into the receiver using bound keys to be accessible via subscript.
+ 
+ @see reloadRow
  */
 - (void)reloadBoundData;
 
 /**
- Update bound object with row's bound data.
+ Update bound object with receiver's bound data.
  
  If you did track changes from cell's controls and store them, or any other data, using subscript into row to previously
  bound key paths, this method will push these values into `boundObject` for each key path from `boundKeyPaths`.
