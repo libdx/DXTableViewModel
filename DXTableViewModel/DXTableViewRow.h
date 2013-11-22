@@ -364,11 +364,12 @@
  Makes receiver a target of given `control` object for particular events.
 
  Usage:
+
   ```
-  [row becomeTargetOfControl:cell.stepper forControlEvents:UIControlEventValueChanged withBlock:^(UIStepper *stepper) {
-      cell.textLabel.text = [NSString stringWithFormat:@"%f", stepper.value];
-      row[@"amount"] = @(stepper.value);
-  }];
+      [row becomeTargetOfControl:cell.stepper forControlEvents:UIControlEventValueChanged withBlock:^(UIStepper *stepper) {
+          cell.textLabel.text = [NSString stringWithFormat:@"%f", stepper.value];
+          row[@"amount"] = @(stepper.value);
+      }];
   ```
  @param control UIControl subclass object.
  @param controlEvents Bitmask that specifies particular control events.
