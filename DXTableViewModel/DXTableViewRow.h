@@ -332,26 +332,66 @@
  */
 @property (strong, nonatomic, readonly) NSArray *boundKeyPaths;
 
+/**
+ Binds value of the given `object` with provided `keyPath` to the receiver.
 
-// For instance, if you did bind data object with key path "track.name",
-// you can get track's name value like this: row[@"track.name"].
+ Receiver keeps strong reference on `object` that is accessible through `boundObject` property. `keyPath`
+ is stored in `boundKeyPaths` array. Bound values are accessible via receiver subscript using given `keyPath`.
+ For instance, if you did bind data object with key path "track.name", you can get track's name value like this: row[@"track.name"].
+ 
+ @param object An object with key-value-coding compliant properties.
+ @param keyPath Key path that refers to key-value coding compliant property of `object`.
+ 
+ @see bindObject:withKeyPaths:
+ */
 - (void)bindObject:(id)object withKeyPath:(NSString *)keyPath;
 
+/**
+ Binds values of the given `object` with provided `keyPaths` to the receiver.
+ 
+ Receiver keeps strong reference on `object` that is accessible through `boundObject` property. `keyPaths`
+ is stored in `boundKeyPaths` array. Bound values are accessible via receiver subscript using any key path from given `keyPaths`.
+ For instance, if you did bind data object with key path "track.name", you can get track's name value like this: row[@"track.name"].
+
+ @param object An object with key-value-coding compliant properties.
+ @param keyPath Key paths that refer to key-value coding compliant properties of `object`.
+
+ @see bindObject:withKeyPath:
+ */
 - (void)bindObject:(id)object withKeyPaths:(NSArray *)keyPaths;
 
-// Usage:
-//  ```
-//  [row becomeTargetOfControl:cell.stepper forControlEvents:UIControlEventValueChanged withBlock:^(UIStepper *stepper) {
-//      cell.textLabel.text = [NSString stringWithFormat:@"%f", stepper.value];
-//      row[@"amount"] = @(stepper.value);
-//  }];
-//  ```
+/**
+ Makes receiver a target of given `control` object for particular events.
+
+ Usage:
+  ```
+  [row becomeTargetOfControl:cell.stepper forControlEvents:UIControlEventValueChanged withBlock:^(UIStepper *stepper) {
+      cell.textLabel.text = [NSString stringWithFormat:@"%f", stepper.value];
+      row[@"amount"] = @(stepper.value);
+  }];
+  ```
+ @param control UIControl subclass object.
+ @param controlEvents Bitmask that specifies particular control events.
+ @param block A block object to be invoked when specified control events occur.
+ */
 - (void)becomeTargetOfControl:(UIControl *)control
              forControlEvents:(UIControlEvents)controlEvents
                     withBlock:(void (^)(id))block;
 
+/**
+ Makes receiver a delegate of given `textView` object with `textViewDidChange:` method.
+ 
+ @param textView UITextView object.
+ @param block A block object to be invoked when text or attributes of the `textVeiw` were changed by user.
+ */
 - (void)becomeDelegateOfTextViewForDidChange:(UITextView *)textView withBlock:(void (^)(UITextView *))block;
 
+/**
+ Convenience method that makes receiver a target of given `textField` for `UIControlEventEditingChanged` control event.
+ 
+ @param textField UITextField object.
+ @param block A block object to be invoked when editing changed event of given `textField` occur.
+ */
 - (void)becomeTargetOfTextFieldForEditingChanged:(UITextField *)textField withBlock:(void (^)(UITextField *))block;
 
 #pragma mark - Handling Row and Cell States
@@ -386,21 +426,72 @@
 
 #pragma mark - Subclass Hooks
 
+/**
+ Invoked just before given `object` will be bind to the receiver. To be overridden in subclasses. Default implementation does nothing.
+
+ @see bindObject:withKeyPaths:
+ */
 - (void)willBindObject:(id)object withKeyPaths:(NSArray *)keyPaths;
+
+/**
+ Invoked just after given `object` was bound to the receiver. To be overridden in subclasses. Default implementation does nothing.
+ 
+ @see bindObject:withKeyPaths:
+ */
 - (void)didBindObject:(id)object withKeyPaths:(NSArray *)keyPaths;
 
+/**
+ Invoked just before cell will be configured. To be overridden in subclasses. Default implementation does nothing.
+
+ @see configureCell
+ */
 - (void)willConfigureCell;
+
+/**
+ Invoked just after cell was configured. To be overridden in subclasses. Default implementation does nothing.
+ 
+ @see configureCell
+ */
 - (void)didConfigureCell;
 
+/**
+ Invoked just before data from bound object will be reloaded into receiver. To be overridden in subclasses. Default implementation does nothing.
+
+ @see reloadBoundData
+ */
 - (void)willReloadBoundData;
+
+/**
+ Invoked just after data from bound object were reloaded into receiver. To be overridden in subclasses. Default implementation does nothing.
+ 
+ @see reloadBoundData
+ */
 - (void)didReloadBoundData;
 
+/**
+ Invoked just before `boundObject` will be updated with receiver's data. To be overridden in subclasses. Default implementation does nothing.
+ 
+ @see updateObject
+ */
 - (void)willUpdateObject;
+
+/**
+ Invoked just after `boundObject` was updated with receiver's data. To be overridden in subclasses. Default implementation does nothing.
+ 
+ @see updateObject
+ */
 - (void)didUpdateObject;
 
 #pragma mark - Subscript
 
+/**
+ Provides support for subscript allows retrieve values for `key`.
+ */
 - (id)objectForKeyedSubscript:(id)key;
+
+/**
+ Provides support for subscript allows set values for `key`.
+ */
 - (void)setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key;
 
 @end
