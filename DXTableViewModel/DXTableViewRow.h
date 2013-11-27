@@ -103,7 +103,7 @@
  UITableView doesn't allow to selectively show custom title for 
 
  In order to show custom titles for delete confirmation buttons in table view
- set [DXTableViewModel showsDefaultTitleForDeleteConfirmationButton] property to NO. In this case default value will be
+ set `[DXTableViewModel showsDefaultTitleForDeleteConfirmationButton]` property to NO. In this case default value will be
  empty and you should provide localized titles for each row in the table view. This is limitation of UITableView.
  */
 @property (copy, nonatomic) NSString *titleForDeleteConfirmationButton;
@@ -354,7 +354,7 @@
  For instance, if you did bind data object with key path "track.name", you can get track's name value like this: row[@"track.name"].
 
  @param object An object with key-value-coding compliant properties.
- @param keyPath Key paths that refer to key-value coding compliant properties of `object`.
+ @param keyPaths Key paths that refer to key-value coding compliant properties of `object`.
 
  @see bindObject:withKeyPath:
  */
@@ -430,12 +430,18 @@
 /**
  Invoked just before given `object` will be bind to the receiver. To be overridden in subclasses. Default implementation does nothing.
 
+ @param object An object with key-value-coding compliant properties.
+ @param keyPaths Key paths that refer to key-value coding compliant properties of `object`.
+ 
  @see bindObject:withKeyPaths:
  */
 - (void)willBindObject:(id)object withKeyPaths:(NSArray *)keyPaths;
 
 /**
  Invoked just after given `object` was bound to the receiver. To be overridden in subclasses. Default implementation does nothing.
+
+ @param object An object with key-value-coding compliant properties.
+ @param keyPaths Key paths that refer to key-value coding compliant properties of `object`.
  
  @see bindObject:withKeyPaths:
  */
@@ -487,11 +493,16 @@
 
 /**
  Provides support for subscript allows retrieve values for `key`.
+ 
+ @param key The key for which to return the appropriate value
  */
 - (id)objectForKeyedSubscript:(id)key;
 
 /**
  Provides support for subscript allows set values for `key`.
+ 
+ @param obj An object to set as value
+ @param key The key for a given value (`obj`)
  */
 - (void)setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key;
 

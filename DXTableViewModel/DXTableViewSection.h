@@ -276,7 +276,7 @@
  the associated table view with an option to animate the insertion.
 
  @param rows An array of rows objects to be inserted in section.
- @param otherRow The row object. Must be already inserted into section and must not be `nil`.
+ @param row The row object. Must be already inserted into section and must not be `nil`.
  @param animation A constant that specifies type of animation when performing cells insertion.
  */
 - (void)insertRows:(NSArray *)rows afterRow:(DXTableViewRow *)row withRowAnimation:(UITableViewRowAnimation)animation;
@@ -286,7 +286,7 @@
  appropriate cells to the associated table view with an option to animate the insertion.
 
  @param rows An array of rows objects to be inserted in section.
- @param otherRow The row object. Must be already inserted into section and must not be `nil`.
+ @param row The row object. Must be already inserted into section and must not be `nil`.
  @param animation A constant that specifies type of animation when performing cells insertion.
  */
 - (void)insertRows:(NSArray *)rows beforeRow:(DXTableViewRow *)row withRowAnimation:(UITableViewRowAnimation)animation;

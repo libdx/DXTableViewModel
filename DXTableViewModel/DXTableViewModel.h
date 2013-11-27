@@ -19,8 +19,14 @@
 /// @name General methods and properties
 #pragma mark - General methods and properties
 
+/**
+ An table view object to be configured by receiver.
+ */
 @property (strong, nonatomic) UITableView *tableView;
 
+/**
+ Array of inserted section objects
+ */
 @property (copy, nonatomic) NSArray *sections;
 
 @property (copy, nonatomic) NSArray *(^sectionIndexTitlesBlock)();
