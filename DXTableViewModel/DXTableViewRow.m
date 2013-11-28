@@ -169,6 +169,7 @@
     [self didConfigureCell];
 }
 
+// TODO: it looks like this method mustn't be public
 - (void)reloadRow
 {
     [self reloadBoundData];
