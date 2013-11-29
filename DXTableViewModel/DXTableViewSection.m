@@ -129,7 +129,7 @@
     __block DXTableViewRow *res;
     [self.rows enumerateObjectsUsingBlock:^(DXTableViewRow *row, NSUInteger anIndex, BOOL *stop) {
         BOOL hasGivenIdentifier = [row.cellReuseIdentifier isEqualToString:identifier];
-        BOOL hasIndexGreaterThatGivenIndex = anIndex > index;
+        BOOL hasIndexGreaterThatGivenIndex = (NSInteger)anIndex > index;
         if (hasGivenIdentifier && hasIndexGreaterThatGivenIndex) {
             res = row;
             *stop = YES;
@@ -140,7 +140,7 @@
 
 - (DXTableViewRow *)rowWithIdentifier:(NSString *)identifier
 {
-    return [self nextRowWithIdentifier:identifier greaterRowIndexThan:0];
+    return [self nextRowWithIdentifier:identifier greaterRowIndexThan:-1];
 }
 
 - (NSInteger)indexOfRow:(DXTableViewRow *)row

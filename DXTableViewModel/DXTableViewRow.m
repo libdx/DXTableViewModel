@@ -59,6 +59,7 @@
         _shouldIndentWhileEditingRow = YES;
         _indentationLevelForRow = 0;
         _shouldShowMenuForRow = NO;
+        _shouldDeselectRow = YES;
     }
     return self;
 }

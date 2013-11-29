@@ -21,6 +21,8 @@
 
 /**
  An table view object to be configured by receiver.
+ 
+ Setter sets data source and delegate properties of given table view to the receiver.
  */
 @property (strong, nonatomic) UITableView *tableView;
 
@@ -29,8 +31,24 @@
  */
 @property (copy, nonatomic) NSArray *sections;
 
+/**
+ Block object to be invoked on table view data source method `tableView:sectionIndexTitlesForTableView:`
+ which asks the datasource to return titles for a sections. Takes no parameters. Result of block invocation is used
+ as result of data source method.
+ 
+ @see sectionForSectionIndexTitleAtIndexBlock
+ */
 @property (copy, nonatomic) NSArray *(^sectionIndexTitlesBlock)();
 
+/**
+ Block object to be invoked on table view data source method `tableView:sectionForSectionIndexTitle:`
+ which asks data source to return corresponding index of the section. Takes two parameters:
+ `title` - the title of the section index, `index` - an index number of the section title. Result of block invocation
+ is used as result of data source method.
+ Block won't be invoked unless [DXTableViewModel sectionIndexTitlesBlock] is provided.
+ 
+ @see sectionIndexTitlesBlock
+ */
 @property (copy, nonatomic) NSInteger (^sectionForSectionIndexTitleAtIndexBlock)(NSString *title, NSInteger index);
 
 @property (copy, nonatomic) void (^moveRowToIndexPathBlock)(DXTableViewRow *row, NSIndexPath *indexPath);
@@ -41,6 +59,15 @@
 
 // default is YES
 @property (nonatomic) BOOL showsDefaultTitleForDeleteConfirmationButton;
+
+/**
+ Designated initializer. Returns configured table view model object.
+ 
+ @param tableView A table view object to be configured by the receiver.
+ 
+ This method sets data source and delegate properties of given `tableView` to the receiver.
+ */
+- (instancetype)initWithTableView:(UITableView *)tableView;
 
 /// @name Model building.
 #pragma mark - Model building

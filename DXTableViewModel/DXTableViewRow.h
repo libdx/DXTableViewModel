@@ -223,7 +223,7 @@
  
  Providing this block you are responsible for dequeuing cells from table view just as well you implement
  `tableView:cellForRowAtIndexPath:` data source method. It is recommended to use `configureCellBlock` property 
- as more convinience way to configure cells.
+ as more convenience way to configure cells.
  
  @see configureCellBlock
  */
@@ -303,6 +303,11 @@
  in `cellForRowBlock` with appropriet cell style.
  */
 @property (strong, nonatomic) UIImage *cellImage;
+
+/**
+ Boolean value that determines will be row deselected with animation just after selection. Default is YES.
+ */
+@property (assign, nonatomic) BOOL shouldDeselectRow;
 
 #pragma mark - Data Bind Capabilities
 

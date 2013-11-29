@@ -58,6 +58,17 @@
     return self;
 }
 
+- (instancetype)initWithTableView:(UITableView *)tableView
+{
+    self = [self init];
+    if (nil == self)
+        return nil;
+
+    self.tableView = tableView;
+
+    return self;
+}
+
 - (NSString *)description
 {
     NSString *description = [NSString stringWithFormat:@"<%@: %p; sections=%@>", [self class], self, self.mutableSections];
@@ -500,6 +511,9 @@
     __weak DXTableViewRow *row = [self rowAtIndexPath:indexPath];
     if (nil != row.didSelectRowBlock)
         row.didSelectRowBlock(row);
+
+    if (row.shouldDeselectRow)
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
