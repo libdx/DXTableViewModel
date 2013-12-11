@@ -15,6 +15,7 @@
  - add section wide row properties (or just use for..in and enumerateObjectsUsingBlock: on rows ?)
  - add convenience properties for header and footer view like headerText, headerDetailText, footerText, footerDetailText
  and update on configure[Header|Footer]
+ - add animation types properties: insertRowAnimation, reloadRowAnimation, deleteRowAnimation
  */
 
 @interface DXTableViewModel (ForTableViewSectionEyes)

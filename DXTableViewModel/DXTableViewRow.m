@@ -17,6 +17,7 @@
  - add repeatable row feature when binding an array with following properties:
     @property (nonatomic, getter=isRepeatable) BOOL repeatable;
     @property (nonatomic) NSInteger repeatCount;
+ - copy values of bound object referenced by key paths
  */
 
 @interface DXTableViewModel (ForTableViewRowEyes)

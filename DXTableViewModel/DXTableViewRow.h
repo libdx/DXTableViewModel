@@ -100,8 +100,6 @@
 /**
  String to be used as a title for delete confirmation button. Default is `nil`.
  
- UITableView doesn't allow to selectively show custom title for 
-
  In order to show custom titles for delete confirmation buttons in table view
  set `[DXTableViewModel showsDefaultTitleForDeleteConfirmationButton]` property to NO. In this case default value will be
  empty and you should provide localized titles for each row in the table view. This is limitation of UITableView.

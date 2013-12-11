@@ -17,6 +17,8 @@
  - rethink about section titles implementation, make it object oriented (e.g. per section title)
  - remove tableViewDidAppear property (?)
  - remove `__weak` for every row that is pass to row's block as argument (?)
+ - add animation types properties: insertRowAnimation, deleteRowAnimation
+ - add tests
  */
 
 @interface DXTableViewRow (ForTableViewModelEyes)
