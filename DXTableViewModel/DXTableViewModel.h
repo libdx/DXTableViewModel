@@ -70,8 +70,29 @@
  The result of the block will be used as the result of the delegate method.
  */
 @property (copy, nonatomic) NSIndexPath *(^targetIndexPathForMoveFromRowToProposedIndexPath)(DXTableViewRow *row, NSIndexPath *indexPath);
+
+/**
+ Block object to be invoked on table view delegate method `tableView:didEndDisplayingCell:forRowAtIndexPath:`
+ which tells delegate that given cell was removed from table view.
+ Takes three parameters: `tableViewModel` - table view model object (the receiver is passed as `tableViewModel` parameter),
+ `cell` - cell object that was removed from table view, `indexPath` - index path object that represets position of removed cell.
+ */
 @property (copy, nonatomic) void (^didEndDisplayingCellBlock)(DXTableViewModel *tableViewModel, id cell, NSIndexPath *indexPath);
+
+/**
+ Block object to be invoked on table view delegate method `tableView:didEndDisplayingHeaderView:forSection:`
+ which tells delegate that given header view was removed from table view.
+ Takes three parameters: `tableViewModel` - table view model object (the receiver is passed as `tableViewModel` parameter),
+ `view` - view that was removed from table view, `index` - index that represents position of removed header.
+ */
 @property (copy, nonatomic) void (^didEndDisplayingHeaderViewBlock)(DXTableViewModel *tableViewModel, UIView *view, NSInteger index);
+
+/**
+ Block object to be invoked on table view delegate method `tableView:didEndDisplayingHeaderView:forSection:`
+ which tells delegate that given footer view was removed from table view.
+ Takes three parameters: `tableViewModel` - table view model object (the receiver is passed as `tableViewModel` parameter),
+ `view` - view that was removed from table view, `index` - index that represents position of removed footer.
+ */
 @property (copy, nonatomic) void (^didEndDisplayingFooterViewBlock)(DXTableViewModel *tableViewModel, UIView *view, NSInteger index);
 
 /**

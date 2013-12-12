@@ -313,7 +313,7 @@
  Object that was bound to the receiver with one of the following methods: `bindObject:withKeyPath:` or `bindObject:withKeyPaths:`.
  
  Listed values as key paths of this object are accessible via receiver's subscript.
- `updateObject` method changes `boundObject`.  `reloadBoundData` and `reloadRow` loads data from `boundObject`.
+ `updateObject` method changes `boundObject`.  `reloadBoundData` loads data from `boundObject`.
 
  @see bindObject:withKeyPath:
  @see bindObject:withKeyPaths:
@@ -344,6 +344,7 @@
  
  @param object An object with key-value-coding compliant properties.
  @param keyPath Key path that refers to key-value coding compliant property of `object`.
+ Value must be copyable (i.e. conforms to NSCopying protocol).
  
  @see bindObject:withKeyPaths:
  */
@@ -358,6 +359,7 @@
 
  @param object An object with key-value-coding compliant properties.
  @param keyPaths Key paths that refer to key-value coding compliant properties of `object`.
+ Values must be copyable (i.e. conform to NSCopying protocol).
 
  @see bindObject:withKeyPath:
  */
@@ -407,16 +409,7 @@
 - (void)configureCell;
 
 /**
- Sequentially calls reloadBoundData and reloadCell.
- 
- @see reloadBoundData
- */
-- (void)reloadRow;
-
-/**
  Reload data from bound object into the receiver using bound keys to be accessible via subscript.
- 
- @see reloadRow
  */
 - (void)reloadBoundData;
 

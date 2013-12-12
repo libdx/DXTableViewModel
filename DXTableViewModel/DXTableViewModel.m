@@ -11,14 +11,14 @@
 #import "DXTableViewRow.h"
 
 /* TODO
+ - add reload sections method
  - check animated sections manipulations (check nested and grouped manipulations precisely)
- - add documentation
- - implement missing delegate methods (that is those that were added in iOS 7)
+ - implement missing delegate methods (those that were added in iOS 7)
  - rethink about section titles implementation, make it object oriented (e.g. per section title)
- - remove tableViewDidAppear property (?)
  - remove `__weak` for every row that is pass to row's block as argument (?)
  - add animation types properties: insertRowAnimation, deleteRowAnimation
  - add tests
+ - add property: defaultCellClass which will override classes from storyboard
  */
 
 @interface DXTableViewRow (ForTableViewModelEyes)
@@ -41,7 +41,6 @@
 @interface DXTableViewModel ()
 
 @property (strong, nonatomic) NSMutableArray *mutableSections;
-@property (nonatomic, getter=isTableViewDidAppear) BOOL tableViewDidAppear;
 
 @end
 
@@ -279,7 +278,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    self.tableViewDidAppear = YES;
     return [self.mutableSections[section] numberOfRows];
 }
 

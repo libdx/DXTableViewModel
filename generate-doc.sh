@@ -2,7 +2,7 @@
 
 appledoc \
     --project-name "DXTableViewModel" \
-    --project-company "DXTableViewModel" \
+    --project-company "Alexander Ignatenko" \
     --company-id dxtableviewmodel \
     --output /tmp \
 	DXTableViewModel

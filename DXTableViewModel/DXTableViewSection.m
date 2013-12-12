@@ -11,18 +11,13 @@
 #import "DXTableViewRow.h"
 
 /* TODO
- - documentation
  - add section wide row properties (or just use for..in and enumerateObjectsUsingBlock: on rows ?)
  - add convenience properties for header and footer view like headerText, headerDetailText, footerText, footerDetailText
  and update on configure[Header|Footer]
  - add animation types properties: insertRowAnimation, reloadRowAnimation, deleteRowAnimation
+ - add bound capabilities as bindArray, bindFetch ect...
+ - add property: defaultCellClass which will override classes from storyboard
  */
-
-@interface DXTableViewModel (ForTableViewSectionEyes)
-
-@property (nonatomic, readonly, getter=isTableViewDidAppear) BOOL tableViewDidAppear;
-
-@end
 
 @interface DXTableViewRow (ForTableViewModelEyes)
 

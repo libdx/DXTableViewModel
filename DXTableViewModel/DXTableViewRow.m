@@ -11,20 +11,14 @@
 #import "DXTableViewModel.h"
 
 /* TODO
- - documentation
  - add convenience properties: simple value properties for counterpart with block properties and vice versa
  - add convenience methods like: canCopyRow, canPasteRow etc.
  - add repeatable row feature when binding an array with following properties:
     @property (nonatomic, getter=isRepeatable) BOOL repeatable;
     @property (nonatomic) NSInteger repeatCount;
  - copy values of bound object referenced by key paths
+ - provide default subclasses of cell with different stock styles
  */
-
-@interface DXTableViewModel (ForTableViewRowEyes)
-
-@property (nonatomic, readonly, getter=isTableViewDidAppear) BOOL tableViewDidAppear;
-
-@end
 
 @interface DXTableViewSection (ForTableViewRowEyes)
 
@@ -171,18 +165,11 @@
     [self didConfigureCell];
 }
 
-// TODO: it looks like this method mustn't be public
-- (void)reloadRow
-{
-    [self reloadBoundData];
-    [self configureCell];
-}
-
 - (void)reloadBoundData
 {
     [self willReloadBoundData];
     for (NSString *keyPath in self.boundKeyPaths)
-        self[keyPath] = [self.boundObject valueForKeyPath:keyPath];
+        self[keyPath] = [[self.boundObject valueForKeyPath:keyPath] copy];
     [self didReloadBoundData];
 }
 
