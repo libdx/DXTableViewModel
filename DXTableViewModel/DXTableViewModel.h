@@ -258,6 +258,13 @@ beforeSectionWithName:(NSString *)name
              withRowAnimation:(UITableViewRowAnimation)animation;
 
 /**
+ Reload specified sections with given `names` using provided animation.
+ 
+ @param names An array of section names (strings) that exist in receiver's contents.
+ */
+- (void)reloadSectionsWithNames:(NSArray *)names withRowAnimation:(UITableViewRowAnimation)animation;
+
+/**
  Moves section with given `name` on position of section with `otherName` calling `moveSectionWithName:toSectionWithName:`
  method.
  

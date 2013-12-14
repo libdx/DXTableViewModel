@@ -260,6 +260,16 @@
     [self.tableView moveSection:indexes.firstIndex toSection:indexes.lastIndex];
 }
 
+- (void)reloadSectionsWithNames:(NSArray *)names withRowAnimation:(UITableViewRowAnimation)animation
+{
+    NSMutableIndexSet *indices = [[NSMutableIndexSet alloc] init];
+    for (NSString *name in names) {
+        DXTableViewSection *section = [self sectionWithName:name];
+        [indices addIndex:section.sectionIndex];
+    }
+    [self.tableView reloadSections:indices withRowAnimation:animation];
+}
+
 #pragma mark - Data binding
 
 - (void)reloadRowBoundData
