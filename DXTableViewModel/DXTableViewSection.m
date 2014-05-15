@@ -217,7 +217,11 @@
 {
     NSMutableArray *indexPaths = [NSMutableArray array];
     for (DXTableViewRow *aRow in rows) {
-        [indexPaths addObject:[self insertRow:aRow afterRow:row]];
+        if (row != nil) {
+            [indexPaths addObject:[self insertRow:aRow afterRow:row]];
+        } else {
+            [indexPaths addObject:[self insertRow:aRow atIndex:self.rows.count]];
+        }
     }
     [self.tableViewModel.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:animation];
 }
