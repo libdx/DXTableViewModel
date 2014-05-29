@@ -217,10 +217,11 @@
 {
     NSMutableArray *indexPaths = [NSMutableArray array];
     for (DXTableViewRow *aRow in rows) {
-        if (row != nil) {
+        // TODO: insert whole array at once, inserting element by element changes the order
+        if (nil != row) {
             [indexPaths addObject:[self insertRow:aRow afterRow:row]];
         } else {
-            [indexPaths addObject:[self insertRow:aRow atIndex:self.rows.count]];
+            [indexPaths addObject:[self insertRow:aRow atIndex:self.numberOfRows]];
         }
     }
     [self.tableViewModel.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:animation];
@@ -230,7 +231,12 @@
 {
     NSMutableArray *indexPaths = [NSMutableArray array];
     for (DXTableViewRow *aRow in rows) {
-        [indexPaths addObject:[self insertRow:aRow beforeRow:row]];
+        // TODO: insert whole array at once, inserting element by element changes the order
+        if (nil != row) {
+            [indexPaths addObject:[self insertRow:aRow beforeRow:row]];
+        } else {
+            [indexPaths addObject:[self insertRow:aRow atIndex:0]];
+        }
     }
     [self.tableViewModel.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:animation];
 }
