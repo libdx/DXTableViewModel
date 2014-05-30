@@ -27,6 +27,12 @@
 @property (strong, nonatomic) UITableView *tableView;
 
 /**
+ An object that acts as the scroll view delegate of the models table view.
+ Forward invocation forwards any scroll view delegates not implemented by the receiver.
+ */
+@property (nonatomic, weak) id <UIScrollViewDelegate> scrollViewDelegate;
+
+/**
  Array of inserted section objects
  */
 @property (copy, nonatomic) NSArray *sections;

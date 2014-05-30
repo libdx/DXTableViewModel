@@ -86,6 +86,17 @@
     }
 }
 
+- (void)setScrollViewDelegate:(id<UIScrollViewDelegate>)scrollViewDelegate
+{
+    _scrollViewDelegate = scrollViewDelegate;
+    
+    if (_tableView.delegate != nil) {
+        id delegate = _tableView.delegate;
+        _tableView.delegate = nil;
+        _tableView.delegate = delegate;
+    }
+}
+
 - (NSMutableArray *)mutableSections
 {
     if (nil == _mutableSections) {
@@ -195,17 +206,32 @@
 
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
-    BOOL res = [super respondsToSelector:aSelector];
+    BOOL res = ([super respondsToSelector:aSelector] ||
+                ([self.scrollViewDelegate conformsToProtocol:@protocol(UIScrollViewDelegate)] &&
+                 [self.scrollViewDelegate respondsToSelector:aSelector]));
+    
     NSString *selectorName = NSStringFromSelector(aSelector);
     if ([selectorName isEqualToString:@"tableView:titleForDeleteConfirmationButtonForRowAtIndexPath:"] &&
         _showsDefaultTitleForDeleteConfirmationButton)
         res = NO;
-
+    
     if ([selectorName isEqualToString:@"tableView:sectionForSectionIndexTitle:atIndex:"] &&
         nil == self.sectionForSectionIndexTitleAtIndexBlock)
         res = NO;
 
     return res;
+}
+
+#pragma mark - NSObject Overrides
+
+- (void)forwardInvocation:(NSInvocation *)anInvocation
+{
+    if ([self.scrollViewDelegate conformsToProtocol:@protocol(UIScrollViewDelegate)] &&
+        [self.scrollViewDelegate respondsToSelector:[anInvocation selector]]) {
+        [anInvocation invokeWithTarget:self.scrollViewDelegate];
+    } else {
+        [super forwardInvocation:anInvocation];
+    }
 }
 
 #pragma mark - Animated sections manipulations
