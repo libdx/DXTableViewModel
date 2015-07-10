@@ -251,9 +251,10 @@
       withRowAnimation:(UITableViewRowAnimation)animation
 {
     NSMutableIndexSet *indexes = [[NSMutableIndexSet alloc] init];
+    NSInteger insertedIndex = [self indexOfSectionWithName:name];
     for (DXTableViewSection *newSection in newSections) {
-        NSInteger index = [self insertSection:newSection afterSectionWithName:name];
-        [indexes addIndex:index];
+        [self insertSection:newSection atIndex:++insertedIndex];
+        [indexes addIndex:insertedIndex];
     }
     [self.tableView insertSections:indexes withRowAnimation:animation];
 }
