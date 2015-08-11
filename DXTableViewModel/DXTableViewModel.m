@@ -275,8 +275,10 @@
 {
     NSMutableIndexSet *indexes = [[NSMutableIndexSet alloc] init];
     for (NSString *name in names) {
-        NSInteger index = [self deleteSectionWithName:name];
-        [indexes addIndex:index];
+        [indexes addIndex:[self indexOfSectionWithName:name]];
+    }
+    for (NSString *name in names) {
+        [self removeSection:[self sectionWithName:name]];
     }
     [self.tableView deleteSections:indexes withRowAnimation:animation];
 }
