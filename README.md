@@ -131,7 +131,7 @@ Apply parameters to all rows in section:
 
 ## Installation
 
-`DXTableViewModel` available through cocoa pods. Add to your Podfile:
+`DXTableViewModel` available through CocoaPods. Add to your Podfile:
 
 ```
 	pod 'DXTableViewModel',  '~> 0.1.0'
